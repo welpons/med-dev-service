@@ -17,16 +17,56 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Tests\MedicalDevices\Application\Service\Device;
+namespace Tests\MedicalDevices\Application\Service;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
+use MedicalDevices\Application\Service\ApplicationService;
+use MedicalDevices\Configuration\ConfigurationInterface;
+use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
+use MedicalDevices\Application\Service\Device\AddDeviceWithReferenceIdentifierService;
+
 /**
- * Description of DeviceService
+ * Description of ApplicationServiceTest
  *
  * @author Welpons <welpons@gmail.com>
  */
-class DeviceServiceTest extends KernelTestCase
+class ApplicationServiceTest extends KernelTestCase
 {
-    //put your code here
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $em;
+    private $container;
+    private $init;
+    private $repositories;
+
+    /**
+     * {@inheritDoc}
+     */
+    protected function setUp()
+    {
+        self::bootKernel();
+
+        $this->container = self::$kernel->getContainer();
+        $this->init = $this->container->get('init');
+        $this->repositories = $this->container->get('repository.collection.provider')->getCollection();
+    }    
+    
+    /**
+     * @test
+     * @group application_service_device_deviceidentifiervalidator
+     */
+    public function validateDeviceIdentifier()
+    {
+//        $service = new AddDeviceWithReferenceIdentifierService($this->init, $this->repositories);
+//        $this->assertTrue($service instanceof ApplicationService);
+        
+        $stub = $this->getMockBuilder(ApplicationService::class)
+        ->setConstructorArgs(array($this->init, $this->repositories))
+        ->getMockForAbstractClass();  
+        
+        $this->assertTrue($stub instanceof ApplicationService);
+    }        
+    
 }

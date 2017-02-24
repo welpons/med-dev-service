@@ -22,10 +22,11 @@ namespace MedicalDevices\Application\Service\Device;
 use MedicalDevices\Application\Service\ApplicationService;
 use MedicalDevices\Application\Service\ApplicationServiceCommand;
 use MedicalDevices\Application\Service\Validation\ValidationException;
+use MedicalDevices\Application\Service\ValidatorHandlerInterface;
+use MedicalDevices\Application\Service\DTOInterface;
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
 use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
-use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
 
 /**
  * Description of ViewModelService

@@ -21,7 +21,6 @@ namespace Tests\MedicalDevicesBundle\Framework;
 
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use MedicalDevicesBundle\ExternalServices\ValidationErrorHandler;
 use MedicalDevicesBundle\Framework\RepositoryCollectionProvider;
 use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceRepository;

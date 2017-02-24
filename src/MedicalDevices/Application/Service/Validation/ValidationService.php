@@ -20,6 +20,7 @@
 namespace MedicalDevices\Application\Service\Validation;
 
 use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
+use MedicalDevices\Configuration\ConfigurationInterface;
 
 /**
  * Description of ValidationService
@@ -32,7 +33,7 @@ class ValidationService
     private $repositories;
     private $entity;
     
-    public function __construct(ConfigurationsInterface $configurations, RepositoryCollection $repositories)
+    public function __construct(ConfigurationInterface $configurations, RepositoryCollection $repositories)
     {
         $this->configurations = $configurations;
         $this->repositories = $repositories;

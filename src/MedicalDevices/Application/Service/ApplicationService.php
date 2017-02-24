@@ -8,7 +8,7 @@
 
 namespace MedicalDevices\Application\Service;
 
-use MedicalDevices\Configuration\ConfigurationsInterface;
+use MedicalDevices\Configuration\ConfigurationInterface;
 use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
 use MedicalDevices\Application\Service\Validation\ValidationService;
 
@@ -23,7 +23,7 @@ abstract class ApplicationService
     protected $repositories = null;
     protected $validationService;
     
-    public function __construct(ConfigurationsInterface $configurations, RepositoryCollection $repositoryCollection)
+    public function __construct(ConfigurationInterface $configurations, RepositoryCollection $repositoryCollection)
     {
         $this->configurations = $configurations;
         $this->repositories = $repositoryCollection;

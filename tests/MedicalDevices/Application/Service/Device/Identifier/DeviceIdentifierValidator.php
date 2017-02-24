@@ -17,32 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Domain\Model\Device;
+namespace Tests\MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierValidator;
 
-use MedicalDevices\Application\Service\Validator;
-use MedicalDevices\Application\Service\ValidationHandler;
-use MedicalDevices\Configuration\ConfigurationInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 /**
- * Description of DeviceValidator
+ * Description of DeviceIdentifierValidator
  *
  * @author Welpons <welpons@gmail.com>
  */
-class DeviceValidator extends Validator
+class DeviceIdentifierValidator extends KernelTestCase
 {
-    private $device;
-    private $configuration;
-
-    
-    public function __construct(Device $device, ConfigurationsInterface $configuration, ValidationHandler $validationHandler)
-    {
-        parent::__construct($validationHandler);
-        $this->configuration = $configuration;
-    }
-
-    public function validate()
-    {
-        
-    }
-
+   
 }
