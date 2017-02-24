@@ -1,0 +1,14 @@
+parameters:
+    med.devices.services.init: '%med.devices.services.params%'
+        
+
+services:
+    init.factory:
+        class: MedicalDevicesBundle\Framework\ConfigFactory
+        arguments: ['@service_container']        
+    init: 
+        class: MedicalDevices\Configuration\Configuration
+        factory: 'init.factory:createConfiguration'
+    repository.collection.provider:
+        class: MedicalDevicesBundle\Framework\RepositoryCollectionProvider
+        arguments: ['@init', '@doctrine.orm.entity_manager']
