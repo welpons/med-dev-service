@@ -21,9 +21,12 @@ namespace MedicalDevices\Application\Service\Device;
 
 use MedicalDevices\Application\Service\ApplicationService;
 use MedicalDevices\Application\Service\ApplicationServiceCommand;
-use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
+use MedicalDevices\Application\Service\Device\DeviceDTO;
+use MedicalDevices\Application\Service\Validation\ValidationErrors;
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
 use MedicalDevices\Domain\Model\Device\Device;
+use MedicalDevices\Domain\Model\Device\DeviceId;
+use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
 
 /**
  * Description of ViewModelService
@@ -33,29 +36,21 @@ use MedicalDevices\Domain\Model\Device\Device;
 class AddDeviceWithReferenceIdentifierService extends ApplicationService implements ApplicationServiceCommand
 {
     
-    public function execute(DeviceDTO $deviceDTO)
-    {        
-        $this->checkIfExistingDeviceHasIdentifier($deviceDTO->identifierValue(), $deviceDTO->identifierType());
+    public function execute(ValidatorHandlerInterface $validatorHandler, DTOInterface $dto = null)
+    {                
+        $this->validationService->validate($validatorHandler, "MedicalDevices\Domain\Model\Device", $dto);
         
-        //Device::validate($this->validatorHandler, $deviceDTO);
+        if ($validatorHandler->hasErrors()) {
+            return;
+        }
         
-//        if ($this->validatorHandler->hasErrors()) {
-//            return new ValidationErrorsDTO($this->validatorHandler->getErrors());
-//        }
-//        
-//        $device = Device::create($deviceDTO->category(), $deviceDTO->type(), $deviceDTO->model());
+        $deviceIdentifier = DeviceIdentifier::create($dto->deviceIdentifier()->type(), $dto->deviceIdentifier()->value(), DeviceIdentifier::IS_REFERENCE_ID);
+        $device = Device::create(DeviceId::create(), $dto->categoryId(), $dto->modelId(), $dto->modelTypeKey())
+                ->setIdentifiers($deviceIdentifier);
         
         $this->repositories['device']->save($device);
-        $this->repositories['device_identifier']->save(new DeviceIdentifier($deviceDTO->identifier(), DeviceIdentifier::IS_REFERENCE_ID));              
+        $this->repositories['device_identifier']->save($deviceIdentifier);              
     }    
 
-    private function checkIfExistingDeviceHasIdentifier($identifierValue, $identifierType)
-    {
-        $deviceIdentifier = $this->repositories['device_identifier']->deviceIdentifierOfIdentifier($identifierValue, $identifierType);
-        
-        if ($deviceIdentifier instanceof DeviceIdentifier) {
-            throw new IdentifierAlreadyExistsException(sprintf('Already exists a device in the system with %s = %s', $identifierType, $identifierValue));
-        }
-
-    }        
+     
 }
