@@ -25,6 +25,8 @@ use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
 use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
+use MedicalDevices\Domain\Model\Device\Model\Model;
+use MedicalDevices\Domain\Model\Device\Model\Type\Type;
 
 /**
  * Description of LoadDeviceData
@@ -36,9 +38,9 @@ class LoadDeviceData implements FixtureInterface
         
     public function load(ObjectManager $manager)
     {
-        $device1 = new Device(DeviceId::create(), 'med', 'GLUCO','FORA_D40');
-        $device2 = new Device(DeviceId::create(), 'med', 'GLUCO','FORA_D40');
-        $device3 = new Device(DeviceId::create(), 'med', 'SCALE','OMRON_HBF-206IT');
+        $device1 = new Device(DeviceId::create(), 'med', new Model('FORA_D40', new Type('GLUCO', 'glucometer')));
+        $device2 = new Device(DeviceId::create(), 'med', new Model('FORA_D40', new Type('GLUCO', 'glucometer')));
+        $device3 = new Device(DeviceId::create(), 'med', new Model('OMRON_HBF-206IT',  new Type('SCALE', 'weight_scale')));
         
         $manager->persist($device1);
         $manager->persist($device2);    

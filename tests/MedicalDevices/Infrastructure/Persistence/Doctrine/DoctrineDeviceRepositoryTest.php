@@ -25,6 +25,8 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
+use MedicalDevices\Domain\Model\Device\Model\Model;
+use MedicalDevices\Domain\Model\Device\Model\Type\Type;
 use MedicalDevices\Domain\Model\Device\DeviceRepositoryInterface;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceRepository;
 
@@ -110,7 +112,7 @@ class DoctrineDeviceRepositoryTest extends KernelTestCase
      */
     public function findDevicesByModel()
     {
-        $devices = $this->doctrineDeviceRepository->allDevicesOfModelId('FORA_D40');
+        $devices = $this->doctrineDeviceRepository->allDevicesOfModel(new Model('FORA_D40', new Type('GLUCO', 'glucometer')));
      
         $this->assertTrue(2 == count($devices));
         
@@ -124,7 +126,7 @@ class DoctrineDeviceRepositoryTest extends KernelTestCase
      */
     public function findDevicesByType()
     {
-        $devices = $this->doctrineDeviceRepository->allDevicesOfTypeKey('SCALE');
+        $devices = $this->doctrineDeviceRepository->allDevicesOfType(new Type('SCALE', 'weight_scale'));
      
         $this->assertTrue(1 == count($devices));
         

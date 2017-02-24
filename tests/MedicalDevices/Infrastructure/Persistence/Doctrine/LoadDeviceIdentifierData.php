@@ -23,6 +23,8 @@ use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
+use MedicalDevices\Domain\Model\Device\Model\Model;
+use MedicalDevices\Domain\Model\Device\Model\Type\Type;
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
 use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
 
@@ -37,7 +39,7 @@ class LoadDeviceIdentifierData implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $deviceId = DeviceId::create();
-        $device = new Device($deviceId, 'med', 'GLUCO','FORA_D40');
+        $device = new Device(DeviceId::create(), 'med', new Model('FORA_D40', new Type('GLUCO', 'glucometer')));
 
         $manager->persist($device);        
         

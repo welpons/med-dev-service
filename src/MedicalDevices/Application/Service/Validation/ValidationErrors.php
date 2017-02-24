@@ -17,36 +17,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevicesBundle\ExternalServices;
-
-use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
+namespace MedicalDevices\Application\Service\Validation;
 
 /**
- * Description of ErrorHandler
+ * Description of ValidationErrors
  *
  * @author Welpons <welpons@gmail.com>
  */
-class ValidationErrorHandler implements ValidatorHandlerInterface
+class ValidationErrors
 {
-    private $errors;
-    
-    public function __construct()
-    {
-        $this->errors = array();
-    }
-    
-    public function handleError(string $code, string $error)
-    {
-        $this->errors[] = [$code, $error];
-    }
-
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }        
-    
-    public function hasErrors(): bool
-    {
-        return !empty($this->errors);
-    }        
+    const UNDEFINED_DEVICE_CATEGORY_ID =       '0001';
+    const UNDEFINED_DEVICE_MODEL_ID =          '0002';
+    const UNDEFINED_DEVICE_MODEL_TYPE_KEY =    '0003';
+    const DEVICE_IDENTIFIER_ALREADY_EXISTS =   '0004'; 
 }

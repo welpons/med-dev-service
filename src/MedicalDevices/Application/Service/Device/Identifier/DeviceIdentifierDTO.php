@@ -17,36 +17,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevicesBundle\ExternalServices;
+namespace MedicalDevices\Application\Service\Device\Identifier;
 
-use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
+use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
+use MedicalDevices\Application\Service\DTOInterface;
 
 /**
- * Description of ErrorHandler
+ * Description of DeviceIdentifierDTO
  *
  * @author Welpons <welpons@gmail.com>
  */
-class ValidationErrorHandler implements ValidatorHandlerInterface
+class DeviceIdentifierDTO implements DTOInterface
 {
-    private $errors;
+    private $type;
     
-    public function __construct()
-    {
-        $this->errors = array();
-    }
+    private $value;
     
-    public function handleError(string $code, string $error)
+    private $isReferenceIdentifier = false;
+    
+    public function __construct(string $type, string $value, $isReferenceIdentifier = DeviceIdentifier::IS_NOT_REFERENCE_ID)
     {
-        $this->errors[] = [$code, $error];
+        $this->type = $type;
+        $this->value = $value;
+        $this->isReferenceIdentifier = $isReferenceIdentifier;
     }
 
-    public function getErrors(): array
+    public function type()
     {
-        return $this->errors;
+        return $this->type;
     }        
     
-    public function hasErrors(): bool
+    public function value()
     {
-        return !empty($this->errors);
+        return $this->value;
+    }        
+    
+    public function isReferenceIdentifier()
+    {
+        return $this->isReferenceIdentifier;
     }        
 }

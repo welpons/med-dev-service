@@ -19,9 +19,11 @@
 
 namespace MedicalDevices\Application\Service\Device;
 
-use MedicalDevices\Application\Service\Validator;
-use MedicalDevices\Application\Service\ValidationHandler;
+use MedicalDevices\Application\Service\Validation\Validator;
+use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
+use MedicalDevices\Application\Service\Validation\ValidationErrors;
 use MedicalDevices\Application\Service\DTOInterface;
+use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierValidator;
 /**
  * Description of DeviceValidator
  *
@@ -31,20 +33,24 @@ class DeviceValidator extends Validator
 {
     
 
-    public function validate(ValidationHandler $validationHandler, DTOInterface $dto)
+    public function validate(ValidatorHandlerInterface $validatorHandler, DTOInterface $dto)
     {
         if ($this->withRepositories()) {
             if (null === $this->repositories['device_categories']->categoryOfId($dto->categoryId())) {
-                // $validationHandler->
+                $validatorHandler->handleError(ValidationErrors::UNDEFINED_DEVICE_CATEGORY_ID, sprintf('Undefined device category Id: %s', $dto->categoryId()));
             }
             
-            if (null === $this->repositories['device_types']->typeOfKey($dto->getTypeKey())) {
-                // $validationHandler->
+            if (null === $this->repositories['device_types']->typeOfKey($dto->model()->type()->key())) {
+                $validatorHandler->handleError(ValidationErrors::UNDEFINED_DEVICE_MODEL_TYPE_KEY, sprintf('Undefined device model type key: %s', $dto->model()->type()->key()));
             }
             
-            if (null === $this->repositories['device_models']->modelOfId($dto->getModelId())) {
-                // $validationHandler->
+            if (null === $this->repositories['device_models']->modelOfId($dto->model()->Id())) {
+                $validatorHandler->handleError(ValidationErrors::UNDEFINED_DEVICE_MODEL_ID, sprintf('Undefined device model Id: %s', $dto->model()->id()));
             }
+            
+            $deviceIdentifierValidator = new DeviceIdentifierValidator();
+            $deviceIdentifierValidator->addRepositories($this->repositories);
+            $deviceIdentifierValidator->validate($validationHandler, $dto->deviceIdentifier());
         }
     }
 

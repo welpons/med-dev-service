@@ -21,8 +21,7 @@ namespace MedicalDevices\Application\Service\Device;
 
 use MedicalDevices\Application\Service\ApplicationService;
 use MedicalDevices\Application\Service\ApplicationServiceCommand;
-use MedicalDevices\Application\Service\Device\DeviceDTO;
-use MedicalDevices\Application\Service\Validation\ValidationErrors;
+use MedicalDevices\Application\Service\Validation\ValidationException;
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
 use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
@@ -41,7 +40,7 @@ class AddDeviceWithReferenceIdentifierService extends ApplicationService impleme
         $this->validationService->validate($validatorHandler, "MedicalDevices\Domain\Model\Device", $dto);
         
         if ($validatorHandler->hasErrors()) {
-            return;
+            throw new ValidationException('Errors validating device parameters');
         }
         
         $deviceIdentifier = DeviceIdentifier::create($dto->deviceIdentifier()->type(), $dto->deviceIdentifier()->value(), DeviceIdentifier::IS_REFERENCE_ID);

@@ -19,8 +19,9 @@
 
 namespace MedicalDevices\Application\Service\Device;
 
-use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
+use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierDTO;
 use MedicalDevices\Application\Service\DTOInterface;
+
 
 /**
  * Description of DeviceDTO
@@ -29,30 +30,58 @@ use MedicalDevices\Application\Service\DTOInterface;
  */
 class DeviceDTO implements DTOInterface
 {
-    use \MedicalDevices\Domain\Model\Device\DeviceTrait;
+
+    /**
+     *
+     * @var string 
+     */
+    private $categoryId;
+        
+    /**
+     *
+     * @var string 
+     */
+    private $modelId;
+        
+    /**
+     
+     * @var string 
+     */
+    private $modelTypeKey;
     
+    /**
+     *
+     * @var DeviceIdentifier 
+     */
     private $identifier;
     
-    public function __construct($identifierValue, $identifierType, $category, $type, $model) 
+    public function __construct(string $categoryId, string $modelId, string $modelTypeKey, string $identifierValue, string $identifierType) 
     {
-        $this->identifier = new Identifier($identifierType, $identifierValue);        
-        $this->category = $category;
-        $this->type = $type;
-        $this->model = $model;
+        $this->identifier = new DeviceIdentifierDTO($identifierType, $identifierValue, true);        
+        $this->categoryId = $categoryId;
+        $this->modelId = $modelId;
+        $this->modelTypeKey = $modelTypeKey;
     }    
     
-    public function identifierValue()
-    {
-        return $this->identifier->vallue();
-    }        
-    
-    public function identifierType()
-    {
-        return $this->identifier->type();
-    }        
-    
-    public function identifier()
+    public function deviceIdentifier(): DeviceIdentifierDTO
     {
         return $this->identifier;
-    }        
+    }     
+    
+    public function categoryId(): string
+    {
+        return $this->categoryId;
+    }
+
+    public function modelId(): string
+    {
+        return $this->modelId;
+    }
+
+    public function modelTypeKey(): string
+    {
+        return $this->modelTypeKey;
+    }
+
+    
 }

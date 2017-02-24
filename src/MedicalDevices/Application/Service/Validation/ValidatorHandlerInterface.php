@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Application\Service;
+namespace MedicalDevices\Application\Service\Validation;
 
 /**
  *
@@ -25,5 +25,9 @@ namespace MedicalDevices\Application\Service;
  */
 interface ValidatorHandlerInterface
 {
-    public function handleError($error);
+    public function handleError(string $code, string $error);
+    
+    public function getErrors(): array;
+    
+    public function hasErrors(): bool;
 }

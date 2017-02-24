@@ -2,6 +2,9 @@
 
 namespace MedicalDevices\Application\Service;
 
+use MedicalDevices\Application\Service\ValidatorHandlerInterface;
+use MedicalDevices\Application\Service\DTOInterface;
+
 /**
  * Description of ApplicationService
  *
@@ -10,8 +13,9 @@ namespace MedicalDevices\Application\Service;
 interface ApplicationServiceCommand
 {
     /**
-     * @param $request
+     * @param ValidatorHandlerInterface $validatorHandler
+     * @param DTOInterface $dto
      * @return mixed
      */
-    public function execute($request = null);
+    public function execute(ValidatorHandlerInterface $validatorHandler, DTOInterface $dto = null);
 }

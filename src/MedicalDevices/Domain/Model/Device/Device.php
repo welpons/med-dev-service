@@ -20,6 +20,7 @@
 namespace MedicalDevices\Domain\Model\Device;
 
 use MedicalDevices\Domain\Model\Device\Model\Model;
+use MedicalDevices\Domain\Model\Device\Model\Type\Type;
 
 /**
  * Description of MedDevice
@@ -28,14 +29,31 @@ use MedicalDevices\Domain\Model\Device\Model\Model;
  */
 class Device
 {
-    use DeviceTrait;
     
     /**
      * @var DeviceId 
      */
     private $id;    
     
-    public function __construct(DeviceId $id, $categoryId, Model $model) 
+    /**
+     *
+     * @var string 
+     */
+    private $categoryId;
+        
+    /**
+     *
+     * @var Model 
+     */
+    private $model;
+        
+    /**
+     *
+     * @var array
+     */
+    protected $identifiers;
+        
+    public function __construct(DeviceId $id, string $categoryId, Model $model) 
     {
         $this->identifiers = array();
         $this->id = $id;
@@ -43,13 +61,13 @@ class Device
         $this->model = $model;
     }    
     
-    public static function create($categoryId, Model $model, DeviceId $id = null)
+    public static function create(DeviceId $id, string $categoryId, string $modelId, string $modelTypeKey)
     {
         if (null === $id) {
             $id = DeviceId::create();
         }
         
-        return new self($id, $categoryId, $model);
+        return new self($id, $categoryId, new Model($modelId, new Type($modelTypeKey)));
     }        
                 
     public function setIdentifiers(array $identifiers)
@@ -63,9 +81,24 @@ class Device
     {
         return $this->id;
     }        
+        
+    public function categoryId() : string
+    {
+        return $this->categoryId;
+    }        
+    
+    public function model() : Model
+    {
+        return $this->model;
+    }     
+    
+    public function identifiers() : array
+    {
+        return $this->identifiers;
+    }       
     
     public function __toString()
     {
         return $this->id->id();
-    }
+    }    
 }

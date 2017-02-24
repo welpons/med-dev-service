@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Application\Service;
+namespace MedicalDevices\Application\Service\Validation;
 
 use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
 
@@ -29,25 +29,23 @@ use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
 class ValidationService
 {
     private $configurations;
-    private $validatorHandler;
     private $repositories;
     private $entity;
     
     public function __construct(ConfigurationsInterface $configurations, RepositoryCollection $repositories)
     {
         $this->configurations = $configurations;
-        $this->validatorHandler = $validatorHandler;
         $this->repositories = $repositories;
     }
     
          
     public function validate(ValidatorHandlerInterface $validatorHandler, string $entity, DTOInterface $dto)
     {
-        $validator = $this->buildValidator($entity, $dto);
+        $validator = $this->createValidator($entity, $dto);
         $validator->validate($validatorHandler);
     }   
     
-    private function buildValidator(string $entity, DTOInterface $dto)
+    private function createValidator(string $entity, DTOInterface $dto)
     {
         if (!class_exists($entity)) {
             // Exception

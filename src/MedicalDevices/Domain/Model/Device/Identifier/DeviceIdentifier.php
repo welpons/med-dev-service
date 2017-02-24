@@ -86,8 +86,8 @@ class DeviceIdentifier
         return $this->identifier->equals($medDevIdentifier->identifier) && $this->isReferenceIdentifier === $medDevIdentifier->isReferenceIdentifier();
     }        
     
-    public static function create(Identifier $identifier, $isReferenceIdentifier = self::IS_NOT_REFERENCE_ID)
+    public static function create($identifierType, $identifierValue, $isReferenceIdentifier = self::IS_NOT_REFERENCE_ID)
     {
-        return new self($identifier, $isReferenceIdentifier);
+        return new self(new Identifier($identifierType, $identifierValue), $isReferenceIdentifier);
     }        
 }

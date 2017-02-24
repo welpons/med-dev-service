@@ -17,10 +17,11 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Application\Service;
+namespace MedicalDevices\Application\Service\Validation;
 
 use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
 use MedicalDevices\Application\Service\DTOInterface;
+use MedicalDevices\Application\Service\ValidatorHandlerInterface;
 
 /**
  * Description of Validator
@@ -31,7 +32,7 @@ abstract class Validator
 {
     protected $repositories;
         
-    abstract public function validate(ValidationHandler $validationHandler, DTOInterface $dto);
+    abstract public function validate(ValidatorHandlerInterface $validationHandler, DTOInterface $dto);
     
     abstract public function withRepositories() : bool;
     

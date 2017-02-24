@@ -17,47 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Domain\Model\Device;
-
-use MedicalDevices\Domain\Model\Device\Model\Model;
+namespace MedicalDevices\Application\Service\Validation;
 
 /**
+ * Description of ValidationException
  *
  * @author Welpons <welpons@gmail.com>
  */
-trait DeviceTrait
-{    
-    /**
-     *
-     * @var string 
-     */
-    private $categoryId;
-        
-    /**
-     *
-     * @var Model 
-     */
-    private $model;
-        
-    /**
-     *
-     * @var ArrayCollection 
-     */
-    protected $identifiers;
-    
-    
-    public function categoryId() : string
-    {
-        return $this->categoryId;
-    }        
-    
-    public function model() : Model
-    {
-        return $this->model;
-    }     
-    
-    public function identifiers() : array
-    {
-        return $this->identifiers;
-    }       
+class ValidationException extends \Exception
+{
+    //put your code here
 }
