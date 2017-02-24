@@ -1,0 +1,20 @@
+imports:
+    - { resource: init.yml }
+    - { resource: settings.yml }
+
+services:
+         
+    framework.serializer:
+        class: AppBundle\Framework\Serializer        
+         
+    init:
+        class: AppBundle\MedDeviceServices\Init
+        arguments: ["@service_container"]   
+        
+    framework.services:
+        class: AppBundle\Framework\Services
+        arguments: ["@service_container"]     
+        
+    med.device.services.api:
+        abstract:  true   
+        arguments: ["@init", "@framework.services"]  

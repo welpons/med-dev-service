@@ -1,0 +1,4 @@
+MedicalDevices\Domain\Model\MedDevice\MedDevice:  
+    properties:  
+        model:
+            type: MedicalDevices\Domain\Model\MedDevice\Model\Model

@@ -1,0 +1,9 @@
+MedicalDevices\Domain\Model\MedDevice\MeasuringDetails\HealthDataType\Unit\Unit:  
+    properties:  
+        name:
+            type: string
+        symbol:
+            type: string
+        default:
+            type: boolean
+            xml_attribute: true
