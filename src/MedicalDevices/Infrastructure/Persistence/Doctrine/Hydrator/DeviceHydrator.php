@@ -25,6 +25,8 @@ use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
 use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
+use MedicalDevices\Domain\Model\Device\Model\Model;
+use MedicalDevices\Domain\Model\Device\Model\Type\Type;
 
 /**
  * Description of DeviceHydrator
@@ -53,9 +55,9 @@ class DeviceHydrator extends AbstractHydrator
     }
     
     private function createDevice($row)
-    {
+    {       
         if (null === $this->device) {          
-            $this->device = new Device(DeviceId::create($row['id_3']), $row['category_id_0'], $row['type_key_1'], $row['model_id_2']);
+            $this->device = new Device(DeviceId::create($row['id_1']), $row['category_id_0'], new Model($row['model_id_2'], new Type($row['model_type_key_3'])));
         }
     }        
 }

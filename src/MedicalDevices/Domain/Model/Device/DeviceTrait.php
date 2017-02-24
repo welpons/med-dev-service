@@ -19,6 +19,8 @@
 
 namespace MedicalDevices\Domain\Model\Device;
 
+use MedicalDevices\Domain\Model\Device\Model\Model;
+
 /**
  *
  * @author Welpons <welpons@gmail.com>
@@ -30,18 +32,12 @@ trait DeviceTrait
      * @var string 
      */
     private $categoryId;
-    
+        
     /**
      *
-     * @var string 
+     * @var Model 
      */
-    private $typeKey;
-    
-    /**
-     *
-     * @var string 
-     */
-    private $modelId;
+    private $model;
         
     /**
      *
@@ -55,17 +51,10 @@ trait DeviceTrait
         return $this->categoryId;
     }        
     
-    public function modelId() : string
+    public function model() : Model
     {
-        return $this->modelId;
-    }  
-    
-    public function typeKey() : string
-    {
-        return $this->typeKey;
-    }      
-    
-   
+        return $this->model;
+    }     
     
     public function identifiers() : array
     {

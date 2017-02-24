@@ -19,9 +19,7 @@
 
 namespace MedicalDevices\Domain\Model\Device;
 
-use MedicalDevices\Application\Service\Device\DeviceDTO;
-use MedicalDevices\Application\Service\ValidatorHandlerInterface;
-use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
+use MedicalDevices\Domain\Model\Device\Model\Model;
 
 /**
  * Description of MedDevice
@@ -37,22 +35,21 @@ class Device
      */
     private $id;    
     
-    public function __construct(DeviceId $id, $categoryId, $typeKey, $modelId) 
+    public function __construct(DeviceId $id, $categoryId, Model $model) 
     {
         $this->identifiers = array();
         $this->id = $id;
         $this->categoryId = $categoryId;
-        $this->typeKey = $typeKey;
-        $this->modelId = $modelId;
+        $this->model = $model;
     }    
     
-    public static function create($categoryId, $typeKey, $modelId, DeviceId $id = null)
+    public static function create($categoryId, Model $model, DeviceId $id = null)
     {
         if (null === $id) {
             $id = DeviceId::create();
         }
         
-        return new self($id, $categoryId, $typeKey, $modelId);
+        return new self($id, $categoryId, $model);
     }        
                 
     public function setIdentifiers(array $identifiers)

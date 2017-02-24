@@ -4,7 +4,6 @@
         <id name="id" column="id" type="device_id"/> 
         <one-to-many field="identifiers" target-entity="MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier" mapped-by="device" />
         <field name="categoryId" column="category_id" type="string" length="3"/>
-        <field name="typeKey" column="type_key" type="string" length="6"/> 
-        <field name="modelId" column="model_id" type="string" length="150"/>         
+        <embedded name="model" class="MedicalDevices\Domain\Model\Device\Model\Model" />       
     </entity>
 </doctrine-mapping>

@@ -20,6 +20,8 @@
 namespace MedicalDevices\Domain\Model\Device;
 
 use MedicalDevices\Domain\Model\Device\DeviceId;
+use MedicalDevices\Domain\Model\Device\Model\Model;
+use MedicalDevices\Domain\Model\Device\Model\Type\Type;
 use MedicalDevices\Infrastructure\Persistence\RepositoryInterface;
 
 /**
@@ -39,9 +41,9 @@ interface DeviceRepositoryInterface extends RepositoryInterface
     
     public function allDevices();
     
-    public function allDevicesOfModelId($modelId);
+    public function allDevicesOfModel(Model $model);
     
     public function allDevicesOfCategoryId($categoryId);
     
-    public function allDevicesOfTypeKey($typeKey);
+    public function allDevicesOfType(Type $type);
 }

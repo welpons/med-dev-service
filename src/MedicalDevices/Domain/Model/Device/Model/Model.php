@@ -25,7 +25,10 @@ class Model
         $this->type = $type;
     }
 
-
+    public function id()
+    {
+        return $this->id;
+    }        
 
     public function type()
     {

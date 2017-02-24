@@ -28,29 +28,29 @@ class Type
 {
     /**
      *
-     * @var string 
+     * @var type 
      */
-    private $name;
+    private $key;    
     
     /**
      *
-     * @var type 
+     * @var string 
      */
-    private $key;
-    
-    public function __construct(string $name, string $key)
+    private $name;
+        
+    public function __construct(string $key, string $name = null)
     {
         $this->name = $name;
         $this->key = $key;
     }
 
-    public function name(): string
-    {
-        return $this->name;
-    }
-
     public function key(): string
     {
         return $this->key;
-    }        
+    }     
+    
+    public function name(): string
+    {
+        return $this->name;
+    }       
 }

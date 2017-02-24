@@ -34,15 +34,17 @@ class DeviceValidator extends Validator
     public function validate(ValidationHandler $validationHandler, DTOInterface $dto)
     {
         if ($this->withRepositories()) {
-            if (null === $this->repositories['device_categories']->categoryOfId($dto->category())) {
+            if (null === $this->repositories['device_categories']->categoryOfId($dto->categoryId())) {
                 // $validationHandler->
             }
             
-            if (null === $this->repositories['device_types']->typeOfKey($dto->getType())) {
+            if (null === $this->repositories['device_types']->typeOfKey($dto->getTypeKey())) {
                 // $validationHandler->
             }
             
-            if (null === $this->repositories['device_models']->)
+            if (null === $this->repositories['device_models']->modelOfId($dto->getModelId())) {
+                // $validationHandler->
+            }
         }
     }
 

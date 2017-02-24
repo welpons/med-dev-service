@@ -22,6 +22,8 @@ namespace MedicalDevices\Infrastructure\Persistence\Doctrine;
 use MedicalDevices\Domain\Model\Device\DeviceRepositoryInterface;
 use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
+use MedicalDevices\Domain\Model\Device\Model\Model;
+use MedicalDevices\Domain\Model\Device\Model\Type\Type;
 use Doctrine\ORM\EntityManager; 
 use Doctrine\ORM\Query;
 
@@ -56,13 +58,13 @@ class DoctrineDeviceRepository implements DeviceRepositoryInterface
         return DeviceId::create();         
     }    
 
-    public function allDevicesOfModelId($modelId)
+    public function allDevicesOfModel(Model $model)
     {
         return $this->em->createQueryBuilder()
                 ->select('d')
                 ->from(self::ENTITY_CLASS, 'd')
-                ->where('d.modelId = :model_id')
-                ->setParameter(':model_id', $modelId)                
+                ->where('d.model.id = :model_id')
+                ->setParameter(':model_id', $model->id())                
                 ->getQuery()
                 ->getResult();          
     }
@@ -78,13 +80,13 @@ class DoctrineDeviceRepository implements DeviceRepositoryInterface
                 ->getResult();             
     }
 
-    public function allDevicesOfTypeKey($typeKey)
-    {
+    public function allDevicesOfType(Type $type)
+    {        
         return $this->em->createQueryBuilder()
                 ->select('d')
                 ->from(self::ENTITY_CLASS, 'd')
-                ->where('d.typeKey = :type_key')
-                ->setParameter(':type_key', $typeKey)                
+                ->where('d.model.type.key = :type_key')
+                ->setParameter(':type_key', $type->key())                
                 ->getQuery()
                 ->getResult();           
     }

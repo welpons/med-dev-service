@@ -35,7 +35,7 @@ class JsonFileDeviceTypeRepository extends JsonFileRepository implements TypeRep
         $types = [];
 
         foreach ($this->raws as $name => $value) {
-            $types[$name] = new Type($name, $value['key']);
+            $types[$name] = new Type($value['key'], $name);
         }
 
         return empty($types) ? null : $types;
@@ -49,13 +49,13 @@ class JsonFileDeviceTypeRepository extends JsonFileRepository implements TypeRep
 
         $names = array_keys($this->raws);
 
-        return new Type($names[$index], $key);
+        return new Type($key, $names[$index]);
     }
 
     public function typeOfName($name)
     {
         if (isset($this->raws[$name])) {
-            return new Type($name, $this->raws[$name]['key']);
+            return new Type($this->raws[$name]['key'], $name);
         }
 
         return null;
