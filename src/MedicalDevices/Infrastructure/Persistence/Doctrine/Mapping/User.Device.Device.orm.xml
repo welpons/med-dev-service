@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="MedicalDevices\Domain\Model\User\Device\Device" table="case.user_devices" connection="case">
+        <id name="id" type="integer" column="id">
+            <generator strategy="AUTO"/>
+        </id>            
+        <field name="userId" type="string" column="user_id" length="100"/> 
+        <embedded name="activePeriod" class="MedicalDevices\Domain\Model\User\Device\ActivePeriod" column-prefix="active_period_" />
+        <many-to-one field="device" target-entity="MedicalDevices\Domain\Model\Device\Device">
+            <join-column name="device_id" referenced-column-name="id" />
+        </many-to-one>           
+    </entity>
+</doctrine-mapping>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="MedicalDevices\Domain\Model\Device\Device" table="case.devices" connection="case">
+        <id name="id" column="id" type="device_id"/> 
+        <one-to-many field="identifiers" target-entity="MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier" mapped-by="device" />
+        <field name="categoryId" column="category_id" type="string" length="3"/>
+        <field name="typeKey" column="type_key" type="string" length="6"/> 
+        <field name="modelId" column="model_id" type="string" length="150"/>         
+    </entity>
+</doctrine-mapping>

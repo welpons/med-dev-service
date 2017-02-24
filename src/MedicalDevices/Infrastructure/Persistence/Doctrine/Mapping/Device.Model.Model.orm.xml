@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <embeddable name="MedicalDevices\Domain\Model\Device\Model\Model">
+        <field name="id" type="string" length="6"/>
+        <embedded name="type" class="MedicalDevices\Domain\Model\Device\Model\Type\Type" />
+    </embeddable>
+</doctrine-mapping>
