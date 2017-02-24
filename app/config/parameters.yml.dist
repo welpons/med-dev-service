@@ -8,7 +8,7 @@ parameters:
     database_user:     root
     database_password: ~
     # You should uncomment this if you want use pdo_sqlite
-    # database_path: "%kernel.root_dir%/data.db3"
+    database_path: "%kernel.root_dir%/../var/data/db.sqlite"
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
@@ -17,3 +17,15 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
+
+    med.devices.services.params:
+        application:
+            identifier_types: {serial_number: SNO, mac_address: MAC, system_id: SYS, universally_unique_identifier: UID}  
+            validators:
+                Device: "MedicalDevices\\Application\\Service\\Device\\DeviceValidator"
+        infrastructure:
+            db_json_files_path: "%kernel.root_dir%/../var/data/db.file"
+            db_json_files:
+                device_categories: device_categories.json
+                device_models: device_models.json
+                device_types: device_models.json
