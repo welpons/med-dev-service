@@ -1,6 +1,6 @@
 <?php
 
-namespace MedicalDevicesBundle\Framework;
+namespace MedicalDevicesBundle\ExternalServices;
 
 use JMS\Serializer\SerializerBuilder;
 use MedicalDevices\Infrastructure\Service\External\SerializerServiceInterface;

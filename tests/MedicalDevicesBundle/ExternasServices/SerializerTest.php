@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\MedicalDevicesBundle\Framework;
+namespace Tests\MedicalDevicesBundle\ExternalServices;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use MedicalDevices\Domain\Model\MedDevice\Model\ModelDetails\ModelDetails;
