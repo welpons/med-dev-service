@@ -3,6 +3,9 @@ parameters:
         
 
 services:
+    framework.serializer:
+        class: MedicalDevicesBundle\Framework\Serializer        
+        arguments: ['@init']
     init.factory:
         class: MedicalDevicesBundle\Framework\ConfigFactory
         arguments: ['@service_container']        
