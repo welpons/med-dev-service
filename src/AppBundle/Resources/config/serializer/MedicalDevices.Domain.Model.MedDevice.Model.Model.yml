@@ -1,6 +1,0 @@
-MedicalDevices\Domain\Model\MedDevice\Model\Model:  
-    properties:  
-        name:
-            type: string
-        number:
-            type: string

@@ -1,7 +1,0 @@
-## YAML Template.
-parameters:
-    serializer.metadata.dir: /Resources/config/serializer/    
-    
-    modules.classes:
-        userlogbook: "UserProgram\\Logbook\\UserTasks"    
-

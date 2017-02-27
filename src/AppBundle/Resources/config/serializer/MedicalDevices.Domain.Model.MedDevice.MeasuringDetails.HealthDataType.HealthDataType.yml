@@ -1,8 +1,0 @@
-MedicalDevices\Domain\Model\MedDevice\MeasuringDetails\HealthDataType\HealthDataType:  
-    properties:  
-        key:
-            type: string
-        measurementUnits:
-            type: array<MedicalDevices\Domain\Model\MedDevice\MeasuringDetails\HealthDataType\Unit\Unit>
-            xml_map:
-                entry_name: unit       
