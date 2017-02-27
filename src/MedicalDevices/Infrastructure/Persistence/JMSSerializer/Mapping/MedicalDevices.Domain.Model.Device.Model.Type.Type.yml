@@ -1,0 +1,6 @@
+MedicalDevices\Domain\Model\Device\Model\Type\Type:  
+    properties:  
+        key:
+            type: string
+        name:
+            type: string

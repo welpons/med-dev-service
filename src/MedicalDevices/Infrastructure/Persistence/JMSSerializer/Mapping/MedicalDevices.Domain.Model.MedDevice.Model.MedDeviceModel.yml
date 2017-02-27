@@ -1,0 +1,6 @@
+MedicalDevices\Domain\Model\MedDevice\Model\MedDeviceModel:
+    properties:  
+        definition:
+            type: MedicalDevices\Domain\Model\MedDevice\Model\Definition\Definition  
+        modelDetails:
+            type: MedicalDevices\Domain\Model\MedDevice\Model\ModelDetails\ModelDetails            

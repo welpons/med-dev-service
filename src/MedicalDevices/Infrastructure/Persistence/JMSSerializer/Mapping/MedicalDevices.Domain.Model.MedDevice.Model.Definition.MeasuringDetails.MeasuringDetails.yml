@@ -1,0 +1,6 @@
+MedicalDevices\Domain\Model\MedDevice\Model\Definition\MeasuringDetails\MeasuringDetails:  
+    properties:  
+        healthDataTypes:
+            type: array<MedicalDevices\Domain\Model\MedDevice\Model\Definition\MeasuringDetails\HealthDataType\HealthDataType>
+            xml_map:
+                entry_name: health_data_type       

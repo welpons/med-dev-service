@@ -1,0 +1,8 @@
+MedicalDevices\Domain\Model\MedDevice\Model\ModelDetails\ModelDetails:  
+    properties:  
+        modelNumber:
+            type: string
+        name:
+            type: string  
+        manufacturer: 
+            type: string
