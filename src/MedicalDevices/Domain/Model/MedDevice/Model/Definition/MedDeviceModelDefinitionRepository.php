@@ -1,6 +1,6 @@
 <?php
 
-namespace MedicalDevices\Domain\Model\Device\MedDevice\Model\Definition;
+namespace MedicalDevices\Domain\Model\MedDevice\Model\Definition;
 
 /**
  * Description of MedDeviceModelDefinitionRepository

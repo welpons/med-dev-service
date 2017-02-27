@@ -17,40 +17,32 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Domain\Model\Device\Model\Type;
+namespace MedicalDevices\Domain\Model\MedDevice\Model\Definition;
+
+use MedicalDevices\Domain\Model\MedDevice\Model\Definition\MeasuringDetails;
 
 /**
- * Type of device: Glucometer, Blood pressure monitor, Scale ...
+ * Description of Definition
  *
  * @author Welpons <welpons@gmail.com>
  */
-class Type
+class Definition
 {
     /**
      *
-     * @var string 
+     * @var MeasuringDetails 
      */
-    private $key;    
+    private $measuringDetails;
     
-    /**
-     *
-     * @var string 
-     */
-    private $name;
-        
-    public function __construct(string $key, string $name = null)
+    public function __construct(MeasuringDetails $measuringDetails)
     {
-        $this->name = $name;
-        $this->key = $key;
+        $this->measuringDetails = $measuringDetails;
     }
 
-    public function key(): string
+    public function measuringDetails()
     {
-        return $this->key;
-    }     
-    
-    public function name(): string
-    {
-        return $this->name;
-    }       
+        return $this->measuringDetails;
+    }
+
+
 }

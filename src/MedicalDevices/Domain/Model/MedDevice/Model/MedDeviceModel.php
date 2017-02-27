@@ -17,22 +17,45 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Domain\Model\Device\MedDevice;
+namespace MedicalDevices\Domain\Model\MedDevice\Model;
 
-
+use MedicalDevices\Domain\Model\MedDevice\Model\Definition\Definition;
+use MedicalDevices\Domain\Model\MedDevice\Model\ModelDetails\ModelDetails;
 
 /**
- * Description of MedDevice
+ * Description of MedDeviceModel
  *
  * @author Welpons <welpons@gmail.com>
  */
-class MedDevice
+class MedDeviceModel
 {
-    private $id;
-
+    /**
+     *
+     * @var ModelDetails
+     */
+    private $modelDetails;
     
-    private $type;
+    /**
+     *
+     * @var Definition
+     */
+    private $definition;
     
+    public function __construct(ModelDetails $modelDetails, Definition $definition)
+    {
+        $this->modelDetails = $modelDetails;
+        $this->definition = $definition;
+    }
 
-     
+    public function modelDetails(): ModelDetails
+    {
+        return $this->modelDetails;
+    }
+
+    public function definition(): Definition
+    {
+        return $this->definition;
+    }
+
+
 }

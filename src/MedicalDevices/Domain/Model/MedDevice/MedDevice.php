@@ -17,14 +17,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Domain\Model\Device\MedDevice\Model;
+namespace MedicalDevices\Domain\Model\MedDevice;
+
+
 
 /**
- * Type of medicical device: blood pressure monitor, glucometer, scale, spirometer, etc.
+ * Description of MedDevice
  *
  * @author Welpons <welpons@gmail.com>
  */
-class MedDeviceType
+class MedDevice
 {
+    private $id;
 
+    
+    private $modelDetails;
+
+     
 }

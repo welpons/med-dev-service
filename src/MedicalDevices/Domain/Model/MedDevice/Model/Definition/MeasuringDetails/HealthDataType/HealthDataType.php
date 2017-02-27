@@ -1,6 +1,6 @@
 <?php
 
-namespace MedicalDevices\Domain\Model\Device\MedDevice\Model\Definition\MeasuringDetails\HealthDataType;
+namespace MedicalDevices\Domain\Model\MedDevice\Model\Definition\MeasuringDetails\HealthDataType;
 
 /**
  * Description of HealthDataType
@@ -20,24 +20,13 @@ class HealthDataType
      */
     private $measurementUnits;
         
-    public function getKey(): string
+    public function key(): string
     {
         return $this->key;
     }
 
-    public function getMeasurementUnits(): array
+    public function measurementUnits(): array
     {
         return $this->measurementUnits;
-    }
-
-    public function setKey(string $key)
-    {
-        $this->key = $key;
-    }
-
-    public function setMeasurementUnits(array $measurementUnits)
-    {
-        $this->measurementUnits = $measurementUnits;
-    }
-    
+    }    
 }
