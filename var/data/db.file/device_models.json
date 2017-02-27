@@ -1,0 +1,36 @@
+{    
+    "glucometer": {
+        "key": "GLUCO", 
+        "models": [
+            {"id": "FORA_D40"}, {"id": "Entra_MyGlucoHealth_MGH-1"}
+        ]
+    },
+    "blood_pressure_monitor": {
+        "key": "BLDPRM",
+        "models": [
+            {"id": "OMRON_BP792IT"}
+        ]    
+    },
+    "weight_scale": {
+        "key": "SCALE",
+        "models": [
+            {"id": "OMRON_HBF-206IT"}
+        ]
+    },
+    "spirometer": {
+        "key": "SPIRO",
+        "models": []
+    },
+    "activity_tracker": {
+        "key": "ACTRCK",
+        "models": []
+    },
+    "oximeter": {
+        "key": "OXIMTR",
+        "models": []
+    },
+    "acoustic_cardiograpph": {
+        "key": "ACUCAR",
+        "models": []
+    }
+}
