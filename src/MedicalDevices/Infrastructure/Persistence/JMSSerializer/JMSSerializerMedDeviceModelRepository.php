@@ -38,6 +38,10 @@ class JMSSerializerMedDeviceModelRepository implements MedDeviceModelRepositoryI
     public function __construct(SerializerServiceInterface $serializer, string $path)
     {
         $this->serializer = $serializer;
+        
+        if (!file_exists($path)) {
+            throw new MedDeviceModelDirNotExistException(sprintf('Directory with device model files does not exist: %s', $path));
+        }                
         $this->path = $path;
     }
 
