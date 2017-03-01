@@ -36,6 +36,8 @@ class DeviceValidator extends Validator
     public function validate(ValidatorHandlerInterface $validatorHandler, DTOInterface $dto)
     {
         if ($this->withRepositories()) {
+
+            
             if (null === $this->repositories['device_categories']->categoryOfId($dto->categoryId())) {
                 $validatorHandler->handleError(ValidationErrors::UNDEFINED_DEVICE_CATEGORY_ID, sprintf('Undefined device category Id: %s', $dto->categoryId()));
             }
@@ -50,7 +52,7 @@ class DeviceValidator extends Validator
             
             $deviceIdentifierValidator = new DeviceIdentifierValidator();
             $deviceIdentifierValidator->addRepositories($this->repositories);
-            $deviceIdentifierValidator->validate($validationHandler, $dto->deviceIdentifier());
+            $deviceIdentifierValidator->validate($validatorHandler, $dto->deviceIdentifier());
         }
     }
 

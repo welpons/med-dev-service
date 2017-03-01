@@ -21,6 +21,7 @@ namespace MedicalDevices\Application\Service\Validation;
 
 use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
 use MedicalDevices\Configuration\ConfigurationInterface;
+use MedicalDevices\Application\Service\Validation\ValidationErrors;
 
 /**
  * Description of ValidationService
@@ -42,8 +43,12 @@ class ValidationService
          
     public function validate(ValidatorHandlerInterface $validatorHandler, string $entity, DTOInterface $dto)
     {
-        $validator = $this->createValidator($entity, $dto);
-        $validator->validate($validatorHandler);
+        try {
+            $validator = $this->createValidator($entity, $dto);
+            $validator->validate($validatorHandler);            
+        } catch (Exception $ex) {
+            $validatorHandler->handleError(ValidationErrors::UNKNOWN_VALIDATION_ERROR, sprintf('Error validating entity: %s. Error: %s', $entity, $ex->getMessage()));
+        }
     }   
     
     private function createValidator(string $entity, DTOInterface $dto)
@@ -70,8 +75,5 @@ class ValidationService
         return $validator;
     }     
     
-    private function getEntity()
-    {
-        
-    }        
+     
 }

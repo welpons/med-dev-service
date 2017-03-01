@@ -10,7 +10,7 @@ use MedicalDevices\Application\Service\DTOInterface;
  *
  * @author jenkins
  */
-interface ApplicationServiceCommand
+interface ApplicationServiceCommandInterface
 {
     /**
      * @param ValidatorHandlerInterface $validatorHandler

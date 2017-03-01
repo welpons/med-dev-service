@@ -30,4 +30,5 @@ class ValidationErrors
     const UNDEFINED_DEVICE_MODEL_ID =          '0002';
     const UNDEFINED_DEVICE_MODEL_TYPE_KEY =    '0003';
     const DEVICE_IDENTIFIER_ALREADY_EXISTS =   '0004'; 
+    const UNKNOWN_VALIDATION_ERROR =           '0005';
 }

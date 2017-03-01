@@ -11,13 +11,14 @@ namespace MedicalDevices\Application\Service;
 use MedicalDevices\Configuration\ConfigurationInterface;
 use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
 use MedicalDevices\Application\Service\Validation\ValidationService;
+use MedicalDevices\Application\Service\ApplicationServiceCommandInterface;
 
 /**
  * Description of ApplicationService
  *
  * @author jenkins
  */
-abstract class ApplicationService
+abstract class ApplicationService implements ApplicationServiceCommandInterface
 {
     protected $configurations;
     protected $repositories = null;

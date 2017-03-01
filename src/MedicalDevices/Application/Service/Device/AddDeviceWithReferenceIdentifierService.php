@@ -20,7 +20,6 @@
 namespace MedicalDevices\Application\Service\Device;
 
 use MedicalDevices\Application\Service\ApplicationService;
-use MedicalDevices\Application\Service\ApplicationServiceCommand;
 use MedicalDevices\Application\Service\Validation\ValidationException;
 use MedicalDevices\Application\Service\ValidatorHandlerInterface;
 use MedicalDevices\Application\Service\DTOInterface;
@@ -33,7 +32,7 @@ use MedicalDevices\Domain\Model\Device\DeviceId;
  *
  * @author jenkins
  */
-class AddDeviceWithReferenceIdentifierService extends ApplicationService implements ApplicationServiceCommand
+class AddDeviceWithReferenceIdentifierService extends ApplicationService
 {
     
     public function execute(ValidatorHandlerInterface $validatorHandler, DTOInterface $dto = null)
@@ -46,7 +45,7 @@ class AddDeviceWithReferenceIdentifierService extends ApplicationService impleme
         
         $deviceIdentifier = DeviceIdentifier::create($dto->deviceIdentifier()->type(), $dto->deviceIdentifier()->value(), DeviceIdentifier::IS_REFERENCE_ID);
         $device = Device::create(DeviceId::create(), $dto->categoryId(), $dto->modelId(), $dto->modelTypeKey())
-                ->setIdentifiers($deviceIdentifier);
+                ->setIdentifiers([$deviceIdentifier]);
         
         $this->repositories['device']->save($device);
         $this->repositories['device_identifier']->save($deviceIdentifier);              
