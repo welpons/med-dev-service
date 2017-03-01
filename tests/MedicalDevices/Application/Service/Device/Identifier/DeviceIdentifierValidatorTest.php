@@ -59,9 +59,7 @@ class DeviceIdentifierValidatorTest extends KernelTestCase
         $this->repositories = $this->container->get('repository.collection.provider');
         $this->configurations = $this->container->get('init');
         
-        $this->validator = new DeviceIdentifierValidator($this->configurations);
-        $this->validator->addRepositories($this->repositories->getCollection());     
-        
+        $this->validator = new DeviceIdentifierValidator($this->configurations);  
 
         $commandDrop = $application->find('doctrine:schema:drop');
         $commandTesterDrop = new CommandTester($commandDrop);
