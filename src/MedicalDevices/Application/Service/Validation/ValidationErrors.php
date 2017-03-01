@@ -28,7 +28,15 @@ class ValidationErrors
 {
     const UNDEFINED_DEVICE_CATEGORY_ID =       '0001';
     const UNDEFINED_DEVICE_MODEL_ID =          '0002';
-    const UNDEFINED_DEVICE_MODEL_TYPE_KEY =    '0003';
+    const UNDEFINED_DEVICE_TYPE_KEY =          '0003';
     const DEVICE_IDENTIFIER_ALREADY_EXISTS =   '0004'; 
     const UNKNOWN_VALIDATION_ERROR =           '0005';
+    const FILTER_INVALID_STRING =              '0006';
+    const NOT_FOUND_CATEGORY_ID =              '0007';
+    const NOT_FOUND_DEVICE_MODEL_TYPE_KEY =    '0008'; 
+    const NOT_FOUND_DEVICE_MODEL_ID =          '0009';
+    const UNDEFINED_DEVICE_IDENTIFIER_VALUE =  '0010';
+    const UNDEFINED_DEVICE_IDENTIFIER_TYPE =   '0011';
+    const UNDEFINED_REPOSITORY =               '0012';
+    const INVALID_DEVICE_IDENTIFIER_TYPE =     '0013'; 
 }

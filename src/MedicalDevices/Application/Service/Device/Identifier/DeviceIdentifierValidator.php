@@ -21,7 +21,7 @@ namespace MedicalDevices\Application\Service\Device\Identifier;
 
 use MedicalDevices\Application\Service\Validation\Validator;
 use MedicalDevices\Application\Service\Validation\ValidationErrors;
-use MedicalDevices\Application\Service\ValidatorHandlerInterface;
+use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
 use MedicalDevices\Application\Service\DTOInterface;
 
 /**
@@ -31,18 +31,36 @@ use MedicalDevices\Application\Service\DTOInterface;
  */
 class DeviceIdentifierValidator extends Validator
 {
-    public function validate(ValidatorHandlerInterface $validationHandler, DTOInterface $dto)
+
+    public function validate(ValidatorHandlerInterface $validatorHandler, DTOInterface $dto)
     {
-        if ($this->withRepositories()) {
-           if (null === $this->repositories['device_identifier']->deviceIdentifierOfIdentifier($dto->deviceIdentifier()->value(), $dto->deviceIdentifier()->type())) {
-               $validationHandler->handleError(ValidationErrors::DEVICE_IDENTIFIER_ALREADY_EXISTS, sprintf('Already exists a device in the system with %s = %s', $dto->deviceIdentifier()->type(), $dto->deviceIdentifier()->value()));
-           }
+        $value = $dto->value();
+        if (empty($value)) {
+            $validatorHandler->handleError(ValidationErrors::UNDEFINED_DEVICE_IDENTIFIER_VALUE, sprintf('Undefined device identifier value: %s', $value));
+        }
+
+        if (false === self::sanatizeItem(self::FILTER_TYPE_STRING, $value)) {
+            $validatorHandler->handleError(ValidationErrors::FILTER_INVALID_STRING, sprintf('Invalid device identifier value. Must be a valid string'));
+        }
+
+        $type = $dto->type();
+        if (empty($type)) {
+            $validatorHandler->handleError(ValidationErrors::UNDEFINED_DEVICE_IDENTIFIER_TYPE, sprintf('Undefined device identifier type: %s', $type));
+        }
+
+        if (false === self::sanatizeItem(self::FILTER_TYPE_STRING, $type)) {
+            $validatorHandler->handleError(ValidationErrors::FILTER_INVALID_STRING, sprintf('Invalid device identifier type. Must be a valid string'));
+        }
+
+        $types = array_values($this->configurations->getParameter('application.identifier_types'));
+        if (!in_array($type, $types)) {
+            $validatorHandler->handleError(ValidationErrors::INVALID_DEVICE_IDENTIFIER_TYPE, sprintf('Invalid device identifier type. Must be one of the following types: %s', implode(',', $types)));
         }
     }
 
     public function withRepositories(): bool
     {
-        return true;
+        return false;
     }
 
 }

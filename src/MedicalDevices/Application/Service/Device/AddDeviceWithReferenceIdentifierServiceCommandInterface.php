@@ -17,16 +17,20 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Tests\MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierValidator;
+namespace MedicalDevices\Application\Service\Device;
 
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
 
 /**
- * Description of DeviceIdentifierValidator
  *
  * @author Welpons <welpons@gmail.com>
  */
-class DeviceIdentifierValidator extends KernelTestCase
+interface AddDeviceWithReferenceIdentifierServiceCommandInterface
 {
-   
+    /**
+     * @param ValidatorHandlerInterface $validatorHandler
+     * @param DeviceDTO $dto
+     * @return mixed
+     */
+    public function execute(ValidatorHandlerInterface $validatorHandler, DeviceDTO $dto);
 }

@@ -66,7 +66,7 @@ class ValidationService
             // Exception
         }
         
-        $validator = new $validatorClass($dto);
+        $validator = new $validatorClass($this->configurations);
         
         if ($validator->withRepositories()) {
             $validator->setRepositories($this->repositories);

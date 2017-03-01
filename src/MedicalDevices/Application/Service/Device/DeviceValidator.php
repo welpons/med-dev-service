@@ -24,6 +24,8 @@ use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
 use MedicalDevices\Application\Service\Validation\ValidationErrors;
 use MedicalDevices\Application\Service\DTOInterface;
 use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierValidator;
+use MedicalDevices\Application\Service\Device\Model\ModelValidator;
+
 /**
  * Description of DeviceValidator
  *
@@ -31,35 +33,44 @@ use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierValidat
  */
 class DeviceValidator extends Validator
 {
-    
 
     public function validate(ValidatorHandlerInterface $validatorHandler, DTOInterface $dto)
     {
-        if ($this->withRepositories()) {
-
-            
-            if (null === $this->repositories['device_categories']->categoryOfId($dto->categoryId())) {
-                $validatorHandler->handleError(ValidationErrors::UNDEFINED_DEVICE_CATEGORY_ID, sprintf('Undefined device category Id: %s', $dto->categoryId()));
-            }
-            
-            if (null === $this->repositories['device_types']->typeOfKey($dto->model()->type()->key())) {
-                $validatorHandler->handleError(ValidationErrors::UNDEFINED_DEVICE_MODEL_TYPE_KEY, sprintf('Undefined device model type key: %s', $dto->model()->type()->key()));
-            }
-            
-            if (null === $this->repositories['device_models']->modelOfId($dto->model()->Id())) {
-                $validatorHandler->handleError(ValidationErrors::UNDEFINED_DEVICE_MODEL_ID, sprintf('Undefined device model Id: %s', $dto->model()->id()));
-            }
-            
-            $deviceIdentifierValidator = new DeviceIdentifierValidator();
-            $deviceIdentifierValidator->addRepositories($this->repositories);
-            $deviceIdentifierValidator->validate($validatorHandler, $dto->deviceIdentifier());
+        // Device Category Id validations
+        $categoryId = $dto->categoryId();
+        if (empty($categoryId)) {
+            $validatorHandler->handleError(ValidationErrors::UNDEFINED_DEVICE_CATEGORY_ID, sprintf('Undefined device category Id: %s', $categoryId));
         }
+
+        if (false === self::sanatizeItem(self::FILTER_TYPE_STRING, $categoryId)) {
+            $validatorHandler->handleError(ValidationErrors::FILTER_INVALID_STRING, sprintf('Invalid device category Id. Must be a valid string'));
+        }
+
+        if ($this->withRepositories()) {            
+            if (null === $this->repositories) {
+                $validatorHandler->handleError(ValidationErrors::UNDEFINED_REPOSITORY, 'Device identifier validation. Is required to set a repository to validate device identifier.');
+                return;
+            }
+
+            if (null === $this->repositories['device_categories']->categoryOfId($categoryId)) {
+                $validatorHandler->handleError(ValidationErrors::NOT_FOUND_CATEGORY_ID, sprintf('Not found device category Id: %s', $categoryId));
+            }    
+            
+            $modelValidator = (new ModelValidator())->addRepositories($this->repositories);
+            $modelValidator->validate($validatorHandler, $dto->model());
+
+            $deviceIdentifierValidator = (new DeviceIdentifierValidator())->addRepositories($this->repositories);
+            $deviceIdentifierValidator->validate($validatorHandler, $dto->deviceIdentifier());            
+        }        
+        
+
+
+
     }
 
     public function withRepositories(): bool
     {
         return true;
     }
-    
 
 }

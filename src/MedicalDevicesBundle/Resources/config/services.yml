@@ -3,9 +3,14 @@ parameters:
         
 
 services:
-    framework.serializer:
+    # External services. Based on third party components    
+    ext.services.serializer:
         class: MedicalDevicesBundle\ExternalServices\Serializer        
         arguments: ['@init']
+    ext.services.validation.error.handler:
+        class: MedicalDevicesBundle\ExternalServices\ValidationErrorHandler
+        
+    # Framawork services. Based on tool provided by Symfony framawork     
     init.factory:
         class: MedicalDevicesBundle\Framework\ConfigFactory
         arguments: ['@service_container']        

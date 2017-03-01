@@ -2,7 +2,7 @@
 
 namespace MedicalDevices\Application\Service;
 
-use MedicalDevices\Application\Service\ValidatorHandlerInterface;
+use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
 use MedicalDevices\Application\Service\DTOInterface;
 
 /**

@@ -22,7 +22,7 @@ namespace Tests\MedicalDevices\Application\Service\Device;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use MedicalDevices\Application\Service\Device\AddDeviceWithReferenceIdentifierService;
 use MedicalDevices\Application\Service\ApplicationService;
-use MedicalDevices\Application\Service\ApplicationServiceCommandInterface;
+use MedicalDevices\Application\Service\Device\AddDeviceWithReferenceIdentifierServiceCommandInterface;
 
 /**
  * Description of AddDeviceWithReferenceIdentifierServiceTest
@@ -56,6 +56,6 @@ class AddDeviceWithReferenceIdentifierServiceTest extends KernelTestCase
     {
         $device = new AddDeviceWithReferenceIdentifierService($this->init, $this->repositories);
         $this->assertTrue($device instanceof ApplicationService);
-        $this->assertTrue($device instanceof ApplicationServiceCommandInterface);
+        $this->assertTrue($device instanceof AddDeviceWithReferenceIdentifierServiceCommandInterface);
     }        
 }

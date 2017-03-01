@@ -21,7 +21,8 @@ namespace MedicalDevices\Application\Service\Validation;
 
 use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
 use MedicalDevices\Application\Service\DTOInterface;
-use MedicalDevices\Application\Service\ValidatorHandlerInterface;
+use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
+use MedicalDevices\Configuration\ConfigurationInterface;
 
 /**
  * Description of Validator
@@ -37,15 +38,25 @@ abstract class Validator
     const FILTER_TYPE_STRING = 'string';
     const FILTER_TYPE_EMAIL = 'email';
 
-    protected $repositories;
+    protected $repositories = null;
+    
+    protected $configurations = null;
+    
+    public function __construct(ConfigurationInterface $configurations)
+    {
+        $this->configurations = $configurations;
+    }
 
-    abstract public function validate(ValidatorHandlerInterface $validationHandler, DTOInterface $dto);
+    abstract public function validate(ValidatorHandlerInterface $validatorHandler, DTOInterface $dto);
 
     abstract public function withRepositories(): bool;
 
     public function addRepositories(RepositoryCollection $repositories)
     {
-        $this->withRepositories();
+        if (!$this->withRepositories()) {
+            throw new ValidatorDoesNotRequireRepositoriesException('This validator does not require repositories to validate data.');
+        }
+        
         $this->repositories = $repositories;
     }
 

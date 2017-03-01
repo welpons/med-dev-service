@@ -17,43 +17,42 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Application\Service\Device\Identifier;
+namespace MedicalDevices\Application\Service\Device\Model\Type;
 
-use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
 use MedicalDevices\Application\Service\DTOInterface;
 
 /**
- * Description of DeviceIdentifierDTO
+ * Description of TypeDTO
  *
  * @author Welpons <welpons@gmail.com>
  */
-class DeviceIdentifierDTO implements DTOInterface
+class TypeDTO implements DTOInterface
 {
-    private $type = null;
+    /**
+     *
+     * @var string 
+     */
+    private $key;    
     
-    private $value = null;
-    
-    private $isReferenceIdentifier = false;
-    
-    public function __construct(string $type, string $value, $isReferenceIdentifier = DeviceIdentifier::IS_NOT_REFERENCE_ID)
+    /**
+     *
+     * @var string 
+     */
+    private $name;
+        
+    public function __construct(string $key, string $name = null)
     {
-        $this->type = $type;
-        $this->value = $value;
-        $this->isReferenceIdentifier = $isReferenceIdentifier;
+        $this->name = $name;
+        $this->key = $key;
     }
 
-    public function type()
+    public function key(): string
     {
-        return $this->type;
-    }        
+        return $this->key;
+    }     
     
-    public function value()
+    public function name(): string
     {
-        return $this->value;
-    }        
-    
-    public function isReferenceIdentifier()
-    {
-        return $this->isReferenceIdentifier;
-    }        
+        return $this->name;
+    }  
 }

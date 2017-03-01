@@ -22,7 +22,7 @@ class SerializerTest extends KernelTestCase
         self::bootKernel();
 
         $this->container = self::$kernel->getContainer();
-        $this->serializer = $this->container->get('framework.serializer');
+        $this->serializer = $this->container->get('ext.services.serializer');
         
         $this->metadataDir = $this->container->get('init')->getParameter('infrastructure.jms_serializer_mapping_dir');
     }

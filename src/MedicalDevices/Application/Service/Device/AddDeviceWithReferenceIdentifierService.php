@@ -21,9 +21,12 @@ namespace MedicalDevices\Application\Service\Device;
 
 use MedicalDevices\Application\Service\ApplicationService;
 use MedicalDevices\Application\Service\Validation\ValidationException;
-use MedicalDevices\Application\Service\ValidatorHandlerInterface;
-use MedicalDevices\Application\Service\DTOInterface;
+use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
+use MedicalDevices\Application\Service\Validation\ValidationErrors;
+use MedicalDevices\Application\Service\Device\DeviceDTO;
+use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierDTO;
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
+use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
 use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
 
@@ -32,12 +35,14 @@ use MedicalDevices\Domain\Model\Device\DeviceId;
  *
  * @author jenkins
  */
-class AddDeviceWithReferenceIdentifierService extends ApplicationService
+class AddDeviceWithReferenceIdentifierService extends ApplicationService implements AddDeviceWithReferenceIdentifierServiceCommandInterface
 {
     
-    public function execute(ValidatorHandlerInterface $validatorHandler, DTOInterface $dto = null)
+    public function execute(ValidatorHandlerInterface $validatorHandler, DeviceDTO $dto)
     {                
         $this->validationService->validate($validatorHandler, "MedicalDevices\Domain\Model\Device", $dto);
+        
+        $this->checkWhetherDeviceIdentifierAlreadyExists($validatorHandler, $dto->deviceIdentifier());
         
         if ($validatorHandler->hasErrors()) {
             throw new ValidationException('Errors validating device parameters');
@@ -47,9 +52,14 @@ class AddDeviceWithReferenceIdentifierService extends ApplicationService
         $device = Device::create(DeviceId::create(), $dto->categoryId(), $dto->modelId(), $dto->modelTypeKey())
                 ->setIdentifiers([$deviceIdentifier]);
         
-        $this->repositories['device']->save($device);
-        $this->repositories['device_identifier']->save($deviceIdentifier);              
+        $this->repositories->get('device')->save($device);
+        $this->repositories->get('device_identifier')->save($deviceIdentifier);              
     }    
 
-     
+    private function checkWhetherDeviceIdentifierAlreadyExists(ValidatorHandlerInterface $validatorHandler, DeviceIdentifierDTO $dto)
+    {
+        if ($this->repositories->get('device_identifier')->deviceIdentifierOfIdentifier(new Identifier($dto->type(), $dto->value())) instanceof DeviceIdentifier) {
+            $validatorHandler->handleError(ValidationErrors::DEVICE_IDENTIFIER_ALREADY_EXISTS, sprintf('This Device identifier %s = %s is assigned to another device'));
+        }
+    }        
 }

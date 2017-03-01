@@ -113,6 +113,18 @@ class DoctrineDeviceIdentifierRepositoryTest extends KernelTestCase
      * @test
      * @group deviceidentifier_repository
      */
+    public function deviceIdentifiersOfDeviceWithNoType()
+    {
+        $identifier = new Identifier('', 'SN123456');
+        $deviceIdentifier = $this->doctrineDeviceIdentifierRepository->deviceIdentifierOfIdentifier($identifier);
+        
+        $this->assertTrue(null === $deviceIdentifier);
+    }
+        
+    /**
+     * @test
+     * @group deviceidentifier_repository
+     */
      public function referenceDeviceIdentifierOfDevice()
      {
         $identifier = new Identifier('SNO', 'SN123456');

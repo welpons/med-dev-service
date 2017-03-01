@@ -17,36 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevicesBundle\ExternalServices;
-
-use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
+namespace MedicalDevices\Application\Service\Validation;
 
 /**
- * Description of ErrorHandler
+ * Description of ValidatorDoesNotRequireRepositoriesException
  *
  * @author Welpons <welpons@gmail.com>
  */
-class ValidationErrorHandler implements ValidatorHandlerInterface
+class ValidatorDoesNotRequireRepositoriesException extends \Exception
 {
-    private $errors;
-    
-    public function __construct()
-    {
-        $this->errors = array();
-    }
-    
-    public function handleError(string $code, string $error)
-    {
-        $this->errors[] = ['code' => $code, 'message' => $error];
-    }
-
-    public function getErrors(): array
-    {
-        return $this->errors;
-    }        
-    
-    public function hasErrors(): bool
-    {
-        return !empty($this->errors);
-    }        
+    //put your code here
 }
