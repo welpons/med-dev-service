@@ -27,15 +27,17 @@ namespace MedicalDevices\Configuration;
  */
 class Configuration implements ConfigurationInterface
 {
+
     const CHECK_ONLY = true;
-    
+    const SEPARATOR = '.';
+
     /**
      * Array of parameter groups
      * 
      * @var array 
      */
-    public static $groups = ['application', 'model', 'infrastructure']; 
-    
+    public static $groups = ['application', 'model', 'infrastructure'];
+
     /**
      * @var array 
      */
@@ -66,7 +68,18 @@ class Configuration implements ConfigurationInterface
 
     public function setParameter($paramName, $value)
     {
+        $this->assignElementByPath($this->configParams, $paramName, $value);
+    }
 
+    private function assignElementByPath(array &$configParams, string $paramName, $value, string $separator = self::SEPARATOR)
+    {
+        $keys = explode($separator, $paramName);
+
+        foreach ($keys as $key) {
+            $configParams = &$configParams[$key];
+        }
+
+        $configParams = $value;
     }
 
     /**
@@ -79,20 +92,20 @@ class Configuration implements ConfigurationInterface
      */
     private function selectElement($paramName, $checkOnly = false)
     {
-        $keys = explode('.', $paramName);        
+        $keys = explode(self::SEPARATOR, $paramName);
         $param = $this->configParams;
-        
-        foreach($keys as $key) {
+
+        foreach ($keys as $key) {
             if (!isset($param[$key])) {
                 if ($checkOnly) {
                     return false;
                 }
-                
+
                 throw new UndefinedParameterException(sprintf('Undefined parameter: "%s"', $paramName));
-            }    
+            }
             $param = $param[$key];
         }
-        
+
         return $checkOnly ? true : $param;
     }
 

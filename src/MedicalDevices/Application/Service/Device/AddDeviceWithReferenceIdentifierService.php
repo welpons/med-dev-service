@@ -29,6 +29,7 @@ use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
 use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
 use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
+use MedicalDevices\Domain\Model\Device\DeviceFactory;
 
 /**
  * Description of ViewModelService
@@ -40,7 +41,7 @@ class AddDeviceWithReferenceIdentifierService extends ApplicationService impleme
     
     public function execute(ValidatorHandlerInterface $validatorHandler, DeviceDTO $dto)
     {                
-        $this->validationService->validate($validatorHandler, "MedicalDevices\Domain\Model\Device", $dto);
+        $this->validationService->validate($validatorHandler, Device::class, $dto);
         
         $this->checkWhetherDeviceIdentifierAlreadyExists($validatorHandler, $dto->deviceIdentifier());
         
@@ -48,12 +49,9 @@ class AddDeviceWithReferenceIdentifierService extends ApplicationService impleme
             throw new ValidationException('Errors validating device parameters');
         }
         
-        $deviceIdentifier = DeviceIdentifier::create($dto->deviceIdentifier()->type(), $dto->deviceIdentifier()->value(), DeviceIdentifier::IS_REFERENCE_ID);
-        $device = Device::create(DeviceId::create(), $dto->categoryId(), $dto->modelId(), $dto->modelTypeKey())
-                ->setIdentifiers([$deviceIdentifier]);
-        
-        $this->repositories->get('device')->save($device);
-        $this->repositories->get('device_identifier')->save($deviceIdentifier);              
+        $device = DeviceFactory::build(DeviceId::create(), $dto->categoryId(), $dto->modelId(), $dto->modelTypeKey(), $dto->deviceIdentifier()->type(), $dto->deviceIdentifier()->value());
+
+        $this->repositories->get('device')->save($device);            
     }    
 
     private function checkWhetherDeviceIdentifierAlreadyExists(ValidatorHandlerInterface $validatorHandler, DeviceIdentifierDTO $dto)

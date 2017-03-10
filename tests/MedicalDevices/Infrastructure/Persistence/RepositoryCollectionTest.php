@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Infrastructure\Persistence;
+namespace Tests\MedicalDevices\Infrastructure\Persistence;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;

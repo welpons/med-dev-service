@@ -23,7 +23,7 @@ use MedicalDevices\Domain\Model\Device\Model\Model;
 use MedicalDevices\Domain\Model\Device\Model\Type\Type;
 
 /**
- * Description of MedDevice
+ * Description of Device: Root aggregate
  *
  * @author Welpons <welpons@gmail.com>
  */
@@ -70,9 +70,9 @@ class Device
         return new self($id, $categoryId, new Model($modelId, new Type($modelTypeKey)));
     }        
                 
-    public function setIdentifiers(array $identifiers)
+    public function setDeviceIdentifiers(array $deviceIdentifiers)
     {
-        $this->identifiers = $identifiers;
+        $this->identifiers = $deviceIdentifiers;
         
         return $this;
     }    

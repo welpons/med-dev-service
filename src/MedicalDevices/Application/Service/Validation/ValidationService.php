@@ -22,6 +22,8 @@ namespace MedicalDevices\Application\Service\Validation;
 use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
 use MedicalDevices\Configuration\ConfigurationInterface;
 use MedicalDevices\Application\Service\Validation\ValidationErrors;
+use MedicalDevices\Application\Service\Validation\Validator;
+use MedicalDevices\Application\Service\DTOInterface;
 
 /**
  * Description of ValidationService
@@ -32,7 +34,6 @@ class ValidationService
 {
     private $configurations;
     private $repositories;
-    private $entity;
     
     public function __construct(ConfigurationInterface $configurations, RepositoryCollection $repositories)
     {
@@ -44,32 +45,36 @@ class ValidationService
     public function validate(ValidatorHandlerInterface $validatorHandler, string $entity, DTOInterface $dto)
     {
         try {
-            $validator = $this->createValidator($entity, $dto);
-            $validator->validate($validatorHandler);            
+            $validator = $this->createValidator($entity);
+            $validator->validate($validatorHandler, $dto);            
         } catch (Exception $ex) {
             $validatorHandler->handleError(ValidationErrors::UNKNOWN_VALIDATION_ERROR, sprintf('Error validating entity: %s. Error: %s', $entity, $ex->getMessage()));
         }
     }   
     
-    private function createValidator(string $entity, DTOInterface $dto)
+    private function createValidator(string $entity)
     {
         if (!class_exists($entity)) {
-            // Exception
+            throw new \UnexpectedValueException(sprintf('Validation service. Class not found: %s', $entity));
         }
         
-        $reflect = new ReflectionClass($entity);        
+        $reflect = new \ReflectionClass($entity);        
         $entityName = $reflect->getShortName();
         
         $validatorClass = $this->configurations->getParameter("application.validators.{$entityName}");
         
         if (!class_exists($validatorClass)) {
-            // Exception
+            throw new \UnexpectedValueException(sprintf('Validation service. Validator class not found: %s', $validatorClass));
         }
         
         $validator = new $validatorClass($this->configurations);
         
+        if (!is_subclass_of($validator, Validator::class)) {
+            throw new \InvalidArgumentException(sprintf('Validator class %s has to extend % class', get_class($validator), Validator::class));
+        }
+        
         if ($validator->withRepositories()) {
-            $validator->setRepositories($this->repositories);
+            $validator->addRepositories($this->repositories);
         }
         
         return $validator;

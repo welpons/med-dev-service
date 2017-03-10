@@ -45,7 +45,7 @@ class DeviceHydrator extends AbstractHydrator
             $this->hydrateRowData($row, $result);
         }
         
-        return $this->device->setIdentifiers($result);
+        return $this->device->setDeviceIdentifiers($result);
     }
 
     protected function hydrateRowData(array $data, array &$result)

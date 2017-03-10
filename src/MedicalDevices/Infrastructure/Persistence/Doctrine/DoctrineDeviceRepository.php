@@ -46,6 +46,10 @@ class DoctrineDeviceRepository implements DeviceRepositoryInterface
     public function save(Device $device)
     {
         $this->em->persist($device);
+        
+        foreach($device->identifiers() as $deviceidentifier) {
+            $this->em->persist($deviceidentifier);
+        }
     }
 
     public function remove(Device $device)
