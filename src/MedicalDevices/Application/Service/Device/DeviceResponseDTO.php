@@ -19,18 +19,26 @@
 
 namespace MedicalDevices\Application\Service\Device;
 
-use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
+use MedicalDevices\Domain\Model\Device\Device;
 
 /**
+ * Description of DeviceResponseDTO
  *
  * @author Welpons <welpons@gmail.com>
  */
-interface AddDeviceWithReferenceIdentifierServiceCommandInterface
+class DeviceResponseDTO
 {
-    /**
-     * @param ValidatorHandlerInterface $validatorHandler
-     * @param DeviceRequestDTO $dto
-     * @return mixed
-     */
-    public function execute(ValidatorHandlerInterface $validatorHandler, DeviceRequestDTO $dto);
+    private $id;
+    
+    public function __construct(Device $device)
+    {
+        $this->id = $device->id();
+    }
+    
+    public function id()
+    {
+        return $this->id;
+    }
+
+    
 }

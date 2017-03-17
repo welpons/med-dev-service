@@ -32,6 +32,8 @@ interface DeviceIdentifierRepositoryInterface extends RepositoryInterface
     
     public function remove(DeviceIdentifier $deviceIdentifier);
     
+    public function allDeviceIdentifiers();    
+    
     public function deviceIdentifierOfIdentifier(Identifier $identifier);
     
     public function deviceIdentifiersOfDevice(DeviceId $deviceId);

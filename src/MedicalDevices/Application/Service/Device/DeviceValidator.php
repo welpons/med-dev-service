@@ -46,26 +46,41 @@ class DeviceValidator extends Validator
             $validatorHandler->handleError(ValidationErrors::FILTER_INVALID_STRING, sprintf('Invalid device category Id. Must be a valid string'));
         }
 
-        if ($this->withRepositories()) {            
+        if ($this->withRepositories()) {
             if (null === $this->repositories) {
                 $validatorHandler->handleError(ValidationErrors::UNDEFINED_REPOSITORY, 'Device identifier validation. Is required to set a repository to validate device identifier.');
                 return;
             }
 
-            if (null === $this->repositories['device_categories']->categoryOfId($categoryId)) {
+            if (null === $this->repositories->get('device_category')->categoryOfId($categoryId)) {
                 $validatorHandler->handleError(ValidationErrors::NOT_FOUND_CATEGORY_ID, sprintf('Not found device category Id: %s', $categoryId));
-            }    
-            
-            $modelValidator = (new ModelValidator())->addRepositories($this->repositories);
+            }
+
+            $modelValidator = (new ModelValidator($this->configurations))->addRepositories($this->repositories);
             $modelValidator->validate($validatorHandler, $dto->model());
 
-            $deviceIdentifierValidator = (new DeviceIdentifierValidator())->addRepositories($this->repositories);
-            $deviceIdentifierValidator->validate($validatorHandler, $dto->deviceIdentifier());            
-        }        
+
+            foreach ($dto->deviceIdentifiers() as $deviceIdentifier) {
+                $deviceIdentifierValidator = new DeviceIdentifierValidator($this->configurations);
+                $deviceIdentifierValidator->validate($validatorHandler, $deviceIdentifier);
+            }
+            
+            if (!$this->validNumberReferenceDeviceIdentifiers($dto->deviceIdentifiers())) {
+                $validatorHandler->handleError(ValidationErrors::INVALID_NUMBER_REF_IDENTIFIERS, sprintf('Two many reference device identifiers. Must be one or none at all. If none is defined, by default is', $this->configurations->getParameter('application.ref_identifier_type')));
+            }
+        }
+    }
+
+    private function validNumberReferenceDeviceIdentifiers($deviceIdentifiers)
+    {
+        $countReferenceIdentifiers = 0;
+        foreach ($deviceIdentifiers as $deviceIdentifier) {
+            if ($deviceIdentifier->isReferenceIdentifier()) {
+                $countReferenceIdentifiers++;
+            }
+        }
         
-
-
-
+        return $countReferenceIdentifiers <= 1;
     }
 
     public function withRepositories(): bool

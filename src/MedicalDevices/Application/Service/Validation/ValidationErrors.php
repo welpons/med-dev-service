@@ -39,4 +39,5 @@ class ValidationErrors
     const UNDEFINED_DEVICE_IDENTIFIER_TYPE =   '0011';
     const UNDEFINED_REPOSITORY =               '0012';
     const INVALID_DEVICE_IDENTIFIER_TYPE =     '0013'; 
+    const INVALID_NUMBER_REF_IDENTIFIERS =     '0014';
 }

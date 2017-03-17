@@ -25,10 +25,14 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
+use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
 use MedicalDevices\Domain\Model\Device\Model\Model;
 use MedicalDevices\Domain\Model\Device\Model\Type\Type;
 use MedicalDevices\Domain\Model\Device\DeviceRepositoryInterface;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceRepository;
+use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceIdentifierRepository;
+use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierRequestDTO;
+
 
 /**
  * Description of DeviceRepositoryTest
@@ -43,7 +47,8 @@ class DoctrineDeviceRepositoryTest extends KernelTestCase
     private $em;
     private $container;
     private $doctrineDeviceRepository;
-
+    private $doctrineDeviceIdentifierRepository;
+    private $init;
 
     /**
      * {@inheritDoc}
@@ -54,8 +59,11 @@ class DoctrineDeviceRepositoryTest extends KernelTestCase
 
         $application = new App(static::$kernel);
         $this->container = static::$kernel->getContainer();
+        $this->init = $this->container->get('init');
+        
         $this->em = $this->container->get('doctrine')->getManager();
         $this->doctrineDeviceRepository = new DoctrineDeviceRepository($this->em);
+        $this->doctrineDeviceIdentifierRepository = new DoctrineDeviceIdentifierRepository($this->em);
         
         $commandDrop = $application->find('doctrine:schema:drop');
         $commandTesterDrop = new CommandTester($commandDrop);
@@ -65,7 +73,7 @@ class DoctrineDeviceRepositoryTest extends KernelTestCase
         $commandTesterCreate = new CommandTester($commandCreate);
         $commandTesterCreate->execute(array('command' => $commandCreate->getName(), '--env' => 'test'));  
         
-        $fixture = new LoadDeviceData();
+        $fixture = new LoadDeviceData($this->init->getParameter('application.ref_identifier_type'));
         $fixture->load($this->em);    
     }
 
@@ -103,7 +111,7 @@ class DoctrineDeviceRepositoryTest extends KernelTestCase
         $this->assertTrue($device->id() instanceof DeviceId);
         $this->assertTrue($deviceWithId instanceof Device);
         $this->assertTrue($device->id()->equals($deviceWithId->id()));
-        $this->assertTrue(3 == count($deviceWithId->identifiers()));
+        $this->assertTrue(3 == count($deviceWithId->deviceIdentifiers()));
     }       
     
     /**
@@ -146,6 +154,37 @@ class DoctrineDeviceRepositoryTest extends KernelTestCase
         
         $device = current($devices);
         $this->assertTrue($device instanceof Device);
+    }        
+    
+    /**
+     * @test
+     * @group device_repository1
+     */
+    public function addDevice()
+    {
+        $persistedDevicesBefore = $this->doctrineDeviceRepository->allDevices();
+        $persistedDeviceIdentifiersBefore = $this->doctrineDeviceIdentifierRepository->allDeviceIdentifiers();
+        
+        $device = new Device(DeviceId::create(), 'med', new Model('MRON_BP792IT', new Type('BLDPRM', 'blood_pressure_monitor')), $this->init->getParameter('application.ref_identifier_type'));        
+        $referenceDeviceIdentifierDTO = new DeviceIdentifierRequestDTO('SNO', 'SNBP001122', DeviceIdentifier::IS_REFERENCE_ID); 
+        $deviceIdentifierDTO = new DeviceIdentifierRequestDTO('MAC', '49:DA:EB:92:DE:70'); 
+        $device->setDeviceIdentifiers([$referenceDeviceIdentifierDTO, $deviceIdentifierDTO]);
+        
+        $this->doctrineDeviceRepository->save($device);
+        
+        $persistedDevicesAfter = $this->doctrineDeviceRepository->allDevices();
+        $persistedDeviceIdentifiersAfter = $this->doctrineDeviceIdentifierRepository->allDeviceIdentifiers();        
+        
+        $this->assertEquals(count($persistedDevicesAfter), count($persistedDevicesBefore) + 1);
+        $this->assertEquals(count($persistedDeviceIdentifiersAfter), count($persistedDeviceIdentifiersBefore) + 2);
+        
+        $persistedDevice = $this->doctrineDeviceRepository->deviceOfId($device->id());
+        $this->assertTrue($persistedDevice instanceof Device);
+
+        $persistedDeviceIdentifier = $persistedDevice->deviceIdentifiers()[0];
+        $deviceIdentifier = $device->deviceIdentifiers()[0];
+        $this->assertEquals($persistedDeviceIdentifier->identifier()->value(), $deviceIdentifier->identifier()->value());
+        $this->assertEquals($persistedDeviceIdentifier->identifier()->type(), $deviceIdentifier->identifier()->type());
     }        
     
     /**

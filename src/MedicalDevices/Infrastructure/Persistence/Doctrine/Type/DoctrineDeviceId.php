@@ -36,8 +36,8 @@ class DoctrineDeviceId extends GuidType
     } 
     
     public function convertToDatabaseValue($value, AbstractPlatform $platform) 
-    {        
-        return $value->id();         
+    {     
+        return ($value instanceof DeviceId ? $value->id() : $value);         
     } 
     
     public function convertToPHPValue($value, AbstractPlatform $platform): DeviceId

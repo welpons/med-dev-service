@@ -23,8 +23,8 @@ use MedicalDevices\Application\Service\ApplicationService;
 use MedicalDevices\Application\Service\Validation\ValidationException;
 use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
 use MedicalDevices\Application\Service\Validation\ValidationErrors;
-use MedicalDevices\Application\Service\Device\DeviceDTO;
-use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierDTO;
+use MedicalDevices\Application\Service\Device\DeviceRequestDTO;
+use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierRequestDTO;
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
 use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
 use MedicalDevices\Domain\Model\Device\Device;
@@ -39,25 +39,29 @@ use MedicalDevices\Domain\Model\Device\DeviceFactory;
 class AddDeviceWithReferenceIdentifierService extends ApplicationService implements AddDeviceWithReferenceIdentifierServiceCommandInterface
 {
     
-    public function execute(ValidatorHandlerInterface $validatorHandler, DeviceDTO $dto)
+    public function execute(ValidatorHandlerInterface $validatorHandler, DeviceRequestDTO $dto)
     {                
         $this->validationService->validate($validatorHandler, Device::class, $dto);
         
-        $this->checkWhetherDeviceIdentifierAlreadyExists($validatorHandler, $dto->deviceIdentifier());
+        $this->checkWhetherDeviceIdentifierAlreadyExists($validatorHandler, $dto->deviceIdentifiers());
         
         if ($validatorHandler->hasErrors()) {
             throw new ValidationException('Errors validating device parameters');
         }
         
-        $device = DeviceFactory::build(DeviceId::create(), $dto->categoryId(), $dto->modelId(), $dto->modelTypeKey(), $dto->deviceIdentifier()->type(), $dto->deviceIdentifier()->value());
+        $device = DeviceFactory::buildWithIdentifiers(DeviceId::create(), $dto->categoryId(), $dto->model()->id(), $dto->model()->type()->key(), $dto->deviceIdentifiers(), $this->configurations->getParameter('application.ref_identifier_type'));
 
-        $this->repositories->get('device')->save($device);            
+        $this->repositories->get('device')->save($device);    
+
+        return new DeviceResponseDTO($device);
     }    
 
-    private function checkWhetherDeviceIdentifierAlreadyExists(ValidatorHandlerInterface $validatorHandler, DeviceIdentifierDTO $dto)
+    private function checkWhetherDeviceIdentifierAlreadyExists(ValidatorHandlerInterface $validatorHandler, array $deviceIdentifiers)
     {
-        if ($this->repositories->get('device_identifier')->deviceIdentifierOfIdentifier(new Identifier($dto->type(), $dto->value())) instanceof DeviceIdentifier) {
-            $validatorHandler->handleError(ValidationErrors::DEVICE_IDENTIFIER_ALREADY_EXISTS, sprintf('This Device identifier %s = %s is assigned to another device'));
+        foreach($deviceIdentifiers as $identifier) {
+            if ($this->repositories->get('device_identifier')->deviceIdentifierOfIdentifier(new Identifier($identifier->type(), $identifier->value())) instanceof DeviceIdentifier) {
+                $validatorHandler->handleError(ValidationErrors::DEVICE_IDENTIFIER_ALREADY_EXISTS, sprintf('This Device identifier %s = %s is assigned to another device', $identifier->type(), $identifier->value()));
+            }
         }
     }        
 }

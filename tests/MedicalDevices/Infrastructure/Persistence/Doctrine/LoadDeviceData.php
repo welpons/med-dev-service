@@ -35,12 +35,18 @@ use MedicalDevices\Domain\Model\Device\Model\Type\Type;
  */
 class LoadDeviceData implements FixtureInterface
 {
+    private $refIdentifierType;
+    
+    public function __construct($refIdentifierType)
+    {
+        $this->refIdentifierType = $refIdentifierType;
+    }
         
     public function load(ObjectManager $manager)
     {
-        $device1 = new Device(DeviceId::create(), 'med', new Model('FORA_D40', new Type('GLUCO', 'glucometer')));
-        $device2 = new Device(DeviceId::create(), 'med', new Model('FORA_D40', new Type('GLUCO', 'glucometer')));
-        $device3 = new Device(DeviceId::create(), 'med', new Model('OMRON_HBF-206IT',  new Type('SCALE', 'weight_scale')));
+        $device1 = new Device(DeviceId::create(), 'med', new Model('FORA_D40', new Type('GLUCO', 'glucometer')), $this->refIdentifierType);
+        $device2 = new Device(DeviceId::create(), 'med', new Model('FORA_D40', new Type('GLUCO', 'glucometer')), $this->refIdentifierType);
+        $device3 = new Device(DeviceId::create(), 'med', new Model('OMRON_HBF-206IT',  new Type('SCALE', 'weight_scale')), $this->refIdentifierType);
         
         $manager->persist($device1);
         $manager->persist($device2);    

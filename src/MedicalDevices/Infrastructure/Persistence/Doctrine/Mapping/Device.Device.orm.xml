@@ -2,7 +2,11 @@
 <doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
     <entity name="MedicalDevices\Domain\Model\Device\Device" table="case.devices" connection="case">
         <id name="id" column="id" type="device_id"/> 
-        <one-to-many field="identifiers" target-entity="MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier" mapped-by="device" />
+        <one-to-many field="deviceIdentifiers" target-entity="MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier" mapped-by="device">
+            <cascade>
+                <cascade-persist/>
+            </cascade>
+        </one-to-many>
         <field name="categoryId" column="category_id" type="string" length="3"/>
         <embedded name="model" class="MedicalDevices\Domain\Model\Device\Model\Model" />       
     </entity>

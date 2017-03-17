@@ -24,14 +24,15 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 use MedicalDevices\Application\Service\Device\AddDeviceWithReferenceIdentifierService;
-use MedicalDevices\Application\Service\Device\DeviceDTO;
+use MedicalDevices\Application\Service\Device\DeviceRequestDTO;
 use MedicalDevices\Application\Service\ApplicationService;
 use MedicalDevices\Application\Service\Device\AddDeviceWithReferenceIdentifierServiceCommandInterface;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceRepository;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceIdentifierRepository;
-use Tests\MedicalDevices\Infrastructure\Persistence\Doctrine\LoadDeviceData;
 use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
+use MedicalDevices\Domain\Model\Device\Device;
+use MedicalDevices\Domain\Model\Device\DeviceId;
 
 /**
  * Description of AddDeviceWithReferenceIdentifierServiceTest
@@ -72,8 +73,7 @@ class AddDeviceWithReferenceIdentifierServiceTest extends KernelTestCase
         $commandTesterCreate = new CommandTester($commandCreate);
         $commandTesterCreate->execute(array('command' => $commandCreate->getName(), '--env' => 'test'));  
         
-        $fixture = new LoadDeviceData();
-        $fixture->load($this->em);          
+       
     }   
 
     /**
@@ -89,17 +89,19 @@ class AddDeviceWithReferenceIdentifierServiceTest extends KernelTestCase
     
     /**
      * @test
-     * @group application_service_adddevicewithreferenceidentifier1
+     * @group application_service_adddevicewithreferenceidentifier
      */
     public function addDeviceToSystem()
     {
-        $dto = new DeviceDTO('med', 'GLUCO', 'FORA_D40', 'SNO', 'SNA78G56');
+        $identifiers = [['type' => 'SNO', 'value' => 'SNA78G56']];
+        $dto = new DeviceRequestDTO('med', 'GLUCO', 'FORA_D40', $identifiers);
         
         $device = new AddDeviceWithReferenceIdentifierService($this->init, $this->repositories);
-        $device->execute($this->validationHandler, $dto);
+        $responseDTO = $device->execute($this->validationHandler, $dto);       
         $this->assertFalse($this->validationHandler->hasErrors());
+               
+        $persistedDevice = $this->doctrineDeviceRepository->deviceOfId(DeviceId::create($responseDTO->id()));   
         
-        $persistedDevice = $this->doctrineDeviceRepository->deviceOfId($device->id());
         $this->assertTrue($persistedDevice instanceof Device);
         
         $persistedDeviceIdentifier = $this->doctrineDeviceIdentifierRepository->deviceIdentifierOfIdentifier(new Identifier('SNO', 'SNA78G56'));

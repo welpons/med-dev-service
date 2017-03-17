@@ -23,7 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application as App;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierValidator;
-use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierDTO;
+use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierRequestDTO;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceIdentifierRepository;
 use MedicalDevices\Application\Service\Validation\ValidationErrors;
 
@@ -42,7 +42,7 @@ class DeviceIdentifierValidatorTest extends KernelTestCase
     private $validationErrorHandler;
     private $repositories;
     private $validator;
-    private $configurations;
+    private $init;
 
     /**
      * {@inheritDoc}
@@ -57,9 +57,9 @@ class DeviceIdentifierValidatorTest extends KernelTestCase
         $this->doctrineDeviceIdentifierRepository = new DoctrineDeviceIdentifierRepository($this->em);
         $this->validationErrorHandler = $this->container->get('ext.services.validation.error.handler');
         $this->repositories = $this->container->get('repository.collection.provider');
-        $this->configurations = $this->container->get('init');
+        $this->init = $this->container->get('init');
         
-        $this->validator = new DeviceIdentifierValidator($this->configurations);  
+        $this->validator = new DeviceIdentifierValidator($this->init);  
 
         $commandDrop = $application->find('doctrine:schema:drop');
         $commandTesterDrop = new CommandTester($commandDrop);
@@ -69,7 +69,7 @@ class DeviceIdentifierValidatorTest extends KernelTestCase
         $commandTesterCreate = new CommandTester($commandCreate);
         $commandTesterCreate->execute(array('command' => $commandCreate->getName(), '--env' => 'test'));
 
-        $fixture = new LoadDeviceIdentifierData();
+        $fixture = new LoadDeviceIdentifierData($this->init->getParameter('application.ref_identifier_type'));
         $fixture->load($this->em);
     }   
     
@@ -80,7 +80,7 @@ class DeviceIdentifierValidatorTest extends KernelTestCase
      */
     public function dtoWithExistingDeviceIdentifier()
     {
-        $dto = new DeviceIdentifierDTO('SNO', 'SN123456');
+        $dto = new DeviceIdentifierRequestDTO('SNO', 'SN123456');
         $this->validator->validate($this->validationErrorHandler, $dto);
      
         $this->assertFalse($this->validationErrorHandler->hasErrors()); 
@@ -92,7 +92,7 @@ class DeviceIdentifierValidatorTest extends KernelTestCase
      */
     public function dtoEmptyType()
     {
-        $dto = new DeviceIdentifierDTO('', 'SN123456');
+        $dto = new DeviceIdentifierRequestDTO('', 'SN123456');
         $this->validator->validate($this->validationErrorHandler, $dto);
         
         $this->assertTrue($this->validationErrorHandler->hasErrors());
@@ -106,7 +106,7 @@ class DeviceIdentifierValidatorTest extends KernelTestCase
      */
     public function dtoWrongType()
     {
-        $dto = new DeviceIdentifierDTO('WRONG_TYPE', 'SN123456');
+        $dto = new DeviceIdentifierRequestDTO('WRONG_TYPE', 'SN123456');
         $this->validator->validate($this->validationErrorHandler, $dto);
        
         $this->assertTrue($this->validationErrorHandler->hasErrors());

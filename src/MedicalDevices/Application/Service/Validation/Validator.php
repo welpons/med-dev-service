@@ -58,6 +58,8 @@ abstract class Validator
         }
         
         $this->repositories = $repositories;
+        
+        return $this;
     }
 
     public function sanatize($items)

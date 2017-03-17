@@ -22,6 +22,7 @@ namespace MedicalDevices\Application\Service\Device\Model;
 use MedicalDevices\Application\Service\Validation\Validator;
 use MedicalDevices\Application\Service\Validation\ValidationErrors;
 use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
+use MedicalDevices\Application\Service\DTOInterface;
 
 /**
  * Description of ModelValidator
@@ -32,7 +33,7 @@ class ModelValidator extends Validator
 {
 
     //put your code here
-    public function validate(ValidatorHandlerInterface $validatorHandler, \MedicalDevices\Application\Service\DTOInterface $dto)
+    public function validate(ValidatorHandlerInterface $validatorHandler, DTOInterface $dto)
     {
         // Device model Id validations
         $modelId = $dto->id();
@@ -50,7 +51,7 @@ class ModelValidator extends Validator
                 return;
             }
 
-            if (null === $this->repositories->get('device_models')->modelOfId($modelId)) {
+            if (null === $this->repositories->get('device_model')->modelOfId($modelId)) {
                 $validatorHandler->handleError(ValidationErrors::NOT_FOUND_DEVICE_MODEL_ID, sprintf('Not found device model Id: %s', $modelId));
             }
         }

@@ -23,10 +23,9 @@ use Doctrine\ORM\Internal\Hydration\AbstractHydrator;
 use PDO;
 use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
-use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
-use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
 use MedicalDevices\Domain\Model\Device\Model\Model;
 use MedicalDevices\Domain\Model\Device\Model\Type\Type;
+use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierRequestDTO;
 
 /**
  * Description of DeviceHydrator
@@ -49,8 +48,8 @@ class DeviceHydrator extends AbstractHydrator
     }
 
     protected function hydrateRowData(array $data, array &$result)
-    {
-        $deviceIdentifier = new DeviceIdentifier(new Identifier($data['identifier_type_6'], $data['identifier_value_7'], (1 == $data['is_reference_id_4']) ? true : false), $this->device);
+    {       
+        $deviceIdentifier = new DeviceIdentifierRequestDTO($data['identifier_type_6'], $data['identifier_value_7'], ((1 == $data['is_reference_id_4']) ? true : false));
         $result[] = $deviceIdentifier;
     }
     

@@ -42,6 +42,15 @@ class DoctrineDeviceIdentifierRepository implements DeviceIdentifierRepositoryIn
         $this->em = $em;
     }
     
+    public function allDeviceIdentifiers()
+    {
+        return $this->em->createQueryBuilder()
+                        ->select('i')
+                        ->from(self::ENTITY_CLASS, 'i')
+                        ->getQuery()
+                        ->getResult();        
+    }    
+    
     public function deviceIdentifierOfIdentifier(Identifier $identifier)
     {
         return $this->em->createQueryBuilder()

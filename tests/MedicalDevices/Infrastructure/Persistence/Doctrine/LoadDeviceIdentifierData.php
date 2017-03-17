@@ -35,11 +35,18 @@ use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
  */
 class LoadDeviceIdentifierData implements FixtureInterface
 {
-        
+    private $refIdentifierType;
+    
+    public function __construct($refIdentifierType)
+    {
+        $this->refIdentifierType = $refIdentifierType;
+    }        
+    
+    
     public function load(ObjectManager $manager)
     {
         $deviceId = DeviceId::create();
-        $device = new Device(DeviceId::create(), 'med', new Model('FORA_D40', new Type('GLUCO', 'glucometer')));
+        $device = new Device(DeviceId::create(), 'med', new Model('FORA_D40', new Type('GLUCO', 'glucometer')), $this->refIdentifierType);
 
         $manager->persist($device);        
         

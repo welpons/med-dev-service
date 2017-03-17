@@ -27,7 +27,7 @@ use MedicalDevices\Application\Service\DTOInterface;
  *
  * @author Welpons <welpons@gmail.com>
  */
-class DeviceIdentifierDTO implements DTOInterface
+class DeviceIdentifierRequestDTO implements DTOInterface
 {
     private $type = null;
     
@@ -35,6 +35,12 @@ class DeviceIdentifierDTO implements DTOInterface
     
     private $isReferenceIdentifier = false;
     
+    /**
+     * 
+     * @param string $type
+     * @param string $value
+     * @param type $isReferenceIdentifier
+     */
     public function __construct(string $type, string $value, $isReferenceIdentifier = DeviceIdentifier::IS_NOT_REFERENCE_ID)
     {
         $this->type = $type;
@@ -55,5 +61,10 @@ class DeviceIdentifierDTO implements DTOInterface
     public function isReferenceIdentifier()
     {
         return $this->isReferenceIdentifier;
-    }        
+    }     
+    
+    public function setIsReferenceIdentifier(bool $isReferenceIdentifier)
+    {
+        $this->isReferenceIdentifier = $isReferenceIdentifier;
+    }            
 }

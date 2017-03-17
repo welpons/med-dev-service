@@ -19,7 +19,7 @@
 
 namespace MedicalDevices\Application\Service\Device;
 
-use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierDTO;
+use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierRequestDTO;
 use MedicalDevices\Application\Service\Device\Model\ModelDTO;
 use MedicalDevices\Application\Service\Device\Model\Type\TypeDTO;
 use MedicalDevices\Application\Service\DTOInterface;
@@ -30,7 +30,7 @@ use MedicalDevices\Application\Service\DTOInterface;
  *
  * @author Welpons <welpons@gmail.com>
  */
-class DeviceDTO implements DTOInterface
+class DeviceRequestDTO implements DTOInterface
 {
 
     /**
@@ -47,20 +47,30 @@ class DeviceDTO implements DTOInterface
             
     /**
      *
-     * @var DeviceIdentifier 
+     * @var array<DeviceIdentifierDTO> 
      */
-    private $identifier = null;
+    private $deviceIdentifiers = null;
     
-    public function __construct(string $categoryId, string $modelId, string $modelTypeKey, string $identifierValue, string $identifierType) 
+    /**
+     * 
+     * @param string $categoryId
+     * @param string $modelId
+     * @param string $modelTypeKey
+     * @param array $deviceIdentifiers
+     */
+    public function __construct(string $categoryId, string $modelId, string $modelTypeKey, array $deviceIdentifiers) 
     {
-        $this->identifier = new DeviceIdentifierDTO($identifierType, $identifierValue, true);        
         $this->categoryId = $categoryId;
         $this->model = new ModelDTO($modelId, new TypeDTO($modelTypeKey));
+        
+        foreach($deviceIdentifiers as $deviceIdentifier) {           
+            $this->deviceIdentifiers[] = new DeviceIdentifierRequestDTO($deviceIdentifier['type'], $deviceIdentifier['value'], (in_array('is_reference_identifier', $deviceIdentifier) ? true : false));
+        }
     }    
     
-    public function deviceIdentifier(): DeviceIdentifierDTO
+    public function deviceIdentifiers()
     {
-        return $this->identifier;
+        return $this->deviceIdentifiers;
     }     
     
     public function categoryId(): string
@@ -72,4 +82,5 @@ class DeviceDTO implements DTOInterface
     {
         return $this->model;
     }    
+
 }

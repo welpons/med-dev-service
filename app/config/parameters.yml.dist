@@ -20,7 +20,8 @@ parameters:
 
     med.devices.services.params:
         application:
-            identifier_types: {serial_number: SNO, mac_address: MAC, system_id: SYS, universally_unique_identifier: UID}  
+            identifier_types: {serial_number: SNO, mac_address: MAC, system_id: SYS, universally_unique_identifier: UID} 
+            ref_identifier_type: SNO
             validators:
                 Device: "MedicalDevices\\Application\\Service\\Device\\DeviceValidator"
         infrastructure:

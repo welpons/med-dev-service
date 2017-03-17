@@ -19,6 +19,8 @@
 
 namespace MedicalDevices\Domain\Model\Device;
 
+use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
+
 /**
  * Description of DeviceFactory
  *
@@ -26,12 +28,11 @@ namespace MedicalDevices\Domain\Model\Device;
  */
 class DeviceFactory
 {
-    public static function build(DeviceId $id, string $categoryId, string $modelId, string $modelTypeKey, string $deviceIdentifierType, string $deviceIdentifierValue)
+    public static function buildWithIdentifiers(DeviceId $id, string $categoryId, string $modelId, string $modelTypeKey, array $deviceIdentifiers, string $referenceIdentifierType)
     {
-        $deviceIdentifier = DeviceIdentifier::create($deviceIdentifierType, $deviceIdentifierValue, DeviceIdentifier::IS_REFERENCE_ID);
-        $device = Device::create($id, $categoryId, $modelId, $modelTypeKey);
-        $device->setDeviceIdentifiers([$deviceIdentifier]);
-        
+        $device = Device::create($id, $categoryId, $modelId, $modelTypeKey, $referenceIdentifierType);        
+        $device->setDeviceIdentifiers($deviceIdentifiers, $referenceIdentifierType);
+      
         return $device;
     }        
 }

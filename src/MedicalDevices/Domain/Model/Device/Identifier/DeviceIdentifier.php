@@ -59,7 +59,7 @@ class DeviceIdentifier
         $this->device = $device;
         $this->setIdentifier($identifier, $isReferenceIdentifier);
     }
-
+    
     private function setIdentifier($identifier, $isReferenceIdentifier)
     {
         $this->identifier = $identifier;

@@ -41,7 +41,8 @@ class DoctrineDeviceIdentifierRepositoryTest extends KernelTestCase
     private $em;
     private $container;
     private $doctrineDeviceIdentifierRepository;
-
+    private $init;
+    
     /**
      * {@inheritDoc}
      */
@@ -51,6 +52,7 @@ class DoctrineDeviceIdentifierRepositoryTest extends KernelTestCase
 
         $application = new App(static::$kernel);
         $this->container = static::$kernel->getContainer();
+        $this->init = $this->container->get('init');        
         $this->em = $this->container->get('doctrine')->getManager();
         $this->doctrineDeviceIdentifierRepository = new DoctrineDeviceIdentifierRepository($this->em);
 
@@ -62,7 +64,7 @@ class DoctrineDeviceIdentifierRepositoryTest extends KernelTestCase
         $commandTesterCreate = new CommandTester($commandCreate);
         $commandTesterCreate->execute(array('command' => $commandCreate->getName(), '--env' => 'test'));
 
-        $fixture = new LoadDeviceIdentifierData();
+        $fixture = new LoadDeviceIdentifierData($this->init->getParameter('application.ref_identifier_type'));
         $fixture->load($this->em);
     }
 
