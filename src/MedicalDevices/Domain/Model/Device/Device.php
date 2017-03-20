@@ -54,6 +54,12 @@ class Device
      * @var string 
      */
     private $referenceIdentifierType;
+    
+    /**
+     *
+     * @var MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier 
+     */
+    private $referenceDeviceIdentifier;
 
     /**
      *
@@ -123,12 +129,30 @@ class Device
         }
 
         foreach($deviceIdentifiers as $deviceIdentifier) {
-            $this->deviceIdentifiers[] = new DeviceIdentifier(new Identifier($deviceIdentifier->type(), $deviceIdentifier->value()), $deviceIdentifier->isReferenceIdentifier(), $this);
+            $deviceIdentifierObj = new DeviceIdentifier(new Identifier($deviceIdentifier->type(), $deviceIdentifier->value()), $deviceIdentifier->isReferenceIdentifier(), $this);
+            if ($deviceIdentifier->isReferenceIdentifier()) {
+                $this->referenceDeviceIdentifier = $deviceIdentifierObj;
+            }
+            $this->deviceIdentifiers[] = $deviceIdentifierObj;
         }
         
         return $this;
     }
 
+    public function changeReferenceDeviceIdentifier(Identifier $identifier)
+    {
+        foreach($this->deviceIdentifiers as $deviceIdentifier) {
+            $deviceIdentifier->setIsReferenceIdentifier(DeviceIdentifier::IS_NOT_REFERENCE_ID);
+        }          
+        
+        foreach($this->deviceIdentifiers as $deviceIdentifier) {
+            if ($deviceIdentifier->identifier()->equals($identifier)) {
+                $deviceIdentifier->setIsReferenceIdentifier(DeviceIdentifier::IS_REFERENCE_ID);
+                $this->referenceDeviceIdentifier = $deviceIdentifier;
+            }
+        }    
+    }        
+    
     public function id(): DeviceId
     {
         return $this->id;
@@ -149,6 +173,12 @@ class Device
         return $this->deviceIdentifiers;
     }
 
+    public function getReferenceDeviceIdentifier(): DeviceIdentifier
+    {
+        return $this->referenceDeviceIdentifier;
+    }
+
+        
     public function __toString()
     {
         return $this->id->id();

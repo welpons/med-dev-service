@@ -22,7 +22,7 @@ namespace MedicalDevices\Domain\Model\Device\Identifier;
 use MedicalDevices\Domain\Model\Device\Device;
 
 /**
- * Value object: Identifier of a medical device. A medical device can have more than one.
+ * Entity: Identifier of a medical device. A medical device can have more than one.
  * Example: key: "serial_number", value: "5E7Z550HZ"
  *
  * @author Welpons <welpons@gmail.com>
@@ -81,6 +81,11 @@ class DeviceIdentifier
         return $this->isReferenceIdentifier;
     }        
         
+    public function setIsReferenceIdentifier(bool $isReferenceIdentifier)
+    {
+        $this->isReferenceIdentifier = $isReferenceIdentifier;
+    }
+    
     public function equals(DeviceIdentifier $medDevIdentifier): bool
     {
         return $this->identifier->equals($medDevIdentifier->identifier) && $this->isReferenceIdentifier === $medDevIdentifier->isReferenceIdentifier();

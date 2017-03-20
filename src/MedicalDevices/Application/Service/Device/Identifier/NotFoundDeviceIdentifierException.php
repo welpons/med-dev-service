@@ -17,20 +17,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Application\Service\Device;
-
-use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
+namespace MedicalDevices\Application\Service\Device\Identifier;
 
 /**
+ * Description of NotFoundDeviceIdentifierException
  *
  * @author Welpons <welpons@gmail.com>
  */
-interface AddDeviceWithReferenceIdentifierServiceCommandInterface
+class NotFoundDeviceIdentifierException extends \Exception
 {
-    /**
-     * @param ValidatorHandlerInterface $validatorHandler
-     * @param DeviceRequestDTO $dto
-     * @return mixed
-     */
-    public function execute(ValidatorHandlerInterface $validatorHandler, DeviceRequestDTO $dto);
+    //put your code here
 }
