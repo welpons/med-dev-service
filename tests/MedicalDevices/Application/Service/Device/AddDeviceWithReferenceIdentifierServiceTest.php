@@ -26,7 +26,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use MedicalDevices\Application\Service\Device\AddDeviceWithReferenceIdentifierService;
 use MedicalDevices\Application\Service\Device\DeviceRequestDTO;
 use MedicalDevices\Application\Service\ApplicationService;
-use MedicalDevices\Application\Service\Device\AddDeviceWithReferenceIdentifierServiceCommandInterface;
+use MedicalDevices\Application\Service\Device\DeviceServiceCommandInterface;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceRepository;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceIdentifierRepository;
 use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
@@ -84,7 +84,7 @@ class AddDeviceWithReferenceIdentifierServiceTest extends KernelTestCase
     {
         $device = new AddDeviceWithReferenceIdentifierService($this->init, $this->repositories);
         $this->assertTrue($device instanceof ApplicationService);
-        $this->assertTrue($device instanceof AddDeviceWithReferenceIdentifierServiceCommandInterface);
+        $this->assertTrue($device instanceof DeviceServiceCommandInterface);
     }        
     
     /**
