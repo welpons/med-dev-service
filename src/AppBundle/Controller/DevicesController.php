@@ -19,17 +19,42 @@
 
 namespace AppBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\View\View;
+use MedicalDevices\Application\Service\Device\AddDeviceWithReferenceIdentifierService;
+use MedicalDevices\Application\DTO\Device\DeviceRequestDTO;
 
 /**
- * Description of DeviceController
+ * This controller has all services related with system devices
  *
  * @author Welpons <welpons@gmail.com>
  */
 class DevicesController extends FOSRestController
 {
-    public function newDevicesAction()
-    {
+    /**
+     * Adds a new device with at leat one device identifier
+     * 
+     * @param MedicalDevices\Application\DTO\Device\DeviceRequestDTO $deviceRequestDTO
+     * @return type
+     * 
+     * @Post("/devices/new")
+     * @Rest\View
+     * @ParamConverter("newDevice", class="MedicalDevices\Application\DTO\Device\DeviceRequestDTO", converter="param_converter")
+     */
+    public function newDevicesAction(DeviceRequestDTO $deviceRequestDTO)
+    {      
+        $addDeviceWithIdentifiersService = new AddDeviceWithReferenceIdentifierService($this->get('init'), $this->get('repository.collection.provider')); 
         
+        try { 
+            $response = $addDeviceWithIdentifiersService->execute($this->get('ext.services.validation.error.handler'), $deviceRequestDTO); 
+            
+        } catch (UserAlreadyExistsException $e) { 
+            return $response;
+        } 
+        
+        return $response;    
     } 
 }

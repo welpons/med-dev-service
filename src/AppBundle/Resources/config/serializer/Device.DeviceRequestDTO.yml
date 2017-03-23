@@ -1,0 +1,12 @@
+MedicalDevices\Application\DTO\Device\DeviceRequestDTO: 
+    properties:
+        categoryId:
+            type: string      
+        model:
+            type: MedicalDevices\Application\DTO\Device\Model\ModelRequestDTO
+        deviceIdentifiers:
+            type: array<MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO>
+            xml_list:
+                inline: true
+                entry_name: identifier
+            

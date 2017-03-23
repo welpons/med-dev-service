@@ -20,7 +20,7 @@
 namespace MedicalDevices\Application\Service\Validation;
 
 use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
-use MedicalDevices\Application\Service\DTOInterface;
+use MedicalDevices\Application\DTO\DTOInterface;
 use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
 use MedicalDevices\Configuration\ConfigurationInterface;
 

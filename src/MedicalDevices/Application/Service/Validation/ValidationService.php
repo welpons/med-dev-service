@@ -23,7 +23,7 @@ use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
 use MedicalDevices\Configuration\ConfigurationInterface;
 use MedicalDevices\Application\Service\Validation\ValidationErrors;
 use MedicalDevices\Application\Service\Validation\Validator;
-use MedicalDevices\Application\Service\DTOInterface;
+use MedicalDevices\Application\DTO\DTOInterface;
 
 /**
  * Description of ValidationService

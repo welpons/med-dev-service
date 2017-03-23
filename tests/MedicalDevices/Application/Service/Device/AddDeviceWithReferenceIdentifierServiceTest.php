@@ -24,7 +24,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 use MedicalDevices\Application\Service\Device\AddDeviceWithReferenceIdentifierService;
-use MedicalDevices\Application\Service\Device\DeviceRequestDTO;
+use MedicalDevices\Application\DTO\Device\DeviceRequestDTO;
 use MedicalDevices\Application\Service\ApplicationService;
 use MedicalDevices\Application\Service\Device\DeviceServiceCommandInterface;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceRepository;
@@ -44,7 +44,7 @@ class AddDeviceWithReferenceIdentifierServiceTest extends KernelTestCase
     private $em;
     private $container;
     private $init;
-    private $repositories;
+    private $repositoriesProvider;
     private $validationHandler;
 
     /**
@@ -56,7 +56,7 @@ class AddDeviceWithReferenceIdentifierServiceTest extends KernelTestCase
 
         $this->container = self::$kernel->getContainer();
         $this->init = $this->container->get('init');
-        $this->repositories = $this->container->get('repository.collection.provider')->getCollection();
+        $this->repositoriesProvider = $this->container->get('repository.collection.provider');
         $this->validationHandler = $this->container->get('ext.services.validation.error.handler');
         
         $application = new App(static::$kernel);
@@ -82,7 +82,7 @@ class AddDeviceWithReferenceIdentifierServiceTest extends KernelTestCase
      */
     public function instantiateService()
     {
-        $device = new AddDeviceWithReferenceIdentifierService($this->init, $this->repositories);
+        $device = new AddDeviceWithReferenceIdentifierService($this->init, $this->repositoriesProvider);
         $this->assertTrue($device instanceof ApplicationService);
         $this->assertTrue($device instanceof DeviceServiceCommandInterface);
     }        
@@ -96,7 +96,7 @@ class AddDeviceWithReferenceIdentifierServiceTest extends KernelTestCase
         $identifiers = [['type' => 'SNO', 'value' => 'SNA78G56']];
         $dto = new DeviceRequestDTO('med', 'GLUCO', 'FORA_D40', $identifiers);
         
-        $device = new AddDeviceWithReferenceIdentifierService($this->init, $this->repositories);
+        $device = new AddDeviceWithReferenceIdentifierService($this->init, $this->repositoriesProvider);
         $responseDTO = $device->execute($this->validationHandler, $dto);       
         $this->assertFalse($this->validationHandler->hasErrors());
                

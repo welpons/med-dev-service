@@ -17,39 +17,40 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Application\Service\Device\Model;
+namespace MedicalDevices\Application\DTO\Device\Model\Type;
 
-use MedicalDevices\Application\Service\Device\Model\Type\TypeDTO;
-use MedicalDevices\Application\Service\DTOInterface;
+use MedicalDevices\Application\DTO\DTOInterface;
 
 /**
- * Description of ModelDTO
+ * Description of TypeDTO
  *
  * @author Welpons <welpons@gmail.com>
  */
-class ModelDTO implements DTOInterface
+class TypeRequestDTO implements DTOInterface
 {
-    private $id;
+    /**
+     * @var string 
+     */
+    private $key;    
     
     /**
-     *
-     * @var Type 
+     * @var string 
      */
-    protected $type;
-    
-    public function __construct($id, TypeDTO $type)
+    private $name;
+        
+    public function __construct(string $key, string $name = null)
     {
-        $this->id = $id;
-        $this->type = $type;
+        $this->name = $name;
+        $this->key = $key;
     }
 
-    public function id()
+    public function key(): string
     {
-        return $this->id;
-    }        
-
-    public function type()
+        return $this->key;
+    }     
+    
+    public function name(): string
     {
-        return $this->type;
-    }    
+        return $this->name;
+    }  
 }

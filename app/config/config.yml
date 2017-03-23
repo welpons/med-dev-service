@@ -61,7 +61,15 @@ doctrine:
         hydrators:
             DeviceHydrator: MedicalDevices\Infrastructure\Persistence\Doctrine\Hydrator\DeviceHydrator                
 
+jms_serializer:
+    metadata:
+        directories:
+            APP:
+                namespace_prefix: MedicalDevices\Application\DTO
+                path: "%kernel.root_dir%/../src/AppBundle/Resources/config/serializer"
 
+fos_rest:
+    param_fetcher_listener: true
 
 # Swiftmailer Configuration
 swiftmailer:

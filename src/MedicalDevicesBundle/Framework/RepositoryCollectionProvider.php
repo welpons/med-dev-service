@@ -19,6 +19,7 @@
 
 namespace MedicalDevicesBundle\Framework;
 
+use MedicalDevices\Infrastructure\Persistence\RepositoriesProvider;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceIdentifierRepository;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceRepository;
 use MedicalDevices\Infrastructure\Persistence\JsonFile\JsonFileDeviceCategoryRepository;
@@ -33,7 +34,7 @@ use Doctrine\ORM\EntityManager;
  *
  * @author Welpons <welpons@gmail.com>
  */
-class RepositoryCollectionProvider
+class RepositoryCollectionProvider implements RepositoriesProvider
 {
     private $repositoryCollection;
     

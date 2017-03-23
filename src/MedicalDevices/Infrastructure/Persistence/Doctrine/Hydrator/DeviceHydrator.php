@@ -25,7 +25,7 @@ use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
 use MedicalDevices\Domain\Model\Device\Model\Model;
 use MedicalDevices\Domain\Model\Device\Model\Type\Type;
-use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierRequestDTO;
+use MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO;
 
 /**
  * Description of DeviceHydrator

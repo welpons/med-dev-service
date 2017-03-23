@@ -17,12 +17,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Application\Service\Device;
+namespace MedicalDevices\Application\DTO\Device;
 
-use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierRequestDTO;
-use MedicalDevices\Application\Service\Device\Model\ModelDTO;
-use MedicalDevices\Application\Service\Device\Model\Type\TypeDTO;
-use MedicalDevices\Application\Service\DTOInterface;
+use MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO;
+use MedicalDevices\Application\DTO\Device\Model\ModelRequestDTO;
+use MedicalDevices\Application\DTO\Device\Model\Type\TypeRequestDTO;
+use MedicalDevices\Application\DTO\DTOInterface;
 
 
 /**
@@ -34,20 +34,19 @@ class DeviceRequestDTO implements DTOInterface
 {
 
     /**
-     *
      * @var string 
      */
     private $categoryId = null;
         
     /**
      *
-     * @var string 
+     * @var MedicalDevices\Application\DTO\Device\Model\ModelRequestDTO 
      */
     private $model = null;
             
     /**
      *
-     * @var array<DeviceIdentifierDTO> 
+     * @var array<MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO> 
      */
     private $deviceIdentifiers = null;
     
@@ -61,7 +60,7 @@ class DeviceRequestDTO implements DTOInterface
     public function __construct(string $categoryId, string $modelId, string $modelTypeKey, array $deviceIdentifiers) 
     {
         $this->categoryId = $categoryId;
-        $this->model = new ModelDTO($modelId, new TypeDTO($modelTypeKey));
+        $this->model = new ModelRequestDTO($modelId, new TypeRequestDTO($modelTypeKey));
         
         foreach($deviceIdentifiers as $deviceIdentifier) {           
             $this->deviceIdentifiers[] = new DeviceIdentifierRequestDTO($deviceIdentifier['type'], $deviceIdentifier['value'], (in_array('is_reference_identifier', $deviceIdentifier) ? true : false));
@@ -78,7 +77,7 @@ class DeviceRequestDTO implements DTOInterface
         return $this->categoryId;
     }
 
-    public function model(): ModelDTO
+    public function model(): ModelRequestDTO
     {
         return $this->model;
     }    

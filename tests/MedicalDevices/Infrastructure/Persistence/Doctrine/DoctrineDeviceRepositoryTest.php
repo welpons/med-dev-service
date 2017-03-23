@@ -31,7 +31,7 @@ use MedicalDevices\Domain\Model\Device\Model\Type\Type;
 use MedicalDevices\Domain\Model\Device\DeviceRepositoryInterface;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceRepository;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceIdentifierRepository;
-use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierRequestDTO;
+use MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO;
 
 
 /**

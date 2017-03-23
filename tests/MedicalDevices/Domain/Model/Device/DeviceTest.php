@@ -20,7 +20,7 @@
 namespace Tests\MedicalDevices\Domain\Model\Device;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
-use MedicalDevices\Application\Service\Device\DeviceRequestDTO;
+use MedicalDevices\Application\DTO\Device\DeviceRequestDTO;
 use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;

@@ -17,10 +17,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Application\Service\Device\Identifier;
+namespace MedicalDevices\Application\DTO\Device\Identifier;
 
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
-use MedicalDevices\Application\Service\DTOInterface;
+use MedicalDevices\Application\DTO\DTOInterface;
 
 /**
  * Description of DeviceIdentifierDTO
@@ -29,10 +29,19 @@ use MedicalDevices\Application\Service\DTOInterface;
  */
 class DeviceIdentifierRequestDTO implements DTOInterface
 {
+    /**
+     * @var string 
+     */
     private $type = null;
     
+    /**
+     * @var string 
+     */
     private $value = null;
     
+    /**
+     * @var bool 
+     */
     private $isReferenceIdentifier = false;
     
     /**

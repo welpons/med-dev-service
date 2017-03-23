@@ -17,21 +17,41 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Application\Service\Device;
+namespace MedicalDevices\Application\DTO\Device\Model;
 
-use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
-use MedicalDevices\Application\DTO\Device\DeviceRequestDTO;
+use MedicalDevices\Application\DTO\Device\Model\Type\TypeRequestDTO;
+use MedicalDevices\Application\DTO\DTOInterface;
 
 /**
+ * Description of ModelDTO
  *
  * @author Welpons <welpons@gmail.com>
  */
-interface DeviceServiceCommandInterface
+class ModelRequestDTO implements DTOInterface
 {
     /**
-     * @param ValidatorHandlerInterface $validatorHandler
-     * @param DeviceRequestDTO $dto
-     * @return mixed
+     * @var string 
      */
-    public function execute(ValidatorHandlerInterface $validatorHandler, DeviceRequestDTO $dto);
+    private $id;
+    
+    /**
+     * @var MedicalDevices\Application\DTO\Device\Model\Type\TypeRequestDTO 
+     */
+    protected $type;
+    
+    public function __construct($id, TypeRequestDTO $type)
+    {
+        $this->id = $id;
+        $this->type = $type;
+    }
+
+    public function id()
+    {
+        return $this->id;
+    }        
+
+    public function type()
+    {
+        return $this->type;
+    }    
 }

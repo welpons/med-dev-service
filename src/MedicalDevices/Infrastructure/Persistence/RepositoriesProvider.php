@@ -17,13 +17,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Application\Service;
+namespace MedicalDevices\Infrastructure\Persistence;
 
 /**
  *
  * @author Welpons <welpons@gmail.com>
  */
-interface DTOInterface
+interface RepositoriesProvider
 {
-    //put your code here
+    /**
+     * @return MedicalDevices\Infrastructure\Persistence\RepositoryCollection
+     */
+    public function getCollection();
 }

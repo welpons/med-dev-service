@@ -22,7 +22,7 @@ namespace MedicalDevices\Application\Service\Device;
 use MedicalDevices\Application\Service\Validation\Validator;
 use MedicalDevices\Application\Service\Validation\ValidatorHandlerInterface;
 use MedicalDevices\Application\Service\Validation\ValidationErrors;
-use MedicalDevices\Application\Service\DTOInterface;
+use MedicalDevices\Application\DTO\DTOInterface;
 use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierValidator;
 use MedicalDevices\Application\Service\Device\Model\ModelValidator;
 

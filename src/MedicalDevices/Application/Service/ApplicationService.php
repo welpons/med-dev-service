@@ -9,7 +9,7 @@
 namespace MedicalDevices\Application\Service;
 
 use MedicalDevices\Configuration\ConfigurationInterface;
-use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
+use MedicalDevices\Infrastructure\Persistence\RepositoriesProvider;
 use MedicalDevices\Application\Service\Validation\ValidationService;
 
 /**
@@ -23,10 +23,10 @@ abstract class ApplicationService
     protected $repositories = null;
     protected $validationService;
     
-    public function __construct(ConfigurationInterface $configurations, RepositoryCollection $repositoryCollection)
+    public function __construct(ConfigurationInterface $configurations, RepositoriesProvider $repositoriesProvider)
     {
         $this->configurations = $configurations;
-        $this->repositories = $repositoryCollection;
+        $this->repositories = $repositoriesProvider->getCollection();
         $this->validationService = new ValidationService($this->configurations, $this->repositories);
     }
 }

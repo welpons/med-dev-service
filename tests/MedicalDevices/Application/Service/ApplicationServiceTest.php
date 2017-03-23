@@ -39,7 +39,7 @@ class ApplicationServiceTest extends KernelTestCase
     private $em;
     private $container;
     private $init;
-    private $repositories;
+    private $repositoriesProvider;
 
     /**
      * {@inheritDoc}
@@ -50,7 +50,7 @@ class ApplicationServiceTest extends KernelTestCase
 
         $this->container = self::$kernel->getContainer();
         $this->init = $this->container->get('init');
-        $this->repositories = $this->container->get('repository.collection.provider')->getCollection();
+        $this->repositoriesProvider = $this->container->get('repository.collection.provider');
     }    
     
     /**
@@ -63,7 +63,7 @@ class ApplicationServiceTest extends KernelTestCase
 //        $this->assertTrue($service instanceof ApplicationService);
         
         $stub = $this->getMockBuilder(ApplicationService::class)
-        ->setConstructorArgs(array($this->init, $this->repositories))
+        ->setConstructorArgs(array($this->init, $this->repositoriesProvider))
         ->getMockForAbstractClass();  
         
         $this->assertTrue($stub instanceof ApplicationService);

@@ -1,1 +1,7 @@
-
+services:
+    # Framework services   
+    serialized.param.converter:
+        class: AppBundle\Request\SerializedParamConverter
+        arguments: ["@serializer"] 
+        tags:
+            - { name: request.param_converter, priority: -40, converter: param_converter }  

@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Application\Service\Device;
+namespace MedicalDevices\Application\DTO\Device;
 
 use MedicalDevices\Domain\Model\Device\Device;
 
@@ -28,6 +28,10 @@ use MedicalDevices\Domain\Model\Device\Device;
  */
 class DeviceResponseDTO
 {
+    /**
+     *
+     * @var MedicalDevices\Domain\Model\Device\Device\DeviceId 
+     */
     private $id;
     
     public function __construct(Device $device)

@@ -23,7 +23,7 @@ use Symfony\Bundle\FrameworkBundle\Console\Application as App;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierValidator;
-use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierRequestDTO;
+use MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceIdentifierRepository;
 use MedicalDevices\Application\Service\Validation\ValidationErrors;
 

@@ -1,0 +1,6 @@
+MedicalDevices\Application\DTO\Device\Model\ModelRequestDTO: 
+    properties:
+        id:
+            type: string    
+        type:
+            type: MedicalDevices\Application\DTO\Device\Model\Type\TypeRequestDTO 

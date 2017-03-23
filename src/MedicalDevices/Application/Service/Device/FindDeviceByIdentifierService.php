@@ -20,7 +20,7 @@
 namespace MedicalDevices\Application\Service\Device;
 
 use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierServiceCommandInterface;
-use MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierRequestDTO;
+use MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO;
 
 /**
  * Description of FindDeviceByIdentifierService
