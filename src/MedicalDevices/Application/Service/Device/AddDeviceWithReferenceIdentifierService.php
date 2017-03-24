@@ -41,7 +41,7 @@ class AddDeviceWithReferenceIdentifierService extends DeviceService implements D
         $this->validationService->validate($validatorHandler, Device::class, $dto);
                 
         if ($validatorHandler->hasErrors()) {
-            throw new ValidationException('Errors validating device parameters');
+            throw new ValidationException('Errors validating device parameters.');
         }
         
         $this->checkWhetherDeviceIdentifierAlreadyExists($validatorHandler, $dto->deviceIdentifiers());

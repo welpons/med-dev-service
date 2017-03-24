@@ -19,6 +19,7 @@
 
 namespace AppBundle\Controller;
 
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -45,16 +46,16 @@ class DevicesController extends FOSRestController
      * @ParamConverter("newDevice", class="MedicalDevices\Application\DTO\Device\DeviceRequestDTO", converter="param_converter")
      */
     public function newDevicesAction(DeviceRequestDTO $deviceRequestDTO)
-    {      
+    {             
         $addDeviceWithIdentifiersService = new AddDeviceWithReferenceIdentifierService($this->get('init'), $this->get('repository.collection.provider')); 
         
         try { 
             $response = $addDeviceWithIdentifiersService->execute($this->get('ext.services.validation.error.handler'), $deviceRequestDTO); 
             
-        } catch (UserAlreadyExistsException $e) { 
-            return $response;
+        } catch (\Exception $e) { 
+            return new JsonResponse($this->get('ext.services.validation.error.handler')->getErrors(), 400);
         } 
         
-        return $response;    
+        return new JsonResponse(array('message' => 'Ok'), 200); 
     } 
 }

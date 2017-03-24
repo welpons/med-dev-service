@@ -48,7 +48,7 @@ class DeviceRequestDTO implements DTOInterface
      *
      * @var array<MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO> 
      */
-    private $deviceIdentifiers = null;
+    private $deviceIdentifiers = array();
     
     /**
      * 
@@ -67,7 +67,7 @@ class DeviceRequestDTO implements DTOInterface
         }
     }    
     
-    public function deviceIdentifiers()
+    public function deviceIdentifiers() : array
     {
         return $this->deviceIdentifiers;
     }     
