@@ -9,4 +9,6 @@ namespace MedicalDevices\Infrastructure\Service\External;
 interface SerializerServiceInterface
 {    
     public function deserialize($data, $type, $format); 
+    
+    public function serialize($data, $format);
 }

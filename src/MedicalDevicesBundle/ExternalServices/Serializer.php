@@ -14,7 +14,8 @@ use MedicalDevices\Configuration\ConfigurationInterface;
 class Serializer implements SerializerServiceInterface
 {
     private $metaDataDir = null;    
-    private $serializer;
+    
+    private $serializer = null;
     
     public function __construct(ConfigurationInterface $configurations)
     {
@@ -34,9 +35,22 @@ class Serializer implements SerializerServiceInterface
     
     public function deserialize($data, $type, $format = 'xml')
     {
-        $this->serializer = SerializerBuilder::create()->addMetadataDir($this->metaDataDir)->build();          
+        $this->createSerializer();        
         
         return $this->serializer->deserialize($data, $type, $format);
     }
 
+    public function serialize($data, $format)
+    {
+        $this->createSerializer();
+        
+        return $this->serializer->serialize($data, $format);
+    }
+
+    private function createSerializer()
+    {
+        if (null === $this->serializer) {
+            $this->serializer = SerializerBuilder::create()->addMetadataDir($this->metaDataDir)->build();  
+        }
+    }        
 }

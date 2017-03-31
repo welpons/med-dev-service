@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+    <entity name="MedicalDevices\Domain\Event\PublishedMessage" table="case.event_published_message_tracker" connection="case">
+        <id name="trackerId" column="tracker_id" type="integer">
+            <generator strategy="AUTO"/>
+        </id>     
+        <field name="mostRecentPublishedMessageId" column="most_recent_published_message_id" type="bigint"/>
+        <field name="typeName" column="type_name" type="string" length="255"/>   
+    </entity>
+</doctrine-mapping>

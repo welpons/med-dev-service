@@ -24,7 +24,6 @@ use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
 use MedicalDevices\Domain\Model\Device\Model\Model;
 use MedicalDevices\Domain\Model\Device\Model\Type\Type;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query;
 
 /**
@@ -32,17 +31,10 @@ use Doctrine\ORM\Query;
  *
  * @author Welpons <welpons@gmail.com>
  */
-class DoctrineDeviceRepository implements DeviceRepositoryInterface
+class DoctrineDeviceRepository extends DoctrineRepository implements DeviceRepositoryInterface
 {
 
     const ENTITY_CLASS = Device::class;
-
-    private $em;
-
-    public function __construct(EntityManager $em)
-    {
-        $this->em = $em;
-    }
 
     public function save(Device $device)
     {

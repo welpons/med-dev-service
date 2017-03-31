@@ -23,7 +23,6 @@ use MedicalDevices\Domain\Model\Device\DeviceId;
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifierRepositoryInterface;
 use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
-use Doctrine\ORM\EntityManager; 
 use Doctrine\ORM\Query;
 
 /**
@@ -31,16 +30,10 @@ use Doctrine\ORM\Query;
  *
  * @author Welpons <welpons@gmail.com>
  */
-class DoctrineDeviceIdentifierRepository implements DeviceIdentifierRepositoryInterface
+class DoctrineDeviceIdentifierRepository extends DoctrineRepository implements DeviceIdentifierRepositoryInterface
 {
     const ENTITY_CLASS = DeviceIdentifier::class;
     
-    private $em;
-    
-    public function __construct(EntityManager $em)
-    {
-        $this->em = $em;
-    }
     
     public function allDeviceIdentifiers()
     {

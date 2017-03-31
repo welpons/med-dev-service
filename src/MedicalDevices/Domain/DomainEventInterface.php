@@ -23,7 +23,7 @@ namespace MedicalDevices\Domain;
  *
  * @author Welpons <welpons@gmail.com>
  */
-interface DomainEvent
+interface DomainEventInterface
 {
     /** 
      * @return \DateTimeImmutable 

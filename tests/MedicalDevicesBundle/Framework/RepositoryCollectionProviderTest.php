@@ -35,6 +35,7 @@ class RepositoryCollectionProviderTest extends KernelTestCase
     private $container;
     private $init;
     private $em;
+    private $serializer;
 
     public function setUp()
     {
@@ -43,6 +44,7 @@ class RepositoryCollectionProviderTest extends KernelTestCase
         $this->container = self::$kernel->getContainer();
         $this->init = $this->container->get('init');
         $this->em = $this->container->get('doctrine.orm.entity_manager');
+        $this->serializer = $this->container->get('ext.services.serializer');
     }
     
     /**
@@ -51,7 +53,7 @@ class RepositoryCollectionProviderTest extends KernelTestCase
      */
     public function getCollection()
     {
-        $repoCollectionProvider = new RepositoryCollectionProvider($this->init, $this->em);
+        $repoCollectionProvider = new RepositoryCollectionProvider($this->init, $this->em, $this->serializer);
         $repositoryCollection = $repoCollectionProvider->getCollection();
         $this->assertTrue($repositoryCollection instanceof RepositoryCollection);
     } 
@@ -62,7 +64,7 @@ class RepositoryCollectionProviderTest extends KernelTestCase
      */    
     public function getRepositoryFromCollection()
     {
-        $repoCollectionProvider = new RepositoryCollectionProvider($this->init, $this->em);
+        $repoCollectionProvider = new RepositoryCollectionProvider($this->init, $this->em, $this->serializer);
         $repositoryCollection = $repoCollectionProvider->getCollection();   
         $deviceRepository = $repositoryCollection->get('device');
         

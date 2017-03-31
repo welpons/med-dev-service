@@ -22,10 +22,12 @@ namespace MedicalDevicesBundle\Framework;
 use MedicalDevices\Infrastructure\Persistence\RepositoriesProvider;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceIdentifierRepository;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceRepository;
+use MedicalDevices\Infrastructure\Application\Notification\DoctrineEventStoreRepository;
 use MedicalDevices\Infrastructure\Persistence\JsonFile\JsonFileDeviceCategoryRepository;
 use MedicalDevices\Infrastructure\Persistence\JsonFile\JsonFileDeviceModelRepository;
 use MedicalDevices\Infrastructure\Persistence\JsonFile\JsonFileDeviceTypeRepository;
 use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
+use MedicalDevices\Infrastructure\Service\External\SerializerServiceInterface;
 use MedicalDevices\Configuration\ConfigurationInterface;
 use Doctrine\ORM\EntityManager;
 
@@ -38,11 +40,12 @@ class RepositoryCollectionProvider implements RepositoriesProvider
 {
     private $repositoryCollection;
     
-    public function __construct(ConfigurationInterface $configuration, EntityManager $entityManager)
+    public function __construct(ConfigurationInterface $configuration, EntityManager $entityManager, SerializerServiceInterface $serializer)
     {
         $this->repositoryCollection = new RepositoryCollection();
         $this->repositoryCollection->add(new DoctrineDeviceRepository($entityManager));
         $this->repositoryCollection->add(new DoctrineDeviceIdentifierRepository($entityManager));
+        $this->repositoryCollection->add(new DoctrineEventStoreRepository($entityManager, $serializer));
         $this->repositoryCollection->add(new JsonFileDeviceCategoryRepository($configuration->getParameter('infrastructure.db_json_files_path') . '/device_categories.json'));        
         $this->repositoryCollection->add(new JsonFileDeviceModelRepository($configuration->getParameter('infrastructure.db_json_files_path') . '/device_models.json'));
         $this->repositoryCollection->add(new JsonFileDeviceTypeRepository($configuration->getParameter('infrastructure.db_json_files_path') . '/device_models.json'));        

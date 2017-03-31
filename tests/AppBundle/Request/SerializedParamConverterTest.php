@@ -45,6 +45,7 @@ class SerializedParamConverterTest extends KernelTestCase
     /**
      * @test
      * @group appbundle_request
+     * @group appbundle_request_serializedparamconverter
      */
     public function apply()
     {

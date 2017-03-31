@@ -55,7 +55,7 @@ doctrine:
             dev_mapping:
                 type: xml
                 dir: "%kernel.root_dir%/../src/MedicalDevices/Infrastructure/Persistence/Doctrine/Mapping"
-                prefix: MedicalDevices\Domain\Model
+                prefix: MedicalDevices\Domain
                 is_bundle: false
                 alias: med  
         hydrators:

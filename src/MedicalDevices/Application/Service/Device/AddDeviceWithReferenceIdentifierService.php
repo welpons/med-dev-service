@@ -52,8 +52,8 @@ class AddDeviceWithReferenceIdentifierService extends DeviceService implements D
                 
         $device = DeviceFactory::buildWithIdentifiers(DeviceId::create(), $dto->categoryId(), $dto->model()->id(), $dto->model()->type()->key(), $dto->deviceIdentifiers(), $this->configurations->getParameter('application.ref_identifier_type'));
 
-        $this->repositories->get('device')->save($device);    
-
+        $this->repositories->get('device')->save($device); 
+        
         return new DeviceResponseDTO($device);
     }    
     
