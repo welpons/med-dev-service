@@ -17,21 +17,26 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Infrastructure\Persistence\Doctrine;
+namespace Tests\MedicalDevicesBundle\Framework;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use MedicalDevicesBundle\Framework\AbstractRepositoryFactory;
 
 /**
- * Description of DoctrineRepository
+ * Description of AbstractRepositoryFactory
  *
  * @author Welpons <welpons@gmail.com>
  */
-abstract class DoctrineRepository
+class AbstractRepositoryFactoryTest extends KernelTestCase
 {
-    protected $em;
+    private $container;
 
-    public function __construct(EntityManagerInterface $em)
+    public function setUp()
     {
-        $this->em = $em;
+        self::bootKernel();
+
+        $this->container = self::$kernel->getContainer();
     }
+    
+    
 }

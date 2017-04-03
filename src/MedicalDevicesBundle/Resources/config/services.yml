@@ -1,7 +1,7 @@
 parameters:
     med.devices.services.init: '%med.devices.services.params%'
         
-
+        
 services:
     # External services. Based on third party components    
     ext.services.serializer:
@@ -19,4 +19,40 @@ services:
         factory: 'init.factory:createConfiguration'
     repository.collection.provider:
         class: MedicalDevicesBundle\Framework\RepositoryCollectionProvider
+        arguments: ["@init", "@doctrine.orm.entity_manager", "@ext.services.serializer"]        
+    repository.factory.abstract:
+        class: MedicalDevicesBundle\Framework\AbstractRepositoryFactory
+        abstract: true
         arguments: ['@init', '@doctrine.orm.entity_manager', '@ext.services.serializer']
+    repository.factory.device:
+        class: MedicalDevicesBundle\Framework\RepositoryFactory        
+        arguments: ["MedicalDevices\\Infrastructure\\Persistence\\Doctrine\\DoctrineDeviceRepository", ["em"]]        
+        tags:
+            - { name: repository.factory }   
+    repository.factory.device_identifier:
+        class: MedicalDevicesBundle\Framework\RepositoryFactory        
+        arguments: ["MedicalDevices\\Infrastructure\\Persistence\\Doctrine\\DoctrineDeviceIdentifierRepository", ["em"]]        
+        tags:
+            - { name: repository.factory } 
+    repository.factory.event_store:
+        class: MedicalDevicesBundle\Framework\RepositoryFactory        
+        arguments: ["MedicalDevices\\Infrastructure\\Application\\Notification\\DoctrineEventStoreRepository", ["em", "serializer"]]        
+        tags:
+            - { name: repository.factory }    
+    repository.factory.device_category:
+        class: MedicalDevicesBundle\Framework\RepositoryFactory        
+        arguments: ["MedicalDevices\\Infrastructure\\Persistence\\JsonFile\\JsonFileDeviceCategoryRepository", ["init"]]        
+        tags:
+            - { name: repository.factory }   
+    repository.factory.device_model:
+        class: MedicalDevicesBundle\Framework\RepositoryFactory        
+        arguments: ["MedicalDevices\\Infrastructure\\Persistence\\JsonFile\\JsonFileDeviceModelRepository", ["init"]]        
+        tags:
+            - { name: repository.factory }  
+    repository.factory.device_type:
+        class: MedicalDevicesBundle\Framework\RepositoryFactory        
+        arguments: ["MedicalDevices\\Infrastructure\\Persistence\\JsonFile\\JsonFileDeviceTypeRepository", ["init"]]        
+        tags:
+            - { name: repository.factory }             
+            
+

@@ -43,6 +43,8 @@ class DoctrineEventStoreRepository extends DoctrineRepository implements EventSt
         $this->serializer = $serializer;
     }
 
+    
+    
     public function append($aDomainEvent)
     {
         $storedEvent = new StoredEvent(

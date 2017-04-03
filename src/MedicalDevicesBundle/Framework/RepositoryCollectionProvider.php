@@ -20,39 +20,56 @@
 namespace MedicalDevicesBundle\Framework;
 
 use MedicalDevices\Infrastructure\Persistence\RepositoriesProvider;
-use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceIdentifierRepository;
-use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceRepository;
-use MedicalDevices\Infrastructure\Application\Notification\DoctrineEventStoreRepository;
-use MedicalDevices\Infrastructure\Persistence\JsonFile\JsonFileDeviceCategoryRepository;
-use MedicalDevices\Infrastructure\Persistence\JsonFile\JsonFileDeviceModelRepository;
-use MedicalDevices\Infrastructure\Persistence\JsonFile\JsonFileDeviceTypeRepository;
 use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
 use MedicalDevices\Infrastructure\Service\External\SerializerServiceInterface;
 use MedicalDevices\Configuration\ConfigurationInterface;
-use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
+
 
 /**
- * Description of RepositoryCollectionProvider
+ * This class provides a collection of all repositories
  *
  * @author Welpons <welpons@gmail.com>
  */
 class RepositoryCollectionProvider implements RepositoriesProvider
 {
     private $repositoryCollection;
+    private $repositoryFactoryCollection = [];
+    private $dependentServices = [];
     
-    public function __construct(ConfigurationInterface $configuration, EntityManager $entityManager, SerializerServiceInterface $serializer)
+    /**
+     * 
+     * @param ConfigurationInterface $configuration
+     * @param EntityManagerInterface $entityManager
+     * @param SerializerServiceInterface $serializer
+     */
+    public function __construct(ConfigurationInterface $configuration, EntityManagerInterface $entityManager, SerializerServiceInterface $serializer)
     {
         $this->repositoryCollection = new RepositoryCollection();
-        $this->repositoryCollection->add(new DoctrineDeviceRepository($entityManager));
-        $this->repositoryCollection->add(new DoctrineDeviceIdentifierRepository($entityManager));
-        $this->repositoryCollection->add(new DoctrineEventStoreRepository($entityManager, $serializer));
-        $this->repositoryCollection->add(new JsonFileDeviceCategoryRepository($configuration->getParameter('infrastructure.db_json_files_path') . '/device_categories.json'));        
-        $this->repositoryCollection->add(new JsonFileDeviceModelRepository($configuration->getParameter('infrastructure.db_json_files_path') . '/device_models.json'));
-        $this->repositoryCollection->add(new JsonFileDeviceTypeRepository($configuration->getParameter('infrastructure.db_json_files_path') . '/device_models.json'));        
+        $this->dependentServices['em'] = $entityManager;
+        $this->dependentServices['init'] = $configuration;
+        $this->dependentServices['serializer'] = $serializer;
     }
+    
+    public function addRepositoryFactory(RepositoryFactory $repositoryFactory)
+    {        
+        $this->repositoryFactoryCollection[] = $repositoryFactory;
+    }        
+    
+    private function generateRepositoryCollection()
+    {
+        if (!empty($this->repositoryFactoryCollection)) {
+            foreach ($this->repositoryFactoryCollection as $repositoryCollection) {
+                $this->repositoryCollection->add($repositoryCollection->create($this->dependentServices));
+            }
+        }
+    }    
     
     public function getCollection()
     {
+        $this->generateRepositoryCollection();
+        
         return $this->repositoryCollection;
-    }        
+    }
+
 }

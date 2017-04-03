@@ -1,0 +1,22 @@
+parameters:
+    med.devices.services.params:
+        application:
+            identifier_types: {serial_number: SNO, mac_address: MAC, system_id: SYS, universally_unique_identifier: UID} 
+            ref_identifier_type: SNO
+            validators:
+                Device: "MedicalDevices\\Application\\Service\\Device\\DeviceValidator"
+        infrastructure:
+            db_json_files_path: "%kernel.root_dir%/../var/data/db.file"
+            db_json_files:
+                JsonFileDeviceCategoryRepository: device_categories.json
+                JsonFileDeviceModelRepository: device_models.json
+                JsonFileDeviceTypeRepository: device_models.json
+                JsonFileTestRepository: device_models.json
+            jms_serializer_mapping_dir: "%kernel.root_dir%/../src/MedicalDevices/Infrastructure/Persistence/JMSSerializer/Mapping/"
+
+services:
+    repository.factory.test:
+        class: MedicalDevicesBundle\Framework\RepositoryFactory        
+        arguments: ["Tests\\MedicalDevicesBundle\\Framework\\DoctrineTestRepository", ["em"]]        
+        tags:
+            - { name: repository.factory } 

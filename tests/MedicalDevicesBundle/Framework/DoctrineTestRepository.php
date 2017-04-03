@@ -17,21 +17,21 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace MedicalDevices\Infrastructure\Persistence\Doctrine;
+namespace Tests\MedicalDevicesBundle\Framework;
 
-use Doctrine\ORM\EntityManagerInterface;
+use MedicalDevices\Infrastructure\Persistence\RepositoryInterface;
+use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineRepository;
 
 /**
- * Description of DoctrineRepository
+ * Description of TestDoctrineRepository
  *
  * @author Welpons <welpons@gmail.com>
  */
-abstract class DoctrineRepository
+class DoctrineTestRepository extends DoctrineRepository implements RepositoryInterface
 {
-    protected $em;
-
-    public function __construct(EntityManagerInterface $em)
+    public function getName(): string
     {
-        $this->em = $em;
+        return 'test_doctrine';
     }
+
 }

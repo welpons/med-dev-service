@@ -38,12 +38,12 @@ class RepositoryCollection implements \Iterator
         return key($this->collection);
     }
 
-    public function next(): void
+    public function next()
     {
         next($this->collection);
     }
 
-    public function rewind(): void
+    public function rewind()
     {
         reset($this->collection);
     }

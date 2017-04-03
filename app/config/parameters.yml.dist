@@ -27,7 +27,7 @@ parameters:
         infrastructure:
             db_json_files_path: "%kernel.root_dir%/../var/data/db.file"
             db_json_files:
-                device_categories: device_categories.json
-                device_models: device_models.json
-                device_types: device_models.json
+                JsonFileDeviceCategoryRepository: device_categories.json
+                JsonFileDeviceModelRepository: device_models.json
+                JsonFileDeviceTypeRepository: device_models.json
             jms_serializer_mapping_dir: "%kernel.root_dir%/../src/MedicalDevices/Infrastructure/Persistence/JMSSerializer/Mapping/"

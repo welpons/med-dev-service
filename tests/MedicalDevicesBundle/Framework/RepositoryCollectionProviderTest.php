@@ -21,9 +21,10 @@ namespace Tests\MedicalDevicesBundle\Framework;
 
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use MedicalDevicesBundle\Framework\RepositoryFactory;
 use MedicalDevicesBundle\Framework\RepositoryCollectionProvider;
 use MedicalDevices\Infrastructure\Persistence\RepositoryCollection;
-use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceRepository;
+use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineRepository;
 
 /**
  * Description of RepositoryCollectionProviderTest
@@ -53,7 +54,12 @@ class RepositoryCollectionProviderTest extends KernelTestCase
      */
     public function getCollection()
     {
+        $repositoryFactoryDoctrine = new RepositoryFactory('Tests\MedicalDevicesBundle\Framework\DoctrineTestRepository', ['em']);  
+        $repositoryFactoryJsonFile = new RepositoryFactory('Tests\MedicalDevicesBundle\Framework\JsonFileTestRepository', ['init']);  
         $repoCollectionProvider = new RepositoryCollectionProvider($this->init, $this->em, $this->serializer);
+        $repoCollectionProvider->addRepositoryFactory($repositoryFactoryDoctrine);
+        $repoCollectionProvider->addRepositoryFactory($repositoryFactoryJsonFile);
+        
         $repositoryCollection = $repoCollectionProvider->getCollection();
         $this->assertTrue($repositoryCollection instanceof RepositoryCollection);
     } 
@@ -64,10 +70,32 @@ class RepositoryCollectionProviderTest extends KernelTestCase
      */    
     public function getRepositoryFromCollection()
     {
+        $repositoryFactory = new RepositoryFactory('Tests\MedicalDevicesBundle\Framework\DoctrineTestRepository', ['em']);     
         $repoCollectionProvider = new RepositoryCollectionProvider($this->init, $this->em, $this->serializer);
+        $repoCollectionProvider->addRepositoryFactory($repositoryFactory);
         $repositoryCollection = $repoCollectionProvider->getCollection();   
-        $deviceRepository = $repositoryCollection->get('device');
+        $deviceRepository = $repositoryCollection->get('test_doctrine');
         
-        $this->assertTrue($deviceRepository instanceof DoctrineDeviceRepository);
+        $this->assertTrue($deviceRepository instanceof DoctrineRepository);
+    }     
+    
+    /**
+     * @test
+     * @group meddevicesbundle_framework_repocollectionprovider1
+     */
+    public function getAsService()
+    {
+        $service = $this->container->get('repository.collection.provider');
+        
+        $this->assertTrue($service instanceof RepositoryCollectionProvider);
+        $collection = $service->getCollection();
+        
+        $serviceIds = $this->container->getServiceIds();
+        
+        $repositoryServices = array_filter($serviceIds, function($v, $k) {      
+            return 0 === strpos($v, 'repository.factory.');
+        }, ARRAY_FILTER_USE_BOTH);
+        
+        $this->assertEquals($collection->count(), count($repositoryServices));
     }        
 }
