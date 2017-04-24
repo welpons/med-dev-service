@@ -29,7 +29,7 @@ interface DeviceIdentifierServiceCommandInterface
 {
     /**
      * @param ValidatorHandlerInterface $validatorHandler
-     * @param DeviceRequestDTO $dto
+     * @param DeviceRequestDTO          $dto
      * @return mixed
      */
     public function execute(ValidatorHandlerInterface $validatorHandler, DeviceIdentifierRequestDTO $dto);

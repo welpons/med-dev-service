@@ -37,12 +37,14 @@ class JsonFileDeviceModelRepository extends JsonFileRepository implements ModelR
         $objModels = [];
         foreach ($this->raws as $typeName => $models) {
             $type = new Type($models['key'], $typeName);            
-            array_walk_recursive($models, function ($value, $id) use (&$objModels, $type) {
-                if ($id === 'id') {
-                    $model = new Model($value, $type);
-                    $objModels[$value] = $model;
+            array_walk_recursive(
+                $models, function ($value, $id) use (&$objModels, $type) {
+                    if ($id === 'id') {
+                        $model = new Model($value, $type);
+                        $objModels[$value] = $model;
+                    }
                 }
-            });
+            );
         }
         
         return $objModels;
@@ -53,11 +55,13 @@ class JsonFileDeviceModelRepository extends JsonFileRepository implements ModelR
         $objModel = null;
         foreach ($this->raws as $typeName => $models) {
             $typeKey = $models['key'];          
-            array_walk_recursive($models, function ($modelId) use (&$objModel, $typeName, $typeKey, $id) {
-                if ($modelId == $id) {
-                    $objModel = new Model($modelId, new Type($typeKey, $typeName));
+            array_walk_recursive(
+                $models, function ($modelId) use (&$objModel, $typeName, $typeKey, $id) {
+                    if ($modelId == $id) {
+                        $objModel = new Model($modelId, new Type($typeKey, $typeName));
+                    }
                 }
-            });
+            );
         }
         
         return $objModel;

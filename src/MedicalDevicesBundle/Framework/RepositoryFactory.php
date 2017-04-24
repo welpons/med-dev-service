@@ -32,7 +32,7 @@ class RepositoryFactory extends AbstractRepositoryFactory
     /**
      * Returns a repository instance
      * 
-     * @param array $dependentServices
+     * @param  array $dependentServices
      * @return \MedicalDevicesBundle\Framework\className
      * @throws \Exception
      */
@@ -41,20 +41,20 @@ class RepositoryFactory extends AbstractRepositoryFactory
         $orm = $this->findORM();
 
         switch ($orm) {
-            case 'Doctrine':
-                if (array_search('serializer', $this->dependencies)) {
-                    $repository = new $this->className($dependentServices['em'], $dependentServices['serializer']);
-                } else {
-                    $repository = new $this->className($dependentServices['em']);
-                }
+        case 'Doctrine':
+            if (array_search('serializer', $this->dependencies)) {
+                $repository = new $this->className($dependentServices['em'], $dependentServices['serializer']);
+            } else {
+                $repository = new $this->className($dependentServices['em']);
+            }
                 
-                break;
-            case 'Json':              
-                $repositoryFile = $dependentServices['init']->getParameter('infrastructure.db_json_files_path') . '/' . $dependentServices['init']->getParameter('infrastructure.db_json_files.'.$this->repositoryClass);
-                $repository = new $this->className($repositoryFile);
-                break;
-                default :
-                    throw new \Exception('Trying to create a repository');
+            break;
+        case 'Json':              
+            $repositoryFile = $dependentServices['init']->getParameter('infrastructure.db_json_files_path') . '/' . $dependentServices['init']->getParameter('infrastructure.db_json_files.'.$this->repositoryClass);
+            $repository = new $this->className($repositoryFile);
+            break;
+        default :
+            throw new \Exception('Trying to create a repository');
         }
         
         return $repository;        

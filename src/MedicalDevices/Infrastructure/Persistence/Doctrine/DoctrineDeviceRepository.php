@@ -67,55 +67,55 @@ class DoctrineDeviceRepository extends DoctrineRepository implements DeviceRepos
     public function allDevicesOfModel(Model $model)
     {
         return $this->em->createQueryBuilder()
-                        ->select('d')
-                        ->from(self::ENTITY_CLASS, 'd')
-                        ->where('d.model.id = :model_id')
-                        ->setParameter(':model_id', $model->id())
-                        ->getQuery()
-                        ->getResult();
+            ->select('d')
+            ->from(self::ENTITY_CLASS, 'd')
+            ->where('d.model.id = :model_id')
+            ->setParameter(':model_id', $model->id())
+            ->getQuery()
+            ->getResult();
     }
 
     public function allDevicesOfCategoryId($categoryId)
     {
         return $this->em->createQueryBuilder()
-                        ->select('d')
-                        ->from(self::ENTITY_CLASS, 'd')
-                        ->where('d.categoryId = :category_id')
-                        ->setParameter(':category_id', $categoryId)
-                        ->getQuery()
-                        ->getResult();
+            ->select('d')
+            ->from(self::ENTITY_CLASS, 'd')
+            ->where('d.categoryId = :category_id')
+            ->setParameter(':category_id', $categoryId)
+            ->getQuery()
+            ->getResult();
     }
 
     public function allDevicesOfType(Type $type)
     {
         return $this->em->createQueryBuilder()
-                        ->select('d')
-                        ->from(self::ENTITY_CLASS, 'd')
-                        ->where('d.model.type.key = :type_key')
-                        ->setParameter(':type_key', $type->key())
-                        ->getQuery()
-                        ->getResult();
+            ->select('d')
+            ->from(self::ENTITY_CLASS, 'd')
+            ->where('d.model.type.key = :type_key')
+            ->setParameter(':type_key', $type->key())
+            ->getQuery()
+            ->getResult();
     }
 
     public function deviceOfId(DeviceId $id)
     {        
         return $this->em->createQueryBuilder()
-                        ->select('d, i')
-                        ->from(self::ENTITY_CLASS, 'd')
-                        ->leftJoin('d.deviceIdentifiers', 'i')
-                        ->where('d.id = :id')
-                        ->setParameter(':id', $id->id())
-                        ->getQuery()
-                        ->getOneOrNullResult('DeviceHydrator');
+            ->select('d, i')
+            ->from(self::ENTITY_CLASS, 'd')
+            ->leftJoin('d.deviceIdentifiers', 'i')
+            ->where('d.id = :id')
+            ->setParameter(':id', $id->id())
+            ->getQuery()
+            ->getOneOrNullResult('DeviceHydrator');
     }
 
     public function allDevices()
     {
         return $this->em->createQueryBuilder()
-                        ->select('d')
-                        ->from(self::ENTITY_CLASS, 'd')
-                        ->getQuery()
-                        ->getResult();
+            ->select('d')
+            ->from(self::ENTITY_CLASS, 'd')
+            ->getQuery()
+            ->getResult();
     }
 
     public function getName(): string

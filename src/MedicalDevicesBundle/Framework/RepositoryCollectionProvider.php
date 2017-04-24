@@ -39,8 +39,8 @@ class RepositoryCollectionProvider implements RepositoriesProvider
     
     /**
      * 
-     * @param ConfigurationInterface $configuration
-     * @param EntityManagerInterface $entityManager
+     * @param ConfigurationInterface     $configuration
+     * @param EntityManagerInterface     $entityManager
      * @param SerializerServiceInterface $serializer
      */
     public function __construct(ConfigurationInterface $configuration, EntityManagerInterface $entityManager, SerializerServiceInterface $serializer)

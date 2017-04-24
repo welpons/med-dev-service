@@ -85,7 +85,7 @@ class Configuration implements ConfigurationInterface
     /**
      * 
      * 
-     * @param string $paramName
+     * @param string  $paramName
      * @param boolean $checkOnly
      * @return boolean|mixed
      * @throws UndefinedParameterException

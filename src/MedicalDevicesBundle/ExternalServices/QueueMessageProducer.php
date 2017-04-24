@@ -31,17 +31,21 @@ class QueueMessageProducerr extends RabbitMqMessaging implements MessageProducer
 
     /** 
      * @param $exchangeName 
-     * @param string $notificationMessage 
-     * @param string $notificationType 
-     * @param int $notificationId 
+     * @param string             $notificationMessage 
+     * @param string             $notificationType 
+     * @param int                $notificationId 
      * @param \DateTimeImmutable $notificationOccurredOn 
      */
     public function send($exchangeName, $notificationMessage, $notificationType, $notificationId, \DateTimeImmutable $notificationOccurredOn)
     {
-        $this->channel($exchangeName)->basic_publish(new AMQPMessage($notificationMessage, ['type' => $notificationType,
-            'timestamp' => $notificationOccurredOn->getTimestamp(),
-            'message_id' => $notificationId
-                ]), $exchangeName);
+        $this->channel($exchangeName)->basic_publish(
+            new AMQPMessage(
+                $notificationMessage, ['type' => $notificationType,
+                'timestamp' => $notificationOccurredOn->getTimestamp(),
+                'message_id' => $notificationId
+                ]
+            ), $exchangeName
+        );
     }
 
 

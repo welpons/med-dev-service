@@ -70,9 +70,9 @@ class Device
     /**
      * 
      * @param \MedicalDevices\Domain\Model\Device\DeviceId $id
-     * @param string $categoryId
-     * @param Model $model
-     * @param string $referenceIdentifierType
+     * @param string                                       $categoryId
+     * @param Model                                        $model
+     * @param string                                       $referenceIdentifierType
      */
     public function __construct(DeviceId $id, string $categoryId, Model $model, string $referenceIdentifierType = null)
     {
@@ -86,10 +86,10 @@ class Device
     /**
      * 
      * @param \MedicalDevices\Domain\Model\Device\DeviceId $id
-     * @param string $categoryId
-     * @param string $modelId
-     * @param string $modelTypeKey
-     * @param string $referenceIdentifierType
+     * @param string                                       $categoryId
+     * @param string                                       $modelId
+     * @param string                                       $modelTypeKey
+     * @param string                                       $referenceIdentifierType
      * @return \self
      */    
     public static function create(DeviceId $id, string $categoryId, string $modelId, string $modelTypeKey, string $referenceIdentifierType = null)

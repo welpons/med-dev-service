@@ -27,7 +27,8 @@ use MedicalDevices\Infrastructure\Persistence\RepositoryInterface;
  * @author Welpons <welpons@gmail.com>
  */
 interface DeviceIdentifierRepositoryInterface extends RepositoryInterface
-{    
+{
+    
     public function save(DeviceIdentifier $deviceIdentifier);
     
     public function remove(DeviceIdentifier $deviceIdentifier);

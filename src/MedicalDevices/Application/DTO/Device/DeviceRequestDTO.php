@@ -55,7 +55,7 @@ class DeviceRequestDTO implements DTOInterface
      * @param string $categoryId
      * @param string $modelId
      * @param string $modelTypeKey
-     * @param array $deviceIdentifiers
+     * @param array  $deviceIdentifiers
      */
     public function __construct(string $categoryId, string $modelId, string $modelTypeKey, array $deviceIdentifiers) 
     {

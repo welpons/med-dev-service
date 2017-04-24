@@ -75,35 +75,33 @@ abstract class Validator
     }
 
     /**
-     *
      * Sanatize a single var according to $type.
      * Allows for static calling to allow simple sanatization
-     * 
      */
     public static function sanatizeItem(string $type, $var)
     {
         $flags = null;
 
         switch ($type) {
-            case self::FILTER_TYPE_URL :
-                $filter = FILTER_SANITIZE_URL;
-                break;
-            case self::FILTER_TYPE_INT :
-                $filter = FILTER_SANITIZE_NUMBER_INT;
-                break;
-            case self::FILTER_TYPE_FLOAT :
-                $filter = FILTER_SANITIZE_NUMBER_FLOAT;
-                $flags = FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND;
-                break;
-            case self::FILTER_TYPE_EMAIL :
-                $var = substr($var, 0, 254);
-                $filter = FILTER_SANITIZE_EMAIL;
-                break;
-            case self::FILTER_TYPE_STRING :
-            default:
-                $filter = FILTER_SANITIZE_STRING;
-                $flags = FILTER_FLAG_NO_ENCODE_QUOTES;
-                break;
+        case self::FILTER_TYPE_URL :
+            $filter = FILTER_SANITIZE_URL;
+            break;
+        case self::FILTER_TYPE_INT :
+            $filter = FILTER_SANITIZE_NUMBER_INT;
+            break;
+        case self::FILTER_TYPE_FLOAT :
+            $filter = FILTER_SANITIZE_NUMBER_FLOAT;
+            $flags = FILTER_FLAG_ALLOW_FRACTION | FILTER_FLAG_ALLOW_THOUSAND;
+            break;
+        case self::FILTER_TYPE_EMAIL :
+            $var = substr($var, 0, 254);
+            $filter = FILTER_SANITIZE_EMAIL;
+            break;
+        case self::FILTER_TYPE_STRING :
+        default:
+            $filter = FILTER_SANITIZE_STRING;
+            $flags = FILTER_FLAG_NO_ENCODE_QUOTES;
+            break;
         }
 
         $output = filter_var($var, $filter, $flags);

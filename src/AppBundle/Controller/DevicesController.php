@@ -38,7 +38,7 @@ class DevicesController extends FOSRestController
     /**
      * Adds a new device with at leat one device identifier
      * 
-     * @param MedicalDevices\Application\DTO\Device\DeviceRequestDTO $deviceRequestDTO
+     * @param  MedicalDevices\Application\DTO\Device\DeviceRequestDTO $deviceRequestDTO
      * @return type
      * 
      * @Post("/devices/new")

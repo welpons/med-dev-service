@@ -9,7 +9,6 @@ use MedicalDevices\Configuration\ConfigurationInterface;
 /**
  * Class used as service. It allows to denormalize: convert arrays into objects
  * This service is based on JMS Serializer
- * 
  */
 class Serializer implements SerializerServiceInterface
 {

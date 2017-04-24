@@ -78,23 +78,23 @@ class DoctrinePublishedMessageTrackerRepository extends DoctrineRepository imple
     public function messageTrackerOfId($trackerId)
     {
         return $this->em->createQueryBuilder()
-                ->select('mt')
-                ->from(self::ENTITY_CLASS, 'mt')
-                ->where('mt.trackerId = :tracker_id')
-                ->setParameter(':tracker_id', $trackerId)  
-                ->getQuery()
-                ->getOneOrNullResult();           
+            ->select('mt')
+            ->from(self::ENTITY_CLASS, 'mt')
+            ->where('mt.trackerId = :tracker_id')
+            ->setParameter(':tracker_id', $trackerId)  
+            ->getQuery()
+            ->getOneOrNullResult();           
     }
 
     public function messageTrackerOfTypeName($aTypeName)
     {
         return $this->em->createQueryBuilder()
-                ->select('mt')
-                ->from(self::ENTITY_CLASS, 'mt')
-                ->where('mt.typeName = :type_name')
-                ->setParameter(':type_name', $aTypeName)  
-                ->getQuery()
-                ->getOneOrNullResult();         
+            ->select('mt')
+            ->from(self::ENTITY_CLASS, 'mt')
+            ->where('mt.typeName = :type_name')
+            ->setParameter(':type_name', $aTypeName)  
+            ->getQuery()
+            ->getOneOrNullResult();         
     }
 
 }

@@ -41,8 +41,8 @@ class SerializedParamConverter implements ParamConverterInterface
                 $request->getContent(),
                 $class,
                 'xml'
-            );			
-        }		
+            );            
+        }        
         catch (XmlErrorException $e) {
             throw new NotFoundHttpException(sprintf('Could not deserialize request content to object of type "%s"', $class));
         }

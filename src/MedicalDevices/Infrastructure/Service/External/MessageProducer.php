@@ -27,9 +27,9 @@ interface MessageProducer
 {
     /** 
      * @param $exchangeName 
-     * @param string $notificationMessage 
-     * @param string $notificationType 
-     * @param int $notificationId 
+     * @param string             $notificationMessage 
+     * @param string             $notificationType 
+     * @param int                $notificationId 
      * @param \DateTimeImmutable $notificationOccurredOn 
      * @return
      */ 

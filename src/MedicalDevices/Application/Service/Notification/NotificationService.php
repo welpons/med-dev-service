@@ -112,7 +112,7 @@ class NotificationService
     private function publish($exchangeName, StoredEvent $notification, MessageProducer $messageProducer)
     {
         $messageProducer->send(
-                $exchangeName, $this->serializer->serialize($notification, 'json'), $notification->typeName(), $notification->eventId(), $notification->occurredOn()
+            $exchangeName, $this->serializer->serialize($notification, 'json'), $notification->typeName(), $notification->eventId(), $notification->occurredOn()
         );
         
         return $notification;

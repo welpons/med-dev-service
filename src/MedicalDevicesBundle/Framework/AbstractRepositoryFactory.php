@@ -30,7 +30,8 @@ use MedicalDevices\Infrastructure\Persistence\RepositoryInterface;
  * @author Welpons <welpons@gmail.com>
  */
 abstract class AbstractRepositoryFactory
-{    
+{
+    
     /**
      * @var string 
      */
@@ -49,7 +50,7 @@ abstract class AbstractRepositoryFactory
     /**
      * 
      * @param string $className
-     * @param array $dependencies
+     * @param array  $dependencies
      */
     public function __construct(string $className, array $dependencies = [])
     {
@@ -60,7 +61,7 @@ abstract class AbstractRepositoryFactory
     /**
      * creates an instance of a repository using its dependencies
      * 
-     * @param array $dependentServices
+     * @param  array $dependentServices
      * @return RepositoryInterface
      */
     abstract public function create(array $dependentServices = []) : RepositoryInterface;
@@ -97,7 +98,7 @@ abstract class AbstractRepositoryFactory
             $parts = explode("\\", $this->className);
             $this->repositoryClass = end($parts);
             
-            preg_match_all('/((?:^|[A-Z])[a-z]+)/',$this->repositoryClass, $matches);
+            preg_match_all('/((?:^|[A-Z])[a-z]+)/', $this->repositoryClass, $matches);
             
             if (empty($matches)) {
                 throw new \Exception('Unknown ORM');

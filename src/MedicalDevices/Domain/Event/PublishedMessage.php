@@ -44,7 +44,7 @@ class PublishedMessage
 
     /**
      * @param string $aTypeName
-     * @param int $aMostRecentPublishedMessageId
+     * @param int    $aMostRecentPublishedMessageId
      */
     public function __construct(string $aTypeName, int $aMostRecentPublishedMessageId)
     {

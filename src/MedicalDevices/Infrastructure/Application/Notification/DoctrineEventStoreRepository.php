@@ -48,7 +48,7 @@ class DoctrineEventStoreRepository extends DoctrineRepository implements EventSt
     public function append($aDomainEvent)
     {
         $storedEvent = new StoredEvent(
-                get_class($aDomainEvent), $aDomainEvent->occurredOn(), $this->serializer->serialize($aDomainEvent, 'json')
+            get_class($aDomainEvent), $aDomainEvent->occurredOn(), $this->serializer->serialize($aDomainEvent, 'json')
         );
         
         $this->em->persist($storedEvent);

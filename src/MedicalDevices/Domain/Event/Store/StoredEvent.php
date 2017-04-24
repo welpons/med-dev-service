@@ -55,9 +55,9 @@ class StoredEvent implements DomainEventInterface
     
     /** 
      * 
-     * @param string $aTypeName 
+     * @param string             $aTypeName 
      * @param \DateTimeImmutable $anOccurredOn 
-     * @param string $anEventBody 
+     * @param string             $anEventBody 
      */
     public function __construct(string $aTypeName, \DateTimeImmutable $anOccurredOn, $anEventBody) 
     { 

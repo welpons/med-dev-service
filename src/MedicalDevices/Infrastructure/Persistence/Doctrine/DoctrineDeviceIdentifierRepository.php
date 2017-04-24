@@ -38,50 +38,50 @@ class DoctrineDeviceIdentifierRepository extends DoctrineRepository implements D
     public function allDeviceIdentifiers()
     {
         return $this->em->createQueryBuilder()
-                        ->select('i')
-                        ->from(self::ENTITY_CLASS, 'i')
-                        ->getQuery()
-                        ->getResult();        
+            ->select('i')
+            ->from(self::ENTITY_CLASS, 'i')
+            ->getQuery()
+            ->getResult();        
     }    
     
     public function deviceIdentifierOfIdentifier(Identifier $identifier)
     {
         return $this->em->createQueryBuilder()
-                ->select('i')
-                ->from(self::ENTITY_CLASS, 'i')
-                ->where('i.identifier.type = :type')
-                ->andWhere('i.identifier.value = :value')
-                ->setParameter(':type', $identifier->type())  
-                ->setParameter(':value', $identifier->value())
-                ->getQuery()
-                ->getOneOrNullResult();          
+            ->select('i')
+            ->from(self::ENTITY_CLASS, 'i')
+            ->where('i.identifier.type = :type')
+            ->andWhere('i.identifier.value = :value')
+            ->setParameter(':type', $identifier->type())  
+            ->setParameter(':value', $identifier->value())
+            ->getQuery()
+            ->getOneOrNullResult();          
     }
 
     public function deviceIdentifiersOfDevice(DeviceId $deviceId)
     {
         return $this->em->createQueryBuilder()
-                ->select('d, i')
-                ->from(self::ENTITY_CLASS, 'i')
-                ->join('i.device', 'd')
-                ->where('i.device = :device_id')
-                ->orderBy('i.isReferenceIdentifier', 'DESC')
-                ->setParameter(':device_id', $deviceId)
-                ->getQuery()
-                ->getResult();  
+            ->select('d, i')
+            ->from(self::ENTITY_CLASS, 'i')
+            ->join('i.device', 'd')
+            ->where('i.device = :device_id')
+            ->orderBy('i.isReferenceIdentifier', 'DESC')
+            ->setParameter(':device_id', $deviceId)
+            ->getQuery()
+            ->getResult();  
     }
 
     public function referenceDeviceIdentifierOfDevice(DeviceId $deviceId)
     {
         return $this->em->createQueryBuilder()
-                ->select('d, i')
-                ->from(self::ENTITY_CLASS, 'i')
-                ->join('i.device', 'd')
-                ->where('i.device = :device_id')
-                ->andWhere('i.isReferenceIdentifier = :is_reference_id')
-                ->setParameter(':device_id', $deviceId)
-                ->setParameter(':is_reference_id', DeviceIdentifier::IS_REFERENCE_ID)
-                ->getQuery()
-                ->getOneOrNullResult();           
+            ->select('d, i')
+            ->from(self::ENTITY_CLASS, 'i')
+            ->join('i.device', 'd')
+            ->where('i.device = :device_id')
+            ->andWhere('i.isReferenceIdentifier = :is_reference_id')
+            ->setParameter(':device_id', $deviceId)
+            ->setParameter(':is_reference_id', DeviceIdentifier::IS_REFERENCE_ID)
+            ->getQuery()
+            ->getOneOrNullResult();           
     }
 
     public function remove(DeviceIdentifier $deviceIdentifier)

@@ -48,7 +48,7 @@ class DeviceIdentifierRequestDTO implements DTOInterface
      * 
      * @param string $type
      * @param string $value
-     * @param type $isReferenceIdentifier
+     * @param type   $isReferenceIdentifier
      */
     public function __construct(string $type, string $value, $isReferenceIdentifier = DeviceIdentifier::IS_NOT_REFERENCE_ID)
     {

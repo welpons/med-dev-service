@@ -32,8 +32,9 @@ use MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO;
  *
  * @author Welpons <welpons@gmail.com>
  */
-class DeviceHydrator extends AbstractHydrator 
-{     
+class DeviceHydrator extends AbstractHydrator
+{
+     
     private $device = null;
     
     protected function hydrateAllData()     

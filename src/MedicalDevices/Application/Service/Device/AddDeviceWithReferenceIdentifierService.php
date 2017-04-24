@@ -31,7 +31,7 @@ use MedicalDevices\Domain\Model\Device\DeviceFactory;
 /**
  * Adds a new device in the system with its device identifiers
  *
- * @author jenkins
+ * @author Welpons <welpons@gmail.com>
  */
 class AddDeviceWithReferenceIdentifierService extends DeviceService implements DeviceServiceCommandInterface
 {
