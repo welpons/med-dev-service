@@ -22,9 +22,11 @@ namespace Tests\MedicalDevices\Application\Service\Device;
 use Symfony\Bundle\FrameworkBundle\Console\Application as App;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Doctrine\Common\Collections\ArrayCollection;
 
 use MedicalDevices\Application\Service\Device\AddDeviceWithReferenceIdentifierService;
 use MedicalDevices\Application\DTO\Device\DeviceRequestDTO;
+use MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO;
 use MedicalDevices\Application\Service\ApplicationService;
 use MedicalDevices\Application\Service\Device\DeviceServiceCommandInterface;
 use MedicalDevices\Infrastructure\Persistence\Doctrine\DoctrineDeviceRepository;
@@ -93,7 +95,9 @@ class AddDeviceWithReferenceIdentifierServiceTest extends KernelTestCase
      */
     public function addDeviceToSystem()
     {
-        $identifiers = [['type' => 'SNO', 'value' => 'SNA78G56']];
+        $identifiers = new ArrayCollection;
+        $identifier = new DeviceIdentifierRequestDTO('SNO', 'SNA78G56', true);
+        $identifiers->add($identifier);
         $dto = new DeviceRequestDTO('med', 'GLUCO', 'FORA_D40', $identifiers);
         
         $device = new AddDeviceWithReferenceIdentifierService($this->init, $this->repositoriesProvider);

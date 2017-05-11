@@ -59,7 +59,6 @@ class DeviceValidator extends Validator
             $modelValidator = (new ModelValidator($this->configurations))->addRepositories($this->repositories);
             $modelValidator->validate($validatorHandler, $dto->model());
 
-
             foreach ($dto->deviceIdentifiers() as $deviceIdentifier) {
                 $deviceIdentifierValidator = new DeviceIdentifierValidator($this->configurations);
                 $deviceIdentifierValidator->validate($validatorHandler, $deviceIdentifier);

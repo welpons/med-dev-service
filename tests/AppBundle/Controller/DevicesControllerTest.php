@@ -31,7 +31,6 @@ class DevicesControllerTest extends WebTestCase
 
     private $_server;
     private $paramConverter;
-    private $serializer;
 
     public function setUp()
     {
@@ -57,7 +56,7 @@ class DevicesControllerTest extends WebTestCase
 
         $content = <<<EOT
 <?xml version="1.0" encoding="UTF-8" ?> 
-<newDevice xmlns="urn:med.dev.rest.ws">
+<device_request_dto>
 	<category_id>med</category_id>
 	<model>
             <id>FORA_D40</id>
@@ -70,10 +69,10 @@ class DevicesControllerTest extends WebTestCase
             <identifier>
                 <type>SNO</type>
                 <value>SNO00896E34</value>
-                <is_reference_identifier/>
+                <is_reference_identifier>true</is_reference_identifier>
             </identifier>  
         </device_identifiers>    
-</newDevice>
+</device_request_dto>
 EOT;
 
         $crawlerAddDevice = $client->request('POST', '/devices/new', array(), array(), $this->_server, $content);

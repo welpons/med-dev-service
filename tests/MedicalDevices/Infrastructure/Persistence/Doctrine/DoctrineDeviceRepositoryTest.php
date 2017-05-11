@@ -158,14 +158,14 @@ class DoctrineDeviceRepositoryTest extends KernelTestCase
     
     /**
      * @test
-     * @group device_repository1
+     * @group device_repository
      */
     public function addDevice()
     {
         $persistedDevicesBefore = $this->doctrineDeviceRepository->allDevices();
         $persistedDeviceIdentifiersBefore = $this->doctrineDeviceIdentifierRepository->allDeviceIdentifiers();
         
-        $device = new Device(DeviceId::create(), 'med', new Model('MRON_BP792IT', new Type('BLDPRM', 'blood_pressure_monitor')), $this->init->getParameter('application.ref_identifier_type'));        
+        $device = new Device(DeviceId::create(), 'med', new Model('MRON_BP792IT', new Type('BLDPRM', 'blood_pressure_monitor')), $this->init->getParameter('application.ref_identifier_type'), new \DateTimeImmutable());        
         $referenceDeviceIdentifierDTO = new DeviceIdentifierRequestDTO('SNO', 'SNBP001122', DeviceIdentifier::IS_REFERENCE_ID); 
         $deviceIdentifierDTO = new DeviceIdentifierRequestDTO('MAC', '49:DA:EB:92:DE:70'); 
         $device->setDeviceIdentifiers([$referenceDeviceIdentifierDTO, $deviceIdentifierDTO]);

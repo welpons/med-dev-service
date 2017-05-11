@@ -20,7 +20,10 @@
 namespace Tests\MedicalDevices\Domain\Model\Device;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Doctrine\Common\Collections\ArrayCollection;
+
 use MedicalDevices\Application\DTO\Device\DeviceRequestDTO;
+use MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO;
 use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
@@ -56,12 +59,24 @@ class DeviceTest extends KernelTestCase
      * @test
      * @group model_domain_device
      */
+    public function deviceCreationWithConstructor()
+    {
+        $id = DeviceId::create();
+        $createdAt = new \DateTimeImmutable();
+        $deviceWithConstructor = new Device($id, 'med', new Model('FORA_D40', new Type('GLUCO')), $this->init->getParameter('application.ref_identifier_type'), $createdAt);
+        $this->assertEquals($deviceWithConstructor->createdAt(), $createdAt);
+    }        
+    
+    /**
+     * @test
+     * @group model_domain_device
+     */
     public function setDeviceIdentifiersOneReferenceIdentifier()
     {
-        $identifiers = [
-            ['type' => 'SNO', 'value' => 'SNAF67H567', 'is_reference_identifier'],
-            ['type' => 'MAC', 'value' => '00:15:E9:2B:99:3C']
-        ];
+        $identifiers = new ArrayCollection;
+
+        $identifiers->add(new DeviceIdentifierRequestDTO('SNO', 'SNAF67H567', true));  
+        $identifiers->add(new DeviceIdentifierRequestDTO('MAC', '00:15:E9:2B:99:3C', false));  
         $deviceDTO = new DeviceRequestDTO('med', 'FORA_D40', 'GLUCO', $identifiers);
         
         $id = DeviceId::create();
@@ -90,10 +105,10 @@ class DeviceTest extends KernelTestCase
      */
     public function setDeviceIdentifiersMultipleReferenceIdentifier()
     {
-        $identifiers = [
-            ['type' => 'SNO', 'value' => 'SNAF67H567', 'is_reference_identifier'],
-            ['type' => 'MAC', 'value' => '00:15:E9:2B:99:3C', 'is_reference_identifier']
-        ];
+        $identifiers = new ArrayCollection;
+
+        $identifiers->add(new DeviceIdentifierRequestDTO('SNO', 'SNAF67H567', true));  
+        $identifiers->add(new DeviceIdentifierRequestDTO('MAC', '00:15:E9:2B:99:3C', true));  
         $deviceDTO = new DeviceRequestDTO('med', 'FORA_D40', 'GLUCO', $identifiers);
         
         $id = DeviceId::create();
@@ -108,10 +123,10 @@ class DeviceTest extends KernelTestCase
      */
     public function setDeviceIdentifiersNoReferenceIdentifier()
     {
-        $identifiers = [
-            ['type' => 'SNO', 'value' => 'SNAF67H567'],
-            ['type' => 'MAC', 'value' => '00:15:E9:2B:99:3C']
-        ];
+        $identifiers = new ArrayCollection;
+
+        $identifiers->add(new DeviceIdentifierRequestDTO('SNO', 'SNAF67H567', false));  
+        $identifiers->add(new DeviceIdentifierRequestDTO('MAC', '00:15:E9:2B:99:3C', false));  
         $deviceDTO = new DeviceRequestDTO('med', 'FORA_D40', 'GLUCO', $identifiers);
         
         $id = DeviceId::create();

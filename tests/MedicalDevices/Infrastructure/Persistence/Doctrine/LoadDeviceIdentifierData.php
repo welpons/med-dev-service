@@ -46,7 +46,7 @@ class LoadDeviceIdentifierData implements FixtureInterface
     public function load(ObjectManager $manager)
     {
         $deviceId = DeviceId::create();
-        $device = new Device(DeviceId::create(), 'med', new Model('FORA_D40', new Type('GLUCO', 'glucometer')), $this->refIdentifierType);
+        $device = new Device(DeviceId::create(), 'med', new Model('FORA_D40', new Type('GLUCO', 'glucometer')), $this->refIdentifierType, new \DateTimeImmutable());
 
         $manager->persist($device);        
         

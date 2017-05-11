@@ -1,13 +1,10 @@
-MedicalDevices\Application\DTO\Device\DeviceRequestDTO: 
-    xml_root_name: device_request_dto
-    xml_root_namespace: 'urn:med.dev.rest.ws'  
+MedicalDevices\Application\DTO\Device\Identifier\DeviceRequestDTO: 
     properties:
         categoryId:
             type: string      
         model:
             type: MedicalDevices\Application\DTO\Device\Model\ModelRequestDTO
-        deviceIdentifiers:          
+        deviceIdentifiers:
             type: ArrayCollection<MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO>
             xml_map:
                 entry_name: identifier
-            

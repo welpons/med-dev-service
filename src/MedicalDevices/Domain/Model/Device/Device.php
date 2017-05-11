@@ -65,22 +65,46 @@ class Device
      *
      * @var array
      */
-    protected $deviceIdentifiers;
+    private $deviceIdentifiers;
 
+    /**
+     *
+     * @var \DateTimeInterface 
+     */
+    private $createdAt;
+    
+    /**
+     *
+     * @var \DateTimeInterface 
+     */
+    private $updatedAt;
+
+    /**
+     *
+     * @var \DateTimeInterface 
+     */
+    protected $deletedAt;
+    
     /**
      * 
      * @param \MedicalDevices\Domain\Model\Device\DeviceId $id
      * @param string                                       $categoryId
      * @param Model                                        $model
      * @param string                                       $referenceIdentifierType
+     * @param \DateTimeInterface                           $createdAt
+     * @param \DateTimeInterface                           $updatedAt
+     * @param \DateTimeInterface                           $deletedAt
      */
-    public function __construct(DeviceId $id, string $categoryId, Model $model, string $referenceIdentifierType = null)
+    public function __construct(DeviceId $id, string $categoryId, Model $model, string $referenceIdentifierType = null, \DateTimeInterface $createdAt = null, \DateTimeInterface $updatedAt = null, \DateTimeInterface $deletedAt = null)
     {
         $this->deviceIdentifiers = [];
         $this->id = $id;
         $this->categoryId = $categoryId;
         $this->model = $model;
         $this->referenceIdentifierType = $referenceIdentifierType;
+        $this->createdAt = $createdAt;
+        $this->updatedAt = $updatedAt;
+        $this->deletedAt = $deletedAt;
     }
 
     /**
@@ -98,7 +122,7 @@ class Device
             $id = DeviceId::create();
         }
 
-        return new self($id, $categoryId, new Model($modelId, new Type($modelTypeKey)), $referenceIdentifierType);
+        return new self($id, $categoryId, new Model($modelId, new Type($modelTypeKey)), $referenceIdentifierType, new \DateTimeImmutable());
     }
 
     /**
@@ -178,6 +202,35 @@ class Device
         return $this->referenceDeviceIdentifier;
     }
 
+    public function createdAt(): \DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function updatedAt(): \DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function deletedAt(): \DateTimeInterface
+    {
+        return $this->deletedAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt = null)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    public function setUpdatedAt(\DateTimeInterface $updatedAt = null)
+    {
+        $this->updatedAt = $updatedAt;
+    }
+
+    public function setDeletedAt(\DateTimeInterface $deletedAt = null)
+    {
+        $this->deletedAt = $deletedAt;
+    }
         
     public function __toString()
     {

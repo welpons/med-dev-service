@@ -7,7 +7,10 @@
                 <cascade-persist/>
             </cascade>
         </one-to-many>
-        <field name="categoryId" column="category_id" type="string" length="3"/>
-        <embedded name="model" class="MedicalDevices\Domain\Model\Device\Model\Model" />       
+        <field name="categoryId" column="category_id" type="string" length="3"/>     
+        <embedded name="model" class="MedicalDevices\Domain\Model\Device\Model\Model" />   
+        <field name="createdAt" column="created_at" type="datetime"/>
+        <field name="updatedAt" column="updated_at" type="datetime" nullable="true"/>    
+        <field name="deletedAt" column="deleted_at" type="datetime" nullable="true"/>                
     </entity>
 </doctrine-mapping>

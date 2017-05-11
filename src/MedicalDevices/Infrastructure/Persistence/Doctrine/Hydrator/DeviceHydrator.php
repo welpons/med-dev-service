@@ -41,6 +41,7 @@ class DeviceHydrator extends AbstractHydrator
     {         
         $result = array();                 
         foreach($this->_stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+print_r(array_keys($row));              
             $this->createDevice($row);
             $this->hydrateRowData($row, $result);
         }
@@ -50,14 +51,17 @@ class DeviceHydrator extends AbstractHydrator
 
     protected function hydrateRowData(array $data, array &$result)
     {       
-        $deviceIdentifier = new DeviceIdentifierRequestDTO($data['identifier_type_6'], $data['identifier_value_7'], ((1 == $data['is_reference_id_4']) ? true : false));
+        $deviceIdentifier = new DeviceIdentifierRequestDTO($data['identifier_type_9'], $data['identifier_value_10'], ((1 == $data['is_reference_id_7']) ? true : false));
         $result[] = $deviceIdentifier;
     }
     
     private function createDevice($row)
     {       
-        if (null === $this->device) {          
-            $this->device = new Device(DeviceId::create($row['id_1']), $row['category_id_0'], new Model($row['model_id_2'], new Type($row['model_type_key_3'])));
+        if (null === $this->device) {            
+            $createdAt = ($row['created_at_1'] ? new \DateTime($row['created_at_1']) : null);
+            $updatedAt = ($row['updated_at_2'] ? new \DateTime($row['updated_at_2']) : null);
+            $deletedAt = ($row['deleted_at_3'] ? new \DateTime($row['deleted_at_3']) : null);
+            $this->device = new Device(DeviceId::create($row['id_4']), $row['category_id_0'], new Model($row['model_id_5'], new Type($row['model_type_key_6'], $row['identifier_type_9'], $createdAt, $updatedAt, $deletedAt)));
         }
     }        
 }

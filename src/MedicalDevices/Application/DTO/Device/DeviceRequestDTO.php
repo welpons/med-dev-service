@@ -19,20 +19,27 @@
 
 namespace MedicalDevices\Application\DTO\Device;
 
-use MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO;
+use MedicalDevices\Application\DTO\DTOInterface;
 use MedicalDevices\Application\DTO\Device\Model\ModelRequestDTO;
 use MedicalDevices\Application\DTO\Device\Model\Type\TypeRequestDTO;
-use MedicalDevices\Application\DTO\DTOInterface;
-
 
 /**
- * Description of DeviceDTO
+ * Description of DeviceIdentifierDTO
  *
  * @author Welpons <welpons@gmail.com>
  */
 class DeviceRequestDTO implements DTOInterface
 {
-
+    const OBJECT = 0;
+    const TO_ARRAY = 1;
+    
+    public function __construct(string $categoryId, string $modelId, string $modelTypeKey, $deviceIdentifiers) 
+    {
+        $this->categoryId = $categoryId;
+        $this->model = new ModelRequestDTO($modelId, new TypeRequestDTO($modelTypeKey));
+        $this->deviceIdentifiers = $deviceIdentifiers;
+    }  
+    
     /**
      * @var string 
      */
@@ -42,37 +49,28 @@ class DeviceRequestDTO implements DTOInterface
      *
      * @var MedicalDevices\Application\DTO\Device\Model\ModelRequestDTO 
      */
-    private $model = null;
-            
+    private $model = null;    
+    
     /**
-     *
-     * @var array<MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO> 
+     * @var ArrayCollection<MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO> 
      */
-    private $deviceIdentifiers = array();
+    private $deviceIdentifiers;    
     
     /**
      * 
-     * @param string $categoryId
-     * @param string $modelId
-     * @param string $modelTypeKey
-     * @param array  $deviceIdentifiers
+     * @param int $typeToRetrieve
+     * @return array|Doctrine\Common\Collections\ArrayCollection
      */
-    public function __construct(string $categoryId, string $modelId, string $modelTypeKey, array $deviceIdentifiers) 
+    public function deviceIdentifiers($typeToRetrieve = self::TO_ARRAY)
     {
-        $this->categoryId = $categoryId;
-        $this->model = new ModelRequestDTO($modelId, new TypeRequestDTO($modelTypeKey));
-        
-        foreach($deviceIdentifiers as $deviceIdentifier) {           
-            $this->deviceIdentifiers[] = new DeviceIdentifierRequestDTO($deviceIdentifier['type'], $deviceIdentifier['value'], (in_array('is_reference_identifier', $deviceIdentifier) ? true : false));
+        if ($typeToRetrieve == self::TO_ARRAY) {
+            return $this->deviceIdentifiers->toArray();
         }
-    }    
-    
-    public function deviceIdentifiers() : array
-    {
+        
         return $this->deviceIdentifiers;
-    }     
-    
-    public function categoryId(): string
+    }
+  
+    public function categoryId()
     {
         return $this->categoryId;
     }
@@ -80,6 +78,6 @@ class DeviceRequestDTO implements DTOInterface
     public function model(): ModelRequestDTO
     {
         return $this->model;
-    }    
+    }
 
 }
