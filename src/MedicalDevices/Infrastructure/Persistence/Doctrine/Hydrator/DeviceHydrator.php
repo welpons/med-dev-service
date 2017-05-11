@@ -40,8 +40,7 @@ class DeviceHydrator extends AbstractHydrator
     protected function hydrateAllData()     
     {         
         $result = array();                 
-        foreach($this->_stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
-print_r(array_keys($row));              
+        foreach($this->_stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {              
             $this->createDevice($row);
             $this->hydrateRowData($row, $result);
         }
