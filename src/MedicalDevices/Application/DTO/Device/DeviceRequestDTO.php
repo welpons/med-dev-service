@@ -19,6 +19,7 @@
 
 namespace MedicalDevices\Application\DTO\Device;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use MedicalDevices\Application\DTO\DTOInterface;
 use MedicalDevices\Application\DTO\Device\Model\ModelRequestDTO;
 use MedicalDevices\Application\DTO\Device\Model\Type\TypeRequestDTO;
@@ -33,7 +34,7 @@ class DeviceRequestDTO implements DTOInterface
     const OBJECT = 0;
     const TO_ARRAY = 1;
     
-    public function __construct(string $categoryId, string $modelId, string $modelTypeKey, $deviceIdentifiers) 
+    public function __construct(string $categoryId, string $modelId, string $modelTypeKey, ArrayCollection $deviceIdentifiers) 
     {
         $this->categoryId = $categoryId;
         $this->model = new ModelRequestDTO($modelId, new TypeRequestDTO($modelTypeKey));
