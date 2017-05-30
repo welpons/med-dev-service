@@ -41,4 +41,5 @@ class ValidationErrors
     const INVALID_DEVICE_IDENTIFIER_TYPE =     '0013'; 
     const INVALID_NUMBER_REF_IDENTIFIERS =     '0014';
     const DEVICE_IDENTIFIER_NOT_FOUND =        '0015'; 
+    const DEVICE_COLLECTION_STATUS_NOT_FOUND = '0016';
 }

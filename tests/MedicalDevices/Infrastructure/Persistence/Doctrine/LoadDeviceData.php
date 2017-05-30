@@ -44,9 +44,10 @@ class LoadDeviceData implements FixtureInterface
         
     public function load(ObjectManager $manager)
     {
-        $device1 = new Device(DeviceId::create(), 'med', new Model('FORA_D40', new Type('GLUCO', 'glucometer')), $this->refIdentifierType, new \DateTimeImmutable());
-        $device2 = new Device(DeviceId::create(), 'med', new Model('FORA_D40', new Type('GLUCO', 'glucometer')), $this->refIdentifierType, new \DateTimeImmutable());
-        $device3 = new Device(DeviceId::create(), 'med', new Model('OMRON_HBF-206IT',  new Type('SCALE', 'weight_scale')), $this->refIdentifierType, new \DateTimeImmutable());
+        $createdAt = new \DateTimeImmutable();
+        $device1 = new Device(DeviceId::create(), 'med', new Model('FORA_D40', new Type('GLUCO', 'glucometer')), $this->refIdentifierType, $createdAt, $createdAt, null);
+        $device2 = new Device(DeviceId::create(), 'med', new Model('FORA_D40', new Type('GLUCO', 'glucometer')), $this->refIdentifierType, $createdAt, $createdAt, null);
+        $device3 = new Device(DeviceId::create(), 'med', new Model('OMRON_HBF-206IT',  new Type('SCALE', 'weight_scale')), $this->refIdentifierType, $createdAt, $createdAt, null);
         
         $manager->persist($device1);
         $manager->persist($device2);    

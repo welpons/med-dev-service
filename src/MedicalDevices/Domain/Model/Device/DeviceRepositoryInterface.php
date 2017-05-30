@@ -39,7 +39,7 @@ interface DeviceRepositoryInterface extends RepositoryInterface
     
     public function deviceOfId(DeviceId $Id);
     
-    public function allDevices();
+    public function allDevices($status = null);
     
     public function allDevicesOfModel(Model $model);
     

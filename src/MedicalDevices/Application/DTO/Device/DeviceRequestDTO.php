@@ -33,14 +33,7 @@ class DeviceRequestDTO implements DTOInterface
 {
     const OBJECT = 0;
     const TO_ARRAY = 1;
-    
-    public function __construct(string $categoryId, string $modelId, string $modelTypeKey, ArrayCollection $deviceIdentifiers) 
-    {
-        $this->categoryId = $categoryId;
-        $this->model = new ModelRequestDTO($modelId, new TypeRequestDTO($modelTypeKey));
-        $this->deviceIdentifiers = $deviceIdentifiers;
-    }  
-    
+        
     /**
      * @var string 
      */
@@ -56,6 +49,13 @@ class DeviceRequestDTO implements DTOInterface
      * @var ArrayCollection<MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO> 
      */
     private $deviceIdentifiers;    
+    
+    public function __construct(string $categoryId, string $modelId, string $modelTypeKey, ArrayCollection $deviceIdentifiers) 
+    {
+        $this->categoryId = $categoryId;
+        $this->model = new ModelRequestDTO($modelId, new TypeRequestDTO($modelTypeKey));
+        $this->deviceIdentifiers = $deviceIdentifiers;
+    }      
     
     /**
      * 

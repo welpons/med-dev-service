@@ -109,13 +109,22 @@ class DoctrineDeviceRepository extends DoctrineRepository implements DeviceRepos
             ->getOneOrNullResult('DeviceHydrator');
     }
 
-    public function allDevices()
-    {
-        return $this->em->createQueryBuilder()
+    public function allDevices($status = null)
+    {        
+        $sql = $this->em->createQueryBuilder()
             ->select('d')
-            ->from(self::ENTITY_CLASS, 'd')
-            ->getQuery()
-            ->getResult();
+            ->from(self::ENTITY_CLASS, 'd');
+        
+        if (null === $status || $status === Device::STATUS_ACTIVE) {
+            $sql->where('d.deletedAt is NULL');       
+        }
+
+        if ($status === Device::STATUS_INACTIVE) {                 
+            $sql->where('d.deletedAt != :deleted_at')
+            ->setParameter(':deleted_at', null);           
+        }        
+            
+        return $sql->getQuery()->getResult();
     }
 
     public function getName(): string

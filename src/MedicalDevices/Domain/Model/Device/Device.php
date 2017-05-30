@@ -31,7 +31,10 @@ use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
  */
 class Device
 {
-
+    const STATUS_ACTIVE = 1;
+    const STATUS_INACTIVE = 0;
+    const STATUS_UNKNOWN = 9;
+    
     /**
      * @var DeviceId 
      */
@@ -207,12 +210,12 @@ class Device
         return $this->createdAt;
     }
 
-    public function updatedAt(): \DateTimeInterface
+    public function updatedAt()
     {
         return $this->updatedAt;
     }
 
-    public function deletedAt(): \DateTimeInterface
+    public function deletedAt()
     {
         return $this->deletedAt;
     }
