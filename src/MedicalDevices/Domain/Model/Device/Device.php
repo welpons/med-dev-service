@@ -210,12 +210,12 @@ class Device
         return $this->createdAt;
     }
 
-    public function updatedAt()
+    public function updatedAt(): \DateTimeInterface
     {
         return $this->updatedAt;
     }
 
-    public function deletedAt()
+    public function deletedAt(): ?\DateTimeInterface
     {
         return $this->deletedAt;
     }
