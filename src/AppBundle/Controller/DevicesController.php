@@ -36,7 +36,8 @@ use MedicalDevices\Application\DTO\Device\DeviceRequestDTO;
 class DevicesController extends FOSRestController
 {
     /**
-     * Adds a new device with at leat one device identifier
+     * Adds a new device with at leat one device identifier.
+     * Post parameters are passed using a xml object. This object is deserialized to DTO object.
      * 
      * @param  MedicalDevices\Application\DTO\Device\DeviceRequestDTO $deviceRequestDTO
      * @return type
