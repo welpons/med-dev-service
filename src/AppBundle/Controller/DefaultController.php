@@ -10,6 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
 class DefaultController extends Controller
 {
     /**
+     * @todo add html template
+     * 
      * @Route("/", name="homepage")
      */
     public function indexAction(Request $request)
