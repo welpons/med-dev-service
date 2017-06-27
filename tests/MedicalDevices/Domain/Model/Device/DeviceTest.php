@@ -26,6 +26,7 @@ use MedicalDevices\Application\DTO\Device\DeviceRequestDTO;
 use MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO;
 use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
+use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
 use MedicalDevices\Domain\Model\Device\Model\Model;
 use MedicalDevices\Domain\Model\Device\Model\Type\Type;
@@ -80,9 +81,12 @@ class DeviceTest extends KernelTestCase
         $deviceDTO = new DeviceRequestDTO('med', 'FORA_D40', 'GLUCO', $identifiers);
         
         $id = DeviceId::create();
-        $deviceFactory = Device::create($id, $deviceDTO->categoryId(), $deviceDTO->model()->id(), $deviceDTO->model()->type()->Key(), $this->init->getParameter('application.ref_identifier_type'));        
-        $deviceFactory->setDeviceIdentifiers($deviceDTO->deviceIdentifiers());
-        $deviceIdentifiers = $deviceFactory->deviceIdentifiers();
+        $device = Device::create($id, $deviceDTO->categoryId(), $deviceDTO->model()->id(), $deviceDTO->model()->type()->Key(), $this->init->getParameter('application.ref_identifier_type'));        
+        $deviceIdentifiersFromDTO = array_map(function($identifier){
+            return new DeviceIdentifier(new Identifier($identifier->type(), $identifier->value()), $identifier->isReferenceIdentifier());
+        }, $deviceDTO->deviceIdentifiers());        
+        $device->setDeviceIdentifiers($deviceIdentifiersFromDTO);
+        $deviceIdentifiers = $device->deviceIdentifiers();       
         $this->assertTrue(current($deviceIdentifiers) instanceof DeviceIdentifier);
         
         $countDeviceReferenceIdentifier = 0;
@@ -113,7 +117,10 @@ class DeviceTest extends KernelTestCase
         
         $id = DeviceId::create();
         $deviceFactory = Device::create($id, $deviceDTO->categoryId(), $deviceDTO->model()->id(), $deviceDTO->model()->type()->Key(), $this->init->getParameter('application.ref_identifier_type'));        
-        $deviceFactory->setDeviceIdentifiers($deviceDTO->deviceIdentifiers());
+        $deviceIdentifiersFromDTO = array_map(function($identifier){
+            return new DeviceIdentifier(new Identifier($identifier->type(), $identifier->value()), $identifier->isReferenceIdentifier());
+        }, $deviceDTO->deviceIdentifiers());          
+        $deviceFactory->setDeviceIdentifiers($deviceIdentifiersFromDTO);
 
     }        
     
@@ -130,9 +137,12 @@ class DeviceTest extends KernelTestCase
         $deviceDTO = new DeviceRequestDTO('med', 'FORA_D40', 'GLUCO', $identifiers);
         
         $id = DeviceId::create();
-        $deviceFactory = Device::create($id, $deviceDTO->categoryId(), $deviceDTO->model()->id(), $deviceDTO->model()->type()->Key(), $this->init->getParameter('application.ref_identifier_type'));        
-        $deviceFactory->setDeviceIdentifiers($deviceDTO->deviceIdentifiers());
-        $deviceIdentifiers = $deviceFactory->deviceIdentifiers();
+        $device = Device::create($id, $deviceDTO->categoryId(), $deviceDTO->model()->id(), $deviceDTO->model()->type()->Key(), $this->init->getParameter('application.ref_identifier_type'));        
+        $deviceIdentifiersFromDTO = array_map(function($identifier){
+            return new DeviceIdentifier(new Identifier($identifier->type(), $identifier->value()), $identifier->isReferenceIdentifier());
+        }, $deviceDTO->deviceIdentifiers());           
+        $device->setDeviceIdentifiers($deviceIdentifiersFromDTO);
+        $deviceIdentifiers = $device->deviceIdentifiers();
         $this->assertTrue(current($deviceIdentifiers) instanceof DeviceIdentifier);
         
         $countDeviceReferenceIdentifier = 0;

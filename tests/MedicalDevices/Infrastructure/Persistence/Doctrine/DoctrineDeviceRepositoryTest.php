@@ -26,6 +26,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
 use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
+use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
 use MedicalDevices\Domain\Model\Device\Model\Model;
 use MedicalDevices\Domain\Model\Device\Model\Type\Type;
 use MedicalDevices\Domain\Model\Device\DeviceRepositoryInterface;
@@ -166,9 +167,9 @@ class DoctrineDeviceRepositoryTest extends KernelTestCase
         $persistedDeviceIdentifiersBefore = $this->doctrineDeviceIdentifierRepository->allDeviceIdentifiers();
         
         $device = new Device(DeviceId::create(), 'med', new Model('MRON_BP792IT', new Type('BLDPRM', 'blood_pressure_monitor')), $this->init->getParameter('application.ref_identifier_type'), new \DateTimeImmutable());        
-        $referenceDeviceIdentifierDTO = new DeviceIdentifierRequestDTO('SNO', 'SNBP001122', DeviceIdentifier::IS_REFERENCE_ID); 
-        $deviceIdentifierDTO = new DeviceIdentifierRequestDTO('MAC', '49:DA:EB:92:DE:70'); 
-        $device->setDeviceIdentifiers([$referenceDeviceIdentifierDTO, $deviceIdentifierDTO]);
+        $referenceDeviceIdentifier = new DeviceIdentifier(new Identifier('SNO', 'SNBP001122'), DeviceIdentifier::IS_REFERENCE_ID, $device); 
+        $deviceIdentifierSecundary = new DeviceIdentifier(new Identifier('MAC', '49:DA:EB:92:DE:70'), DeviceIdentifier::IS_NOT_REFERENCE_ID, $device); 
+        $device->setDeviceIdentifiers([$referenceDeviceIdentifier, $deviceIdentifierSecundary]);
         
         $this->doctrineDeviceRepository->save($device);
         
