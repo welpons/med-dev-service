@@ -53,4 +53,9 @@ class Type
     {
         return $this->name;
     }       
+    
+    public function toArray()
+    {
+        return ['key' => $this->key, 'name' => $this->name];
+    }        
 }

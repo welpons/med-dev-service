@@ -95,4 +95,9 @@ class DeviceIdentifier
     {
         return new self(new Identifier($identifierType, $identifierValue), $isReferenceIdentifier);
     }        
+    
+    public function toArray()
+    {
+        return ['Identifier' => $this->identifier->toArray()];
+    }        
 }

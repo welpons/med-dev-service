@@ -50,5 +50,10 @@ class Model
     public function type()
     {
         return $this->type;
+    }   
+    
+    public function toArray()
+    {
+        return ['id' => $this->id, 'Type' => $this->type->toArray()];
     }        
 }

@@ -129,8 +129,16 @@ class Device
     }
 
     /**
+     * @param DeviceIdentifier $deviceIdentifier
+     */
+    public function setDeviceIdentifier(DeviceIdentifier $deviceIdentifier)
+    {
+        $this->deviceIdentifiers[] = $deviceIdentifier;
+    }        
+    
+    /**
      * 
-     * @param array <MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifierRequestDTO>
+     * @param array <MedicalDevices\Application\Service\Device\Identifier\DeviceIdentifier>
      * @return $this
      * @throws MultipleReferenceDeviceIdentifiersException
      */
@@ -147,7 +155,7 @@ class Device
 
         if (0 == $countReferenceIdentifierTypes) {
             foreach ($deviceIdentifiers as $deviceIdentifier) {
-                if ($this->referenceIdentifierType == $deviceIdentifier->type()) {
+                if ($this->referenceIdentifierType == $deviceIdentifier->identifier()->type()) {
                     $deviceIdentifier->setIsReferenceIdentifier(DeviceIdentifier::IS_REFERENCE_ID);
                 }
             }
@@ -156,11 +164,10 @@ class Device
         }
 
         foreach($deviceIdentifiers as $deviceIdentifier) {
-            $deviceIdentifierObj = new DeviceIdentifier(new Identifier($deviceIdentifier->type(), $deviceIdentifier->value()), $deviceIdentifier->isReferenceIdentifier(), $this);
             if ($deviceIdentifier->isReferenceIdentifier()) {
-                $this->referenceDeviceIdentifier = $deviceIdentifierObj;
+                $this->referenceDeviceIdentifier = $deviceIdentifier;
             }
-            $this->deviceIdentifiers[] = $deviceIdentifierObj;
+            $this->setDeviceIdentifier($deviceIdentifier);
         }
         
         return $this;
@@ -239,5 +246,20 @@ class Device
     {
         return $this->id->id();
     }
+    
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'Model' => $this->model->toArray(),
+            'referenceIdentifierType' => $this->referenceIdentifierType,
+            'deviceIdentifiers' => array_walk($this->deviceIdentifiers, function($value, $key) {
+                return $value->toArray();
+            }),
+            'createdAt' => $this->createdAt->format('Y-m-d H:i:s'),
+            'updatedAt' => $this->updatedAt->format('Y-m-d H:i:s'),
+            'deletedAt' => (null === $this->deletedAt ? :$this->deletedAt->format('Y-m-d H:i:s'))
+        ];
+    }        
 
 }

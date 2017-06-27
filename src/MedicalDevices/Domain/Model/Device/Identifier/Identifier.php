@@ -61,4 +61,9 @@ class Identifier
     {
         return $this->type === $identifier->type() && $this->value === $identifier->value();
     }        
+    
+    public function toArray()
+    {
+        return ['type' => $this->type, 'value' => $this->value];
+    }        
 }
