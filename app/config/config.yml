@@ -42,23 +42,48 @@ twig:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   pdo_sqlite
-        path:     "%database_path%/case.db3"
+        default_connection: default        
         types:
-            device_id:  MedicalDevices\Infrastructure\Persistence\Doctrine\Type\DoctrineDeviceId        
+            device_id:  MedicalDevices\Infrastructure\Persistence\Doctrine\Type\DoctrineDeviceId    
+        connections:
+            default:            
+                driver:   pdo_sqlite
+                path:     "%database_path%/case.db3"
+   
 
     orm:
         auto_generate_proxy_classes: "%kernel.debug%"
-        auto_mapping: false
-        mappings:
-            dev_mapping:
-                type: xml
-                dir: "%kernel.root_dir%/../src/MedicalDevices/Infrastructure/Persistence/Doctrine/Mapping"
-                prefix: MedicalDevices\Domain
-                is_bundle: false
-                alias: med  
-        hydrators:
-            DeviceHydrator: MedicalDevices\Infrastructure\Persistence\Doctrine\Hydrator\DeviceHydrator                
+        default_entity_manager:   default
+        entity_managers:
+            default:        
+                auto_mapping: false
+                connection:       default
+                mappings:
+                    dev_mapping:
+                        type: xml
+                        dir: "%kernel.root_dir%/../src/MedicalDevices/Infrastructure/Persistence/Doctrine/Mapping"
+                        prefix: MedicalDevices\Domain
+                        is_bundle: false
+                        alias: med  
+                hydrators:
+                    DeviceHydrator: MedicalDevices\Infrastructure\Persistence\Doctrine\Hydrator\DeviceHydrator                
+
+doctrine_mongodb:
+    connections:
+        default:
+            server: mongodb://localhost:27017
+            options: {}
+    default_database: case
+    document_managers:
+        default:
+            mappings:
+                dev_mongo_mapping:
+                    type: xml
+                    dir: "%kernel.root_dir%/../src/MedicalDevices/Infrastructure/Persistence/DoctrineMongoDB/Mapping"
+                    prefix: MedicalDevices\Domain
+                    is_bundle: false
+                    alias: med
+            metadata_cache_driver: array # array, apc, xcache, memcache
 
 jms_serializer:
     metadata:
