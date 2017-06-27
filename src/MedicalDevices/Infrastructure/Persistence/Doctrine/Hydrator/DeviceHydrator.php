@@ -25,7 +25,8 @@ use MedicalDevices\Domain\Model\Device\Device;
 use MedicalDevices\Domain\Model\Device\DeviceId;
 use MedicalDevices\Domain\Model\Device\Model\Model;
 use MedicalDevices\Domain\Model\Device\Model\Type\Type;
-use MedicalDevices\Application\DTO\Device\Identifier\DeviceIdentifierRequestDTO;
+use MedicalDevices\Domain\Model\Device\Identifier\DeviceIdentifier;
+use MedicalDevices\Domain\Model\Device\Identifier\Identifier;
 
 /**
  * Description of DeviceHydrator
@@ -49,8 +50,8 @@ class DeviceHydrator extends AbstractHydrator
     }
 
     protected function hydrateRowData(array $data, array &$result)
-    {       
-        $deviceIdentifier = new DeviceIdentifierRequestDTO($data['identifier_type_9'], $data['identifier_value_10'], ((1 == $data['is_reference_id_7']) ? true : false));
+    {                   
+        $deviceIdentifier = new DeviceIdentifier(new Identifier($data['identifier_type_9'], $data['identifier_value_10']), ((1 == $data['is_reference_id_7']) ? true : false));
         $result[] = $deviceIdentifier;
     }
     
